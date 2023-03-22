@@ -24,13 +24,13 @@ parskip, % Uncomment to add space between paragraphs
 headsepline, % Uncomment to get a line under the header
 ]{MastersDoctoralThesis} % The class file specifying the document structure
 
-
+\usepackage{float}
 
 %----------------------------------------------------------------------------------------
 %	INFORMACIÓN DE LA MEMORIA
 %----------------------------------------------------------------------------------------
 
-\thesistitle{Título del trabajo} % El títulos de la memoria, se usa en la carátula y se puede usar el cualquier lugar del documento con el comando \ttitle
+\thesistitle{Tester para amplificador óptico} % El títulos de la memoria, se usa en la carátula y se puede usar el cualquier lugar del documento con el comando \ttitle
 
 % Nombre del posgrado, se usa en la carátula y se puede usar el cualquier lugar del documento con el comando \degreename
 \posgrado{Carrera de Especialización en Sistemas Embebidos} 
@@ -39,9 +39,9 @@ headsepline, % Uncomment to get a line under the header
 %\posgrado{Maestría en Sistemas Embebidos} 
 %\posgrado{Maestría en Internet de las cosas}
 
-\author{Nombre del autor} % Tu nombre, se usa en la carátula y se puede usar el cualquier lugar del documento con el comando \authorname
+\author{Ing. Lucas Constantino} % Tu nombre, se usa en la carátula y se puede usar el cualquier lugar del documento con el comando \authorname
 
-\director{Nombre del director (pertenencia)} % El nombre del director, se usa en la carátula y se puede usar el cualquier lugar del documento con el comando \dirname
+\director{Dr. Ing. Alejandro Ghersin (FIUBA)} % El nombre del director, se usa en la carátula y se puede usar el cualquier lugar del documento con el comando \dirname
 \codirector{Nombre del codirector (pertenencia)} % El nombre del codirector si lo hubiera, se usa en la carátula y se puede usar el cualquier lugar del documento con el comando \codirname.  Para activar este campo se debe descomentar la opción "codirector" en el comando \documentclass, línea 23.
 
 \juradoUNO{Nombre del jurado 1 (pertenencia)} % Nombre y pertenencia del un jurado se usa en la carátula y se puede usar el cualquier lugar del documento con el comando \jur1name
@@ -49,10 +49,10 @@ headsepline, % Uncomment to get a line under the header
 \juradoTRES{Nombre del jurado 3 (pertenencia)} % Nombre y pertenencia del un jurado se usa en la carátula y se puede usar el cualquier lugar del documento con el comando \jur3name
 
 %\ciudad{Ciudad Autónoma de Buenos Aires}
-\ciudad{ciudad de Mendoza}
+\ciudad{Provincia de Buenos Aires}
 
-\fechaINICIO{marzo de 2020}
-\fechaFINAL{diciembre de 2020}
+\fechaINICIO{Marzo de 2022}
+\fechaFINAL{Marzo de 2023}
 
 
 \keywords{Sistemas embebidos, FIUBA} % Keywords for your thesis, print it elsewhere with \keywordnames
@@ -76,7 +76,9 @@ headsepline, % Uncomment to get a line under the header
 %The Thesis Abstract is written here (and usually kept to just this page). The page is kept centered vertically so can expand into the blank space above the title too\ldots
 \centering
 
-El resumen debe escribirse en uno o dos párrafo.  Debe ser breve y conciso sin ningún elemento de formato en el texto como itálicas o negrita. Tampoco se deben usar siglas ni acrónimos que no resulten obvios para un lector promedio de la memoria, ni referencias bibliográficas o notas al pie de página.  No debe faltar qué es lo que se hizo/logró, qué importancia/valor tiene el proyecto/resultado, qué va a encontrar el lector en la memoria y qué contenidos de la especialización/maestría se aplicaron en el proyecto.
+En la presente memoria se describen el diseño, construcción y validación de un prototipo de un tester para un amplificador de fibra óptica dopado con erbio. Este desarrollo surge a partir de la necesidad de la empresa Skyloom Global de contar con una herramienta que permita controlar y medir los parámetros de este tipo de amplificador de forma aislada y se utilizará durante la etapa de desarrollo e integración de terminales de comunicación óptica para satélites de órbita baja.
+
+El sistema fue desarrollado sobre arquitectura ARM utilizando un sistema operativo de tiempo real, donde se aplicaron los conocimientos adquiridos durante la carrera tales como programación de microcontroladores, protocolos de comunicación e ingeniería de software. Además, fueron de particular importancia la utilización de los conceptos de máquinas de estados, capas de abstracción y testing de software para la etapa de validación del sistema.
 
 \end{abstract}
 
@@ -84,13 +86,13 @@ El resumen debe escribirse en uno o dos párrafo.  Debe ser breve y conciso sin 
 %	CONTENIDO DE LA MEMORIA  - AGRADECIMIENTOS
 %----------------------------------------------------------------------------------------
 
-\begin{acknowledgements}
-%\addchaptertocentry{\acknowledgementname} % Descomentando esta línea se puede agregar los agradecimientos al índice
-\vspace{1.5cm}
+%\begin{acknowledgements}
+%%\addchaptertocentry{\acknowledgementname} % Descomentando esta línea se puede agregar los agradecimientos al índice
+%\vspace{1.5cm}
 
-Esta sección es para agradecimientos personales y es totalmente \textbf{OPCIONAL}.  
+%Esta sección es para agradecimientos personales y es totalmente \textbf{OPCIONAL}.  
 
-\end{acknowledgements}
+%\end{acknowledgements}
 
 %----------------------------------------------------------------------------------------
 %	LISTA DE CONTENIDOS/FIGURAS/TABLAS
@@ -107,7 +109,7 @@ Esta sección es para agradecimientos personales y es totalmente \textbf{OPCIONA
 %	CONTENIDO DE LA MEMORIA  - DEDICATORIA
 %----------------------------------------------------------------------------------------
 
-\dedicatory{\textbf{Dedicado a... [OPCIONAL]}}  % escribir acá si se desea una dedicatoria
+%\dedicatory{\textbf{Dedicado a... [OPCIONAL]}}  % escribir acá si se desea una dedicatoria
 
 %----------------------------------------------------------------------------------------
 %	CONTENIDO DE LA MEMORIA  - CAPÍTULOS
