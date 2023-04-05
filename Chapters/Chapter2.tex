@@ -3,131 +3,168 @@
 \label{Chapter2}
 
 %----------------------------------------------------------------------------------------
-%	SECTION 1
+%	Chapter 2
 %----------------------------------------------------------------------------------------
-Todos los capítulos deben comenzar con un breve párrafo introductorio que indique cuál es el contenido que se encontrará al leerlo.  La redacción sobre el contenido de la memoria debe hacerse en presente y todo lo referido al proyecto en pasado, siempre de modo impersonal.
+
+Este capítulo lista los requerimientos y en base a ellos presenta y describe los componentes internos del sistema desarrollado, junto con las tecnologías y recursos de software utilizados para su implementación. 
 
 \section{Funcionamiento de un amplificador óptico}
-\label{sec:ejemplo}
+\label{sec:funcAmp}
 
+\section{Interfaz del amplificador óptico}
+\label{sec:intAmp}
 
-Otra posibilidad es utilizar el entorno \textit{subfigure} para incluir más de una figura, como se puede ver en la figura \ref{fig:three graphs}. Notar que se pueden referenciar también las figuras internas individualmente de esta manera: \ref{fig:1de3}, \ref{fig:2de3} y \ref{fig:3de3}.
- 
-\begin{figure}[!htpb]
-     \centering
-     \begin{subfigure}[b]{0.3\textwidth}
-         \centering
-         \includegraphics[width=.65\textwidth]{./Figures/questionMark}
-         \caption{Un caption.}
-         \label{fig:1de3}
-     \end{subfigure}
-     \hfill
-     \begin{subfigure}[b]{0.3\textwidth}
-         \centering
-         \includegraphics[width=.65\textwidth]{./Figures/questionMark}
-         \caption{Otro.}
-         \label{fig:2de3}
-     \end{subfigure}
-     \hfill
-     \begin{subfigure}[b]{0.3\textwidth}
-         \centering
-         \includegraphics[width=.65\textwidth]{./Figures/questionMark}
-         \caption{Y otro más.}
-         \label{fig:3de3}
-     \end{subfigure}
-        \caption{Tres gráficos simples}
-        \label{fig:three graphs}
-\end{figure}
+Como se mencionó en la sección anterior, para poder controlarlo el EDFA cuenta con un conector de 25 pines tipo microD-25. Este conector contiene varios grupos de señales con distintas funciones. La tabla \ref{tab:señalesConector} lista cada una de las señales de la interfaz, junto con los detalles de su dirección, tipo y función.
 
-
-\subsection{Tablas}
-
-Para las tablas utilizar el mismo formato que para las figuras, sólo que el epígrafe se debe colocar arriba de la tabla, como se ilustra en la tabla \ref{tab:peces}. Observar que sólo algunas filas van con líneas visibles y notar el uso de las negritas para los encabezados.  La referencia se logra utilizando el comando \verb|\ref{<label>}| donde label debe estar definida dentro del entorno de la tabla.
-
-\begin{verbatim}
-\begin{table}[h]
+\begin{table}[H]
 	\centering
-	\caption[caption corto]{caption largo más descriptivo}
-	\begin{tabular}{l c c}    
+	\caption{Señales de la interfaz del EDFA}
+	\begin{tabular}{l c p{1.5cm} p{5cm}}
 		\toprule
-		\textbf{Especie}     & \textbf{Tamaño} & \textbf{Valor}\\
+		\textbf{Nombre de la señal}	& \textbf{Dirección}	& \textbf{Tipo} & \textbf{Función} \\
 		\midrule
-		Amphiprion Ocellaris & 10 cm           & \$ 6.000 \\		
-		Hepatus Blue Tang    & 15 cm           & \$ 7.000 \\
-		Zebrasoma Xanthurus  & 12 cm           & \$ 6.800 \\
+		5V 					& Entrada	& Potencia			& Entrada de alimentación del EDFA \\		
+		PGND				& Salida	& Potencia  		& Retorno de alimentación (potencia) \\
+		GND					& Salida	& Tierra digital  	& Retorno de alimentación (digital) \\
+		IN\_POW				& Salida	& Analógica 		& Indica el nivel de potencia óptica de entrada \\
+		OUT\_POW			& Salida	& Analógica 		& Indica el nivel de potencia óptica de salida \\
+		CASE\_TEMP\_ALARM	& Salida	& Digital 			& Alarma de temperatura de la carcasa del EDFA \\
+		PUMP\_BIAS\_ALARM	& Salida	& Digital 			& Alarma de la bomba de polarización \\
+		OUT\_POW\_ALARM		& Salida	& Digital 			& Alarma de nivel de potencia de salida \\
+		IN\_POW\_ALARM		& Salida	& Digital 			& Alarma de nivel de potencia de entrada \\
+		EN/DIS				& Entrada	& Digital 			& Habilitación del amplificador \\
+		RESET\_uC			& Entrada	& Digital 			& Reset del microcontrolador del EDFA \\
+		OUT\_POW\_MUTE		& Entrada	& Digital 			& Habilitación de la salida óptica \\
+		UART\_TX			& Salida	& Digital 			& Transmisor del UART interno del EDFA \\
+		UART\_RX			& Entrada	& Digital 			& Receptor del UART interno del EDFA \\
 		\bottomrule
 		\hline
 	\end{tabular}
-	\label{tab:peces}
-\end{table}
-\end{verbatim}
-
-
-\begin{table}[h]
-	\centering
-	\caption[caption corto]{caption largo más descriptivo}
-	\begin{tabular}{l c c}    
-		\toprule
-		\textbf{Especie} 	 & \textbf{Tamaño} 		& \textbf{Valor}  \\
-		\midrule
-		Amphiprion Ocellaris & 10 cm 				& \$ 6.000 \\		
-		Hepatus Blue Tang	 & 15 cm				& \$ 7.000 \\
-		Zebrasoma Xanthurus	 & 12 cm				& \$ 6.800 \\
-		\bottomrule
-		\hline
-	\end{tabular}
-	\label{tab:peces}
+	\label{tab:señalesConector}
 \end{table}
 
-En cada capítulo se debe reiniciar el número de conteo de las figuras y las tablas, por ejemplo, figura 2.1 o tabla 2.1, pero no se debe reiniciar el conteo en cada sección. Por suerte la plantilla se encarga de esto por nosotros.
-
-\subsection{Ecuaciones}
-\label{sec:Ecuaciones}
-
-Al insertar ecuaciones en la memoria dentro de un entorno \textit{equation}, éstas se numeran en forma automática  y se pueden referir al igual que como se hace con las figuras y tablas, por ejemplo ver la ecuación \ref{eq:metric}.
-
-\begin{equation}
-	\label{eq:metric}
-	ds^2 = c^2 dt^2 \left( \frac{d\sigma^2}{1-k\sigma^2} + \sigma^2\left[ d\theta^2 + \sin^2\theta d\phi^2 \right] \right)
-\end{equation}
-                                                        
-Es importante tener presente que si bien las ecuaciones pueden ser referidas por su número, también es correcto utilizar los dos puntos, como por ejemplo ``la expresión matemática que describe este comportamiento es la siguiente:''
-
-\begin{equation}
-	\label{eq:schrodinger}
-	\frac{\hbar^2}{2m}\nabla^2\Psi + V(\mathbf{r})\Psi = -i\hbar \frac{\partial\Psi}{\partial t}
-\end{equation}
-
-Para generar la ecuación \ref{eq:metric} se utilizó el siguiente código:
-
-\begin{verbatim}
-\begin{equation}
-	\label{eq:metric}
-	ds^2 = c^2 dt^2 \left( \frac{d\sigma^2}{1-k\sigma^2} + 
-	\sigma^2\left[ d\theta^2 + 
-	\sin^2\theta d\phi^2 \right] \right)
-\end{equation}
-\end{verbatim}
-
-Y para la ecuación \ref{eq:schrodinger}:
-
-\begin{verbatim}
-\begin{equation}
-	\label{eq:schrodinger}
-	\frac{\hbar^2}{2m}\nabla^2\Psi + V(\mathbf{r})\Psi = 
-	-i\hbar \frac{\partial\Psi}{\partial t}
-\end{equation}
-
-\end{verbatim}
-
-\section{Interfaz del amplificador optico}
-
-\section{Estructura del sistema}
-
-\section{Componentes del sistema}
+A continuación, se provee una breve explicación de cada grupo de señales:
+\begin{itemize}
+\item Alimentación: tiene separada la tierra en digital, para la lógica y la comunicación, y la de potencia para la amplificación de la señal óptica
+\item Señales analógicas: indican el nivel de potencia óptica de entrada y salida del EDFA
+\item Alarmas: Mediante un estado en alto indican si ocurrió alguno de los eventos que requieren la atención del usuario
+\item Señales de control: Controlan el funcionamiento de ciertos componentes del amplificador
+\item Comunicación UART: Permite el envío de comandos al EDFA y la consulta de valores de parámetros internos como temperaturas, potencias, ganancias, etc.
+\end{itemize}
 
 \section{Requerimientos}
 
+Los requerimientos fueron determinados en conjunto con la empresa en base a las funcionalidades y prestaciones con las que debe contar el sistema. Como la lista es muy extensa, se listan a continuación solamente algunos de los principales:
+
+\renewcommand{\labelenumii}{\arabic{enumi}.\arabic{enumii}}
+
+\begin{enumerate}
+
+\item Encendido y apagado del EDFA
+	\begin{enumerate}
+	\item El software debe apagar la salida óptica del dispositivo 			EDFA bajo prueba cuando se detecte la activación de alguna de las 		alarmas.
+	\item Mediante la función táctil de la pantalla LCD el usuario 			debe poder prender y apagar la alimentación del dispositivo EDFA 		bajo prueba y su salida óptica.
+	\item El software debe cortar la alimentación del dispositivo EDFA 	bajo prueba cuando se detecte que la corriente supera el valor 			previamente definido.
+	\item El software debe medir y mostrar en pantalla los valores de 		tensión de alimentación y consumo de corriente del dispositivo 			EDFA bajo prueba mediante las señales analógicas de entrada 			provenientes de los respectivos monitores, con una precisión no 		menor al 10\% (máximo desvío con respecto al valor real). Este 			valor debe ser de una cifra significativa para la parte entera y 		dos para la decimal.
+	\end{enumerate}
+
+\item Pantalla LCD
+	\begin{enumerate}
+	\item El software debe actualizar la imagen de la pantalla cada 		medio segundo (2 cuadros por segundo).
+	\item La pantalla deberá indicar el estado de la salida óptica del 	dispositivo EDFA bajo prueba y el del relé de alimentación.
+	\item Mediante la función táctil de la pantalla LCD el usuario 			debe poder cambiar el valor para el cual se detecta una 				sobrecorriente. El rango válido para este valor debe ser de 0 A a 		3 A, siendo la parte decimal de dos cifras significativas.
+	\end{enumerate}
+	
+\item Entradas y salidas del EDFA
+	\begin{enumerate}
+	\item El software deberá mostrar en la pantalla los estados de todas las señales digitales de entrada y salida del dispositivo EDFA bajo prueba.
+	\end{enumerate}
+
+\item Requisitos de rendimiento
+	\begin{enumerate}
+	\item La apertura del relé de alimentación del dispositivo EDFA 		bajo prueba deberá efectuarse en un tiempo menor a 50 ms luego de 		detectarse una sobrecorriente o una caída de la tensión de 				alimentación.
+	\item El apagado de la salida óptica del dispositivo EDFA bajo 			prueba deberá efectuarse en un tiempo menor a 100 ms luego de 			detectarse la activación de una alarma.
+	\end{enumerate}
+	
+\end{enumerate}
+
+\section{Componentes del sistema}
+
+Los componentes de hardware que forman parte de los bloques del sistema presentado en la sección anterior fueron seleccionados con el objetivo de cumplir con los requisitos y a su vez utilizar la menor cantidad posible. Así se logra mantener al sistema simple, con poca probabilidad de fallas y fácil de usar y probar.
+
+\subsection{Microcontrolador}
+
+El modelo de microcontrolador utilizado es STM32F429, del fabricante ST y con arquitectura de procesador ARM Cortex-M.
+
+La principal razón por la que se decidió utilizar este modelo es porque es el que se encuentra integrado en la placa de desarrollo Nucleo-144, utilizada durante la cursada de la Especialización. Además, cuenta con los periféricos necesarios para la aplicación y una velocidad de reloj alta que permite la ejecución de un RTOS \citep{STM32F429}.
+
+
+
+\subsection{Monitor de corriente}
+
+El circuito integrado elegido para efectuar la medición de corriente de alimentación del amplificador mientras este se encuentra en funcionamiento es el INA301A3. Sus principales características son:
+
+\begin{enumerate}
+\item Alto rango de tensión de modo común (0 V a 36 V)
+\item Salida analógica y a comparador
+\item Máxima tensión de \textit{offset} de salida: 35 uV
+\item Máximo error de ganancia: 0.1%
+\item Ganancia del amplificador: 100 V/V
+\item Nivel de alerta programable mediante un resistor
+\item Tiempo total de respuesta de la alerta: 1 us
+\end{enumerate}
+
+Este chip provee, en uno de sus pines, una tensión analógica proporcional a la corriente que se está midiendo. Por otro lado, cuenta con una salida digital que se activa cuando la corriente medida alcanza un nivel establecido \citep{INA301}.
+
 \section{Recursos de software}
 
-\section{Protocolos de comunicación}
+\subsection{Sistema operativo de tiempo real FreeRTOS}
+
+FreeRTOS es un sistema operativo de tiempo real o RTOS (de \textit{Real Time Operating System}) es un sistema operativo para sistemas embebidos, diseñado para ocupar poco espacio y ser simple. Está escrito en C para que sea fácil de mantener y trasladar a nuevos dispositivos.
+
+FreeRTOS provee recursos que facilitan la ejecución de aplicaciones sobre el sistema operativo como tareas, semáforos, \textit{mutexes}, temporizadores por software, colas y administración de memoria dinámica \citep{WEBSITE:1}.
+
+\subsection{Capa de abstracción de hardware (HAL)}
+
+\section{Periféricos utilizados}
+
+\subsection{Conversor analógico-digital (ADC)}
+
+Un conversor analógico-digital o ADC (de \textit{Analog-to-Digital Converter}) es un dispositivo que convierte una señal eléctrica analógica proveniente, por ejemplo, de un sensor a una señal digital. Esta señal  se guarda en un sistema digital, por lo que está representada por un número binario.
+
+La señala pasa de ser continua en el tiempo y contínua en amplitud a discreta en el tiempo y discreta en amplitud. Esto quiere decir que la señal, previamente a ser convertida podría tomar en cualquier instante de tiempo cualquier valor. Cuando se la digitaliza la señal estará muestreada, es decir, que se tomarán valores a intervalos constantes de tiempo. Y estos valores se encontrarán cuantizados, por lo que solo podrá tomar determinados valores que estarán determinados por el fondo de escala de la señal \citep{WEBSITE:2}.
+
+%\begin{figure}[H]
+%\centering
+%\includegraphics[width=0.85\textwidth]{./Figures/.png}
+%\caption{Transacción SPI}
+%\label{fig:transSPI}
+%\end{figure}
+
+\subsection{Universal Asynchronous Receiver Transmitter (UART)}
+
+Un UART es un dispositivo utilizado para establecer una comunicación serie asíncrona, con formato de datos y velocidad de transmisión configurables. Consta solo de dos señales que conectan dos dispositivos de forma bidireccional: una para la transmisión y otra para la recepción, comunmente llamdas TX y RX respectivamente.
+
+La forma de transmisión de datos del protocolo tiene una estructura específica. Por cada dato que se transmite (cuyo ancho puede variar entre 5 y 9 bits), se transmiten además bits adicionales de comienzo y fin de trama (\textit{Start} y \textit{Stop}) y, opcionalmente, los de paridad para la detección de errores. En la figura \ref{fig:transUART} se pueden ver todos los bits transmitidos en una trama completa.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{./Figures/UART_frame.png}
+\caption{Trama de transmisión UART}
+\label{fig:transUART}
+\end{figure}
+
+Los bits de \textit{Start} y \textit{Stop} son para indicarle al receptor cuando debe comenzar y cuando parar de tomar los datos transmitidos. También sirve para realizar una sincronización de los relojes del transmisor y del receptor. Como el protocolo es asíncrono, es decir, no transmite el reloj por una de sus líneas, los relojes internos de ambos deben estar en fase.
+
+El estado \textit{Idle} de la línea es el estado inactivo, es decir, se encuentra en este estado siempre que no se encuentre transmitiendo \citep{WEBSITE:3}.
+
+\subsection{Serial Peripheral Interface (SPI)}
+
+En la figura \ref{fig:transSPI}
+
+%\begin{figure}[H]
+%\centering
+%\includegraphics[width=0.85\textwidth]{./Figures/.png}
+%\caption{Transacción SPI}
+%\label{fig:transSPI}
+%\end{figure}
