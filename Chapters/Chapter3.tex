@@ -62,7 +62,7 @@ Es importante aclarar que el dispositivo que se desarrolló e implementó como s
 
 \subsection{Medición de corriente del amplificador}
 
-El circuito integrado elegido para efectuar la medición de corriente de alimentación del amplificador mientras este se encuentra en funcionamiento es el INA301A3 \citep{INA301}.
+
 
 El principio de funcionamiento de este chip se basa en una resistor \textit{shunt}, el cual se coloca sobre la alimentación, en serie con la linea sobre la cual se desea conocer el consumo de corriente. Para que este resistor no disipe tanta potencia y disminuya la tensión de la línea, es lógico que su valor de resistencia sea muy chico (en el orden de los \si{m\ohm}). Mientras mas chico sea su valor mas despreciable son los efectos negativos que introducirá.
 
@@ -81,11 +81,15 @@ Al ser éste un valor analógico, para poder ser interpretado se lo debe convert
 
 \subsection{Medición de tensión del amplificador}
 
-Hacer una medición de la tensión de la línea es mucho mas sencillo que hacer una medición de la corriente, ya que esta se puede conectar directamente al ADC si previamente se la atenúa o amplifica (dependiendo del caso).
+Hacer una medición de la tensión de la línea es mucho mas sencillo que hacer una medición de la corriente, ya que esta se puede conectar directamente a un ADC si previamente se la atenúa o amplifica (dependiendo del caso).
 
-En este caso, como la tensión de alimentación del EDFA es 5 V y la tensión de referencia del ADC del microcontrolador es 3.3 V, se la debe atenuar. De esta forma la tensión máxima a medir se encuentra dentro del fondo de escala del ADC.
+En este caso, como la tensión de alimentación del EDFA es 5 V y la tensión de referencia del ADC del microcontrolador es 3.3 V, se la debe atenuar de forma que esta se encuentre dentro del fondo de escala del ADC.
 
-Considerando que se desea medir sobretensiones de por lo menos 1 V en la alimentación, se optó por atenuar la tensión del EDFA a la mitad, resultando en un fondo de escala de 6.6 V. En la figura \ref{fig:monTension} se puede ver el circuito implementado.
+Considerando que se desea medir una sobretensión de por lo menos 1 V en la alimentación, se optó por atenuar la tensión del EDFA a la mitad, resultando en un fondo de escala de 6.6 V.
+
+Esta técnica permite medir tensiones mayores a la de referencia del ADC pero trae como desventaja que se pierde precisión debido al ruido y la tolerancia de los resistores.
+
+En la figura \ref{fig:monTension} se puede ver el circuito implementado.
 
 \begin{figure}[H]
 \centering
@@ -94,9 +98,9 @@ Considerando que se desea medir sobretensiones de por lo menos 1 V en la aliment
 \label{fig:monTension}
 \end{figure}
 
-\subsection{Pantalla LCD}
+El capacitor C6 forma un filtro RC para eliminar el ruido de alta frecuencia que pueda tener la línea.
 
-El modelo del módulo de la pantalla LCD utilizada en el trabajo es MSP2807 y es una solución integrada, es decir, cuenta con toda la electrónica necesaria para poder hacer uso de la pantalla en su totalidad. Para esto cuenta con dos circuitos integrados: el controlador del display de la pantalla (lo que permite dibujar en ella) y el controlador de la función táctil (lo que permite detectar cuando se la toca). Ambos chips tienen una interfaz SPI para ser controlados mas otras señales adicionales para funciones específicas.
+\subsection{Conexión a pantalla LCD}
 
 \section{Arquitectura de software}
 

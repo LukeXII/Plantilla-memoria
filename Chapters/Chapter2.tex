@@ -94,17 +94,35 @@ Los componentes de hardware que forman parte de los bloques del sistema presenta
 
 \subsection{Microcontrolador}
 
-El modelo de microcontrolador utilizado es STM32F429, del fabricante ST y con arquitectura de procesador ARM Cortex-M.
+El modelo de microcontrolador utilizado es el STM32F429, del fabricante ST y con arquitectura de procesador ARM Cortex-M.
 
-La principal razón por la que se decidió utilizar este modelo es porque es el que se encuentra integrado en la placa de desarrollo Nucleo-144, utilizada durante la cursada de la Especialización. Además, cuenta con los periféricos necesarios para la aplicación y una velocidad de reloj alta que permite la ejecución de un RTOS \citep{STM32F429}.
+La principal razón por la que se decidió utilizar este modelo es porque es el que se encuentra integrado en la placa de desarrollo Nucleo-144, utilizada durante la cursada de la Especialización. Algunas de sus características mas relevantes para esta aplicación son \citep{STM32F429}:
 
+\begin{itemize}
+\item Núcleo CPU Arm® Cortex®-M4 de 32 bit con unidad de punto flotante, frecuencia hasta 180 MHz, unidad de protección de memoria e instrucciones DSP
+\item Memoria Flash de hasta 2 MB
+\item Interfaces de comunicación:
+	\begin{itemize}
+	\item 3 interfaces I2C
+	\item 4 UART/USART (hasta 11.25 Mbit/s)
+	\item 6 interfaces SPI (hasta 45 Mbit/s)
+	\end{itemize}
+\item Hasta 168 puertos de entrada/salida con interrupción
+\item 3 conversores ADC de 12 bit de resolución y 2.4 MSPS. Hasta 24 canales
+\item DMA de propósito general con FIFO y soporte de ráfaga
+\item Interfaces SWD y JTAG para depuración
+\item Hasta 12 \textit{timers} de 16 bits con IC/OC y PWM
+\end{itemize}
 
+La alta velocidad de reloj, la gran capacidad de memoria Flash y la gran cantidad de periféricos disponibles hacen a este modelo ideal para la ejecución de un RTOS.
+
+La principal ventaja de utilizar la placa de desarrollo Nucleo-144 es que esta ya trae incorporada la interfaz de programación y depuración ST-LINK/V2 \citep{NUCLEO144}.
 
 \subsection{Monitor de corriente}
 
 El circuito integrado elegido para efectuar la medición de corriente de alimentación del amplificador mientras este se encuentra en funcionamiento es el INA301A3. Sus principales características son:
 
-\begin{enumerate}
+\begin{itemize}
 \item Alto rango de tensión de modo común (0 V a 36 V)
 \item Salida analógica y a comparador
 \item Máxima tensión de \textit{offset} de salida: 35 uV
@@ -112,40 +130,100 @@ El circuito integrado elegido para efectuar la medición de corriente de aliment
 \item Ganancia del amplificador: 100 V/V
 \item Nivel de alerta programable mediante un resistor
 \item Tiempo total de respuesta de la alerta: 1 us
-\end{enumerate}
+\end{itemize}
 
-Este chip provee, en uno de sus pines, una tensión analógica proporcional a la corriente que se está midiendo. Por otro lado, cuenta con una salida digital que se activa cuando la corriente medida alcanza un nivel establecido \citep{INA301}.
+Este chip provee en uno de sus pines una tensión analógica proporcional a la corriente que se está midiendo. Asimismo, cuenta con una salida digital que se activa cuando la corriente medida alcanza cierto nivel establecido mediante un resistor (pin ALERT) \citep{INA301}.
+
+\subsection{Pantalla táctil LCD}
+
+El modelo del módulo de la pantalla LCD utilizada en el trabajo es MSP2807 y es una solución integrada, es decir, cuenta con toda la electrónica necesaria para poder hacer uso de la pantalla en su totalidad. Para esto cuenta con dos circuitos integrados: el controlador del display de la pantalla (lo que permite dibujar en ella) y el controlador de la función táctil (lo que permite detectar cuando se la toca). En la figura \ref{fig:pantLCD} se puede ver una imagen de la pantalla.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{./Figures/pant_LCD.png}
+\caption{Pantalla LCD táctil MSP2807}
+\label{fig:pantLCD}
+\end{figure}
+
+En la tabla \ref{tab:caractLCD} se listan las características de la pantalla.
+
+\begin{table}[H]
+	\centering
+	\caption{Características de la pantalla LCD}
+	\begin{tabular}{l c}
+		\toprule
+		\textbf{Característica}	& \textbf{Valor} \\
+		\midrule
+		Color				& 65K colores RGB \\
+		Tamaño				& 2.8 pulgadas (7.11 cm) \\
+		Tipo de pantalla	& TFT \\
+		Resolución			& 320x240 pixeles \\
+		Área activa			& 43.2x57.6 mm \\
+		Tensión de alimentación		& 3.3 V - 5 V \\
+		Nivel lógico de I/O			& 3.3 V (TTL) \\		
+		\bottomrule
+		\hline
+	\end{tabular}
+	\label{tab:caractLCD}
+\end{table}
+
+El controlador del display tiene una interfaz SPI para el envío de los datos y además una señal denominada DC/RS para indicar si lo que está enviando el maestro es un dato o un registro interno del chip. También consta de una señal de reset para borrar todo el contenido del display.
+
+El controlador de la función táctil también tiene un bus SPI y una señal adicional de interrupción denominada T\_IRQ que indica cuando el display está siendo tocado \citep{MSP2807}.
 
 \section{Recursos de software}
 
+Para el firmware del microcontrolador se usaron distintas herramientas que permitieron el desarrollo de una estructura de software jerárquita, simple y eficaz.
+
 \subsection{Sistema operativo de tiempo real FreeRTOS}
 
-FreeRTOS es un sistema operativo de tiempo real o RTOS (de \textit{Real Time Operating System}) es un sistema operativo para sistemas embebidos, diseñado para ocupar poco espacio y ser simple. Está escrito en C para que sea fácil de mantener y trasladar a nuevos dispositivos.
+FreeRTOS es un sistema operativo de tiempo real o RTOS (de \textit{Real Time Operating System}) para microcontroladores o pequeños microprocesadores, diseñado para ocupar poco espacio, ser confiable y fácil de usar. Está escrito en C para que sea fácil de mantener y trasladar a nuevos dispositivos.
 
-FreeRTOS provee recursos que facilitan la ejecución de aplicaciones sobre el sistema operativo como tareas, semáforos, \textit{mutexes}, temporizadores por software, colas y administración de memoria dinámica \citep{WEBSITE:1}.
+FreeRTOS provee recursos que facilitan la ejecución de aplicaciones sobre el sistema operativo como tareas, semáforos, \textit{mutexes}, temporizadores por software, colas y gestores de memoria dinámica \citep{WEBSITE:1}.
+
+Si se separa el firmware en capas desde la mas baja (hardware) hasta la mas alta (aplicación de usuario) el lugar que ocupa FreeRTOS se ubica por arriba de los drivers provistos por el fabricante, brindando una capa de abstracción de mayor nivel. De esta forma, el sistema operativo actúa como puente entre las capas mas bajas y las mas altas, gestionando los recursos de hardware de forma automática y brindando servicios a la capa de aplicación.
+
+En la figura \ref{fig:capas} se puede ver la estructura de capas del firmware con FreeRTOS incluída.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.65\textwidth]{./Figures/capas.png}
+\caption{Estructura de capas con FreeRTOS}
+\label{fig:capas}
+\end{figure}
+
+Uno de las ventajas principales de usar FreeRTOS es la posibilidad de ejecutar varias tareas o \textit{tasks} en forma simultánea tal como lo hace un sistema operativo cualquiera. Un \textit{scheduler} gestiona la ejecución de cada una de forma individual y con su propio contexto (\textit{stack} y variables). Esto permite estructurar la aplicación separándola en tareas independientes pero sincronizadas \citep{WEBSITE:FREERTOS}.
 
 \subsection{Capa de abstracción de hardware (HAL)}
 
 \section{Periféricos utilizados}
 
+A excepción del monitor de corriente, el resto de los periféricos utilizados ya se encuentran integrados en el chip del microcontrolador, por lo que no hubo que agregar ningún hardware adicional y para poder utilizarlos solo hizo falta leer las hojas de datos. De todas formas, en esta sección se provee una breve descripción de cada uno.
+
 \subsection{Conversor analógico-digital (ADC)}
 
-Un conversor analógico-digital o ADC (de \textit{Analog-to-Digital Converter}) es un dispositivo que convierte una señal eléctrica analógica proveniente, por ejemplo, de un sensor a una señal digital. Esta señal  se guarda en un sistema digital, por lo que está representada por un número binario.
+Un conversor analógico-digital o ADC (de \textit{Analog-to-Digital Converter}) es un dispositivo que convierte una señal eléctrica analógica proveniente, por ejemplo, de un sensor a una señal digital. La principal ventaja de esta conversión es que su valor puede ser almacenado en un sistema digital, por lo que estará representada por un número binario.
 
-La señala pasa de ser continua en el tiempo y contínua en amplitud a discreta en el tiempo y discreta en amplitud. Esto quiere decir que la señal, previamente a ser convertida podría tomar en cualquier instante de tiempo cualquier valor. Cuando se la digitaliza la señal estará muestreada, es decir, que se tomarán valores a intervalos constantes de tiempo. Y estos valores se encontrarán cuantizados, por lo que solo podrá tomar determinados valores que estarán determinados por el fondo de escala de la señal \citep{WEBSITE:2}.
+La señal pasa de ser continua en el tiempo y contínua en amplitud a discreta en el tiempo y discreta en amplitud. Esto quiere decir que la señal analógica podría tomar cualquier valor en cualquier instante. En cambio cuando es convertida la señal se encuentra cuantizada, es decir, podrá tomar solamente determinados valores que dependen de la cantidad de bits del ADC y del fondo de escala (resolución).
 
-%\begin{figure}[H]
-%\centering
-%\includegraphics[width=0.85\textwidth]{./Figures/.png}
-%\caption{Transacción SPI}
-%\label{fig:transSPI}
-%\end{figure}
+Esto hace que no se puedan representar todos los valores que se miden, y cada muestra tomada estará truncada al valor mas cercano representable. Este error introducido en la medición se denomina error de cuantización. A modo de ejemplo, en la figura \ref{fig:muestreoADC} se muestra un ejemplo de una conversión analógica-digital con un ADC de 3 bits. La señal de entrada (en rojo) es muestreada a intervalos constantes y la señal resultante (en azul) está cuantizada.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.65\textwidth]{./Figures/muestreo.png}
+\caption{Conversión de una señal con un ADC de 3 bits}
+\label{fig:muestreoADC}
+\end{figure}
+
+De la figura \ref{fig:muestreoADC} se puede ver que mientras mas bits de resolución tenga el ADC, se van a poder tomar valores mas cercanos al medido y por lo tanto tener una mejor representación de la señal.
+
+Esto impacta directamente en el parámetro de relación señal-ruido que, junto con el ancho de banda (velocidad de muestreo), es uno de los parámetros con los que se caracteriza el rendimiento de un ADC \citep{WEBSITE:2}.
 
 \subsection{Universal Asynchronous Receiver Transmitter (UART)}
 
 Un UART es un dispositivo utilizado para establecer una comunicación serie asíncrona, con formato de datos y velocidad de transmisión configurables. Consta solo de dos señales que conectan dos dispositivos de forma bidireccional: una para la transmisión y otra para la recepción, comunmente llamdas TX y RX respectivamente.
 
-La forma de transmisión de datos del protocolo tiene una estructura específica. Por cada dato que se transmite (cuyo ancho puede variar entre 5 y 9 bits), se transmiten además bits adicionales de comienzo y fin de trama (\textit{Start} y \textit{Stop}) y, opcionalmente, los de paridad para la detección de errores. En la figura \ref{fig:transUART} se pueden ver todos los bits transmitidos en una trama completa.
+La forma de transmisión de datos del protocolo tiene una estructura específica. Por cada dato que se transmite (cuyo ancho puede variar entre 5 y 9 bits), se transmiten además bits adicionales de comienzo y fin de trama (\textit{Start} y \textit{Stop}) y, opcionalmente, los de paridad para la detección de errores. En la figura \ref{fig:transUART} se puede ver la composición de una trama completa.
 
 \begin{figure}[H]
 \centering
@@ -154,13 +232,13 @@ La forma de transmisión de datos del protocolo tiene una estructura específica
 \label{fig:transUART}
 \end{figure}
 
-Los bits de \textit{Start} y \textit{Stop} son para indicarle al receptor cuando debe comenzar y cuando parar de tomar los datos transmitidos. También sirve para realizar una sincronización de los relojes del transmisor y del receptor. Como el protocolo es asíncrono, es decir, no transmite el reloj por una de sus líneas, los relojes internos de ambos deben estar en fase.
+Los bits de \textit{Start} y \textit{Stop} son para indicarle al receptor cuando debe comenzar y cuando parar de tomar los datos transmitidos. También sirve para realizar una sincronización de los relojes del transmisor y del receptor. Como el protocolo es asíncrono, es decir, no transmite el reloj en ninguna de sus líneas, los relojes internos de ambos deben estar en fase.
 
-El estado \textit{Idle} de la línea es el estado inactivo, es decir, se encuentra en este estado siempre que no se encuentre transmitiendo \citep{WEBSITE:3}.
+El estado \textit{Idle} de la línea es el estado inactivo, es decir, el estado de reposo cuando no se encuentra transmitiendo \citep{WEBSITE:3}.
 
 \subsection{Serial Peripheral Interface (SPI)}
 
-En la figura \ref{fig:transSPI}
+%En la figura \ref{fig:transSPI}
 
 %\begin{figure}[H]
 %\centering
