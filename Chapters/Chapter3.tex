@@ -43,13 +43,44 @@
 %	Chapter 3
 %----------------------------------------------------------------------------------------
 
-
+En este capítulo se realiza una explicación detallada del diseño del hardware, como se utilizó cada componente principal y su conexión con el microcontrolador. Asimismo se especifica la estructura general del firmware en el marco de FreeRTOS y las principales rutinas de bajo nivel.
 
 \section{Dispositivo implementado}
 
-Es importante aclarar que el dispositivo que se desarrolló e implementó como solución a lo planteado en el capítulo 1 no es el producto final destinado a usarse. La placa construída se puede interpretar como un prototipo de desarrollo ya que incluye tanto el hardware que se pretende usar en el producto final como el necesario para implementar un simulador del modelo del amplificador óptico.
+Es importante aclarar que el dispositivo que se desarrolló e integró como solución a lo planteado en el capítulo 1 no es el producto final destinado a usarse. La placa construída se puede interpretar como un prototipo de desarrollo o una versión de ingeniería ya que tiene dos objetivos: verificar el funcionamiento del hardware diseñado y desarrollar el firmware que se ejecutará en el microcontrolador. 
+
+La versión armada para este proyecto, además de incluir los mismos componentes que se pretenden usar en el producto final, cuenta con todo el hardware necesario para simular la interfaz electrónica del modelo del amplificador óptico. Esto permite generar todas las señales que se encuentran en el conector, tanto las analógicas como las digitales.
+
+Una vez alcanzados estos objetivos, la siguiente etapa consiste en desarrollar la placa del producto final, con el factor de forma adecuado para integrar y montar todos los componentes en una carcasa transportable. 
+
+En la figura \ref{fig:placa1} y \ref{fig:placa2} se pueden ver dos fotos del PCB ensamblado sin el display ni la placa Nucleo conectados (lado superior y lado inferior respectivamente). Por último, en la figura \ref{fig:placa3} se puede ver la placa con ambas cosas conectadas.
+
+\begin{figure}[H]
+     \centering
+     \begin{subfigure}{\textwidth}
+         \centering
+         \includegraphics[width=.65\textwidth]{./Figures/placa2.jpg}
+         \caption{Lado superior.}
+         \label{fig:placa1}
+     \end{subfigure}
+     \begin{subfigure}{\textwidth}
+         \centering
+         \includegraphics[width=.65\textwidth]{./Figures/placa3.jpg}
+         \caption{Lado inferior.}
+         \label{fig:placa2}
+     \end{subfigure}
+     \begin{subfigure}{\textwidth}
+         \centering
+         \includegraphics[width=.65\textwidth]{./Figures/placa1.jpg}
+         \caption{Placa ensamblada.}
+         \label{fig:placa3}
+     \end{subfigure}
+        \caption{Placa fabricada para el proyecto}
+        \label{fig:three graphs}
+\end{figure}
 
 \subsection{Diagrama del sistema}
+
 
 %\begin{figure}[H]
 %\centering
@@ -60,15 +91,15 @@ Es importante aclarar que el dispositivo que se desarrolló e implementó como s
 
 \section{Arquitectura de hardware}
 
+La arquitectura general de la placa fue diseñada para tener como unidad de procesamiento principal al microcontrolador STM32 de la placa Nucleo y a la pantalla LCD como periférico de entrada y salida del usuario.
+
 \subsection{Medición de corriente del amplificador}
 
+El principio de funcionamiento del monitor de corriente se basa en un resistor \textit{shunt}, el cual se coloca sobre la alimentación, en serie con la linea sobre la cual se desea conocer el consumo de corriente. Para que este resistor no disipe mucha potencia y disminuya la tensión de la línea, su valor de resistencia es de 10 \si{m\ohm}). Mientras mas chico sea su valor mas despreciables son los efectos negativos que introducirá.
 
+Sobre este resistor cae una tensión proporcional a la corriente consumida por el EDFA. Como el valor máximo de corriente consumida por el amplificador se encuentra cerca de los 2.5 A entonces sobre el resistor caerán como máximo 25 mV, lo que frente a los 5 V de la alimentación no representa un valor significativo. Luego de sensarla, el chip amplifica 100 veces ésta tensión diferencial y la conecta a uno de sus pines.
 
-El principio de funcionamiento de este chip se basa en una resistor \textit{shunt}, el cual se coloca sobre la alimentación, en serie con la linea sobre la cual se desea conocer el consumo de corriente. Para que este resistor no disipe tanta potencia y disminuya la tensión de la línea, es lógico que su valor de resistencia sea muy chico (en el orden de los \si{m\ohm}). Mientras mas chico sea su valor mas despreciable son los efectos negativos que introducirá.
-
-Sobre el resistor shunt cae una tensión proporcional a la corriente consumida por el EDFA. Esta tensión diferencial es amplificada 100 veces y por último conectada a un pin de salida del chip.
-
-Al ser éste un valor analógico, para poder ser interpretado se lo debe convertir a digital. Para esto se usó el ADC incorporado en el microcontrolador, conectando a uno de sus pines la señal de salida del monitor de corriente. Un esquema de esta conexión se puede ver en la figura \ref{fig:funcMonitor}.
+Al ser éste un valor analógico, para poder ser interpretado se lo debe convertir a digital. Para esto se usó el ADC incorporado en el microcontrolador, conectando a uno de sus pines la señal de salida del monitor de corriente. La tensión máxima que alcanzará el pin será de aproximadamente 2.5 V, lo que se encuentra dentro de la tensión de referencia del ADC. Un esquema de esta conexión se puede ver en la figura \ref{fig:funcMonitor}.
 
 \begin{figure}[H]
 \centering
@@ -77,7 +108,13 @@ Al ser éste un valor analógico, para poder ser interpretado se lo debe convert
 \label{fig:funcMonitor}
 \end{figure}
 
+Por otro lado, el INA301A3 cuenta con una pin de salida denominado ALERT que se activa cuando la corriente medida alcanza cierto valor, funcionando a modo de alarma. Este nivel se determina conectando un resistor de cierto valor en el pin LIMIT.
 
+\subsection{Relé de alimentación}
+
+La línea de 5 V de alimentación del EDFA es controlada mediante la activación de un relé (código APAN3103), lo que significa que la conexión y desconexión es mecánica. Esto se decidió implementarlo así debido a los lineamientos de protecciones necesarios para el hardware de vuelo.
+
+Como el relé necesita de 36.7 mA para activarse, no se puede conectar directamente a un pin de salida del microcontrolador porque no podrá suministrar la corriente necesaria. Por ésta razón la activación se realiza mediante un transistor (código MMBT2222), funcionando como una llave (en modo saturación o corte). De ésta forma la corriente para la activación de la bobina del relé la proveerá directamente la fuente de alimentación de 3.3 V.
 
 \subsection{Medición de tensión del amplificador}
 
@@ -101,6 +138,38 @@ En la figura \ref{fig:monTension} se puede ver el circuito implementado.
 El capacitor C6 forma un filtro RC para eliminar el ruido de alta frecuencia que pueda tener la línea.
 
 \subsection{Conexión a pantalla LCD}
+
+Como se mencionó en la subsección \ref{sec:pantLCD}, la pantalla LCD tiene dos circuitos integrados con SPI para el control de la pantalla y para el control de la función táctil. Si bien ambas interfaces se podrían haber conectado al mismo periférico SPI del microcontrolador en modo multi-esclavo de la forma en que se muestra en la figura \ref{fig:multiSlave}, se decidió usar uno para cada uno de forma individual. La principal razón de ésto es porque facilitaba la implementación del firmware en gran medida, ya que permitía usar ambos controladores de forma independiente en distintas partes del programa sin riesgo de colisión. De lo contrario, podría suceder que ambos drivers intenten acceder al periférico al mismo tiempo.
+
+El controlador de la función táctil tiene, además de las señales del bus SPI, una señal denominada IRQ que se activa cuando se detecta que la pantalla está siendo tocada. Ésta señal sirve para ser usada como interrupción en el programa del microcontrolador.
+
+Por otro lado, el controlador del display también tiene señales con funciones especiales. Éstas son:
+
+\begin{itemize}
+\item RESET: resetea el chip del controlador y por lo tanto toda la configuración del display y la información de cada píxel
+\item DC/RS: indica al controlador si la información que se está enviando por el SPI es un dato o un registro, dependiendo del nivel de la señal
+\item LED: permite controlar la intensidad de luz de la pantalla (denominada \textit{backlight})
+\end{itemize}
+
+Teniendo en cuenta ésto la conexión entre el módulo del display y el microcontrolador resulta como se ve en la figura \ref{fig:}.
+
+\subsection{Entradas y salidas digitales}
+
+En la tabla \ref{tab:señalesConector} se detallan las señales de entrada y salida digitales del puerto del EDFA. Las salidas son señales de alarmas y las de entrada, de control.
+
+Éstas señales se podrían conectar directamente a pines digitales del microcontrolador ya que son de tipo TTL 3.3 V, pero se decidió poner antes de este un \textit{buffer} de tres estados (código SN74LVC2244A). Los objetivos de ésta decisión son tres:
+
+\begin{itemize}
+\item Generar niveles de tensión mejor definidos. Ésto filtra ruido y rebote en las señales y facilita la detección en ambos extremos (EDFA y microcontrolador)
+\item Proveer a la electrónica interna del EDFA de protección contra descargas electrostáticas (ESD)
+\item Suministrar la corriente necesaria a las señales de entrada del amplificador y así evitar que ésta deba ser proporcionada por el microcontrolador
+\end{itemize}
+
+Para poder simular la activación de las alarmas en la placa se colocaron pulsadores con testigo lumínico (código TL1265YQSCLR) en el extremo donde estaría el EDFA, con el propósito de activarlos manualmente durante el testeo del firmware. Para las señales de control se pusieron LEDs que indican su estado (código AA3528LVBS/D).
+
+\subsection{Indicadores de potencia óptica}
+
+%Las señales IN\_POW y OUT\_POW son analógicas y 
 
 \section{Arquitectura de software}
 

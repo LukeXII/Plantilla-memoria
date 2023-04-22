@@ -49,7 +49,7 @@ La lista completa de requerimientos se puede ver en \citep{DOC_REQ}.
 \section{Funcionamiento de un amplificador óptico}
 \label{sec:funcAmp}
 
-Los amplificadores de fibra dopados con erbio son los amplificadores ópticos más importantes en el contexto de comunicaciones ópticas de larga distancia. Son utilizados en la banda L y C del espectro (aproximadamente entre 1550 nm y 1650 nm), región en la cual las pérdidas en la fibra óptica son menores. Esto se puede ver en la figura \ref{fig:espectro}, que muestra las pérdidas en función de la longitud de onda de la luz utilizada.
+Los amplificadores de fibra dopados con erbio son los amplificadores ópticos más importantes en el contexto de comunicaciones ópticas de larga distancia. Son utilizados en la banda L y C del espectro (aproximadamente entre 1550 nm y 1650 nm), región en la que las pérdidas en la fibra óptica son menores. Esto se puede ver en la figura \ref{fig:espectro}, que muestra las pérdidas en función de la longitud de onda de la luz utilizada.
 
 \begin{figure}[H]
 \centering
@@ -58,13 +58,19 @@ Los amplificadores de fibra dopados con erbio son los amplificadores ópticos m�
 \label{fig:espectro}
 \end{figure}
 
-Inventado en 1987, el EDFA es generalmente usado para compensar las pérdidas mencionadas en una línea de transmisión óptica. Éste puede ser colocado en cualquier parte la misma: al principio, inmediatamente después del transmisor para aumentar la potencia inyectada en la línea. En el medio, para compensar las pérdidas por la distancia recorrida. Y al final, antes del receptor para favorecer la detección de la señal.
+Inventado en 1987, el EDFA es generalmente usado para compensar las pérdidas mencionadas en una línea de transmisión óptica. Éste puede ser colocado en tres partes: 
+
+\begin{itemize}
+\item Inmediatamente después del transmisor, para aumentar la potencia inyectada en la línea
+\item En el medio del camino óptico, para compensar las pérdidas por la distancia recorrida
+\item Antes del receptor, para favorecer la detección de la señal
+\end{itemize}
 
 La figura \ref{fig:EDFAinterno} muestra la configuración interna más común de un EDFA. Su componente principal es la fibra dopada con erbio (EDF por sus siglas en inglés), que generalmente es monomodo\protect\footnotemark . 
 
-\footnotetext{Fibra óptica en la que solo se propaga un modo de luz, paralela al eje de la fibra. Tienen un tamaño entre 8.3 y 10 micrones, permiten alcanzar distancias de hasta 400 km y tasas de transmisión de hasta 10 Gbps \citep{WEBSITE:FIBRA}.}
+\footnotetext{Tipo de fibra óptica en la que solo se propaga un modo de luz, paralela al eje de la fibra. Tienen un tamaño entre 8.3 y 10 micrones, permiten alcanzar distancias de hasta 400 km y tasas de transmisión de hasta 10 Gbps \citep{WEBSITE:FIBRA}.}
 
-La luz ingresa al amplificador mediante el puerto de entrada y luego mediante un divisor se redirige un porcentaje de la señal (generalmente entre un 1 y 2\%) a un detector para realizar una medición de la potencia óptica. Luego pasa por un aislador óptico que permite la transmisión de luz en un solo sentido y así evita una realimentación debida a reflexiones en etapas posteriores.
+La luz ingresa al amplificador mediante el puerto de entrada y luego mediante un divisor se redirige un porcentaje de la señal (generalmente entre un 1\% y 2\%) a un detector para realizar una medición de la potencia óptica. Luego, pasa por un aislador óptico que permite la transmisión de luz en un solo sentido y así evita una realimentación debida a reflexiones en etapas posteriores.
 
 La bomba de 980 nm es un diodo láser que genera una señal que se combina con la señal entrante (ahora a la salida del aislador) y pasan por la fibra dopada con erbio. En esta instancia es donde se genera la amplificación de la señal propiamente dicha, mediante un efecto denominado emisión estimulada\protect\footnotemark .
 
@@ -77,14 +83,14 @@ La bomba de 980 nm es un diodo láser que genera una señal que se combina con l
 \label{fig:EDFAinterno}
 \end{figure}
 
-Una vez amplificada, la señal pasa nuevamente por otro aislador que se encarga principalmente de filtrar la luz de 980 nm, evitando que se introduzca en el camino óptico. Luego de pasar por el aislador, la señal pasa por un filtro compensador de ganancia (GFF por sus siglas en inglés) cuyo objeto es hacer constante la ganancia del amplificador en el ancho de banda de trabajo (bandas C y L del espectro). Finalmente, antes de salir se realiza nuevamente una medición de la potencia óptica al igual que en la entrada.
+Una vez amplificada, la señal pasa nuevamente por otro aislador que se encarga principalmente de filtrar la luz de 980 nm, evitando que se introduzca en el camino óptico. Luego, la señal pasa por un filtro compensador de ganancia (GFF por sus siglas en inglés) cuyo objetivo es hacer constante la ganancia del amplificador en todo el ancho de banda de trabajo (bandas C y L del espectro). Finalmente, antes de que la luz salga del amplificador, se realiza nuevamente una medición de la potencia óptica al igual que en la entrada.
 
-Tanto la bomba de 980 nm como ambos detectores de potencia se encuentran conectados a una unidad de control. Ésta generalmente cuenta con un microcontrolador o chip dedicado que se encarga de controlar la potencia que entrega la bomba en base a los valores medidos por los detectores, creando un lazo de control automático de ganancia \citep{WEBSITE:EDFA1}\citep{WEBSITE:EDFA2}.
+Tanto la bomba de 980 nm como ambos detectores de potencia se encuentran conectados a una unidad de control. Ésta generalmente cuenta con un microcontrolador o chip dedicado que se encarga de regular la potencia que entrega la bomba en base a los valores medidos por los detectores, creando un lazo de control automático de ganancia \citep{WEBSITE:EDFA1}\citep{WEBSITE:EDFA2}.
 
 \section{Interfaz del amplificador óptico}
 \label{sec:intAmp}
 
-Como se mencionó en la sección \ref{sec:contexto}, para poder controlarlo el EDFA cuenta con un conector de 25 pines tipo microD. Este conector contiene varios grupos de señales con distintas funciones. La tabla \ref{tab:señalesConector} lista cada una de las señales de la interfaz, junto con los detalles de su dirección, tipo y función.
+Como se mencionó en la sección \ref{sec:contexto}, para poder controlarlo, el EDFA cuenta con un conector de 25 pines tipo microD. Este conector contiene varios grupos de señales con distintas funciones. La tabla \ref{tab:señalesConector} lista cada una de las señales de la interfaz, junto con los detalles de su dirección, tipo y función.
 
 \begin{table}[H]
 	\centering
@@ -169,6 +175,7 @@ El circuito integrado elegido para efectuar la medición de corriente de aliment
 Este chip provee en uno de sus pines una tensión analógica proporcional a la corriente que se está midiendo. Asimismo, cuenta con una salida digital que se activa cuando la corriente medida alcanza cierto nivel establecido mediante un resistor (pin ALERT) \citep{INA301}.
 
 \subsection{Pantalla táctil LCD}
+\label{sec:pantLCD}
 
 El modelo del módulo de la pantalla LCD utilizada en el trabajo es MSP2807, que es una solución integrada, es decir, cuenta con toda la electrónica necesaria para poder hacer uso de la pantalla en su totalidad. Para esto cuenta con dos circuitos integrados: el controlador del display de la pantalla (lo que permite dibujar en ella) y el controlador de la función táctil (lo que permite detectar cuando se la toca). En la figura \ref{fig:pantLCD} se puede ver una imagen de la pantalla.
 
@@ -234,7 +241,7 @@ Una \textit{hardware abstraction layer} o HAL es un conjunto de rutinas de softw
 
 La principal ventaja de esta capa es que oculta la arquitectura del hardware del \textit{kernel} del sistema operativo. Así, el código del \textit{kernel} no tiene que ser cambiado o reescrito para que pueda correr sobre sistemas con distinto hardware y las aplicaciones de software se vuelven independientes de la plataforma (portabilidad) \citep{WEBSITE:HAL}.
 
-La HAL de la serie de microcontroladores STM32, STM32Cube, tiene como objetivo asegurar la máxima portabilidad entre dispositivos de la misma familia y proveer APIs (\textit{Application Programming Interface}) multi-instancia para todos los periféricos (UART, SPI, temporizadores, ADC, etc.). Éstas APIs están listas para usar y facilitan la implementación de la aplicación de usuario. Por ejemplo, los periféricos de comunicación cuentan con APIs para inicializarlos y configurarlos, gestionar la transferencia de datos en modo \textit{polling}, manejar las interrupciones, el DMA (\textit{Direct Memory Access}) y los errores de comunicación \citep{WEBSITE:STM32CUBE}.
+La HAL de la serie de microcontroladores STM32 se denomina STM32Cube y tiene como objetivo asegurar la máxima portabilidad entre dispositivos de la misma familia y proveer APIs (\textit{Application Programming Interface}) multi-instancia para todos los periféricos (UART, SPI, temporizadores, ADC, etc.). Éstas APIs están listas para usar y facilitan la implementación de la aplicación de usuario. Por ejemplo, los periféricos de comunicación cuentan con APIs para inicializarlos y configurarlos, gestionar la transferencia de datos en modo \textit{polling}, manejar las interrupciones, el DMA (\textit{Direct Memory Access}) y los errores de comunicación \citep{WEBSITE:STM32CUBE}.
 
 \section{Periféricos utilizados}
 
@@ -246,7 +253,7 @@ Un conversor analógico-digital o ADC (de \textit{Analog-to-Digital Converter}) 
 
 La señal pasa de ser continua en el tiempo y continua en amplitud a discreta en el tiempo y discreta en amplitud. Esto quiere decir que la señal analógica podría tomar cualquier valor en cualquier instante. En cambio, cuando es convertida la señal se encuentra cuantizada, es decir, podrá tomar solamente determinados valores que dependen de la cantidad de bits del ADC y del fondo de escala (resolución).
 
-Esto hace que no se puedan representar todos los valores que se miden y que cada muestra tomada estará truncada al valor más cercano representable. Este error introducido en la medición se denomina error de cuantización. A modo de ejemplo, en la figura \ref{fig:muestreoADC} se muestra un ejemplo de una conversión analógica-digital con un ADC de 3 bits. La señal de entrada (en rojo) es muestreada a intervalos constantes y la señal resultante (en azul) está cuantizada.
+Esto hace que no se puedan representar todos los valores que se miden y que cada muestra tomada estará truncada al valor más cercano representable. Este error introducido en la medición se denomina error de cuantización. A modo de ejemplo, en la figura \ref{fig:muestreoADC} se muestra una conversión analógica-digital de una señal senoidal con un ADC de 3 bits. La señal de entrada (en rojo) es muestreada a intervalos constantes y la señal resultante (en azul) está cuantizada.
 
 \begin{figure}[H]
 \centering
@@ -280,20 +287,20 @@ El estado \textit{Idle} de la línea es el estado inactivo, es decir, el estado 
 
 SPI es una especificación de interfaz de comunicación serie sincrónica para distancias cortas. Es comúnmente utilizada para enviar datos entre un sistema embebido y pequeños periféricos como sensores y memorias SD.
 
-Los dispositivo SPI se comunican en modo \textit{full duplex} (ambos sentidos simultáneos) mediante una arquitectura maestro-esclavo con líneas separadas para los datos y el clock. Generalmente constan de 4 líneas:
+Los dispositivos SPI se comunican en modo \textit{full duplex} (ambos sentidos simultáneos) mediante una arquitectura maestro-esclavo con líneas separadas para los datos y el clock. Generalmente constan de 4 líneas:
 
 \begin{itemize}
-\item SCLK: reloj (generado por el maestro)
+\item SCLK: reloj o clock (generado por el maestro)
 \item MOSI: \textit{Master Out Slave In}. Salida de datos de maestro a esclavo
 \item MISO: \textit{Master In Slave Out}. Salida de datos de esclavo a maestro
 \item CS/SS: \textit{Chip Select}. Salida de maestro para indicar al esclavo que se están enviando o recibiendo datos
 \end{itemize}
 
-Para comenzar la comunicación el maestro primero configura el clock, utilizando una frecuencia soportada por el dispositivo esclavo, generalmente entre 100 kHz y 10 MHz. Luego selecciona el esclavo poniendo un nivel bajo en la linea CS. En este momento a veces se requiere un tiempo mínimo de espera antes de enviar ciclos de clock, por ejemplo para una conversión analógico-digital.
+Para comenzar la comunicación el maestro primero configura el clock, utilizando una frecuencia soportada por el dispositivo esclavo, generalmente entre 100 kHz y 10 MHz. Luego selecciona el esclavo poniendo un nivel bajo en la línea CS. En este momento, a veces, se requiere un tiempo mínimo de espera antes de enviar ciclos de clock, por ejemplo para una conversión analógico-digital.
 
-Durante cada ciclo de clock ocurre una transmisión \textit{full duplex}. El maestro envía un bit por la línea MOSI y el esclavo la lee, mientras que el esclavo envía otro bit por la línea MISO y el maestro la lee. Esta secuencia se mantiene incluso cuando se está enviando un dato en una sola dirección.
+Durante cada ciclo de clock ocurre una transmisión \textit{full duplex}. El maestro envía un bit por la línea MOSI y el esclavo la lee, mientras que el esclavo envía otro bit por la línea MISO y el maestro la lee. Ésta secuencia se mantiene incluso cuando se está enviando un dato en una sola dirección.
 
-En la figura \ref{fig:transSPI} se pueden ver las señales durante una transacción de maestro a esclavo y de esclavo a maestro. Se observa que la señal CS se mantiene en nivel bajo durante todo el tiempo en que la transmisión está activa. Además las transiciones de las señales MOSI y MISO para cada bit ocurren solamente en cada flanco negativo del clock. En este caso el ancho de la palabra transmitida es de 8 bits, pero se puede implementar de igual forma para cantidades mayores o menores. Esto se debe a que no existe un protocolo estándar para la transmisión SPI.
+En la figura \ref{fig:transSPI} se pueden ver las señales durante una transacción de maestro a esclavo y de esclavo a maestro. Se observa que la señal CS se mantiene en nivel bajo durante todo el tiempo en que la transmisión está activa. Además, las transiciones de las señales MOSI y MISO para cada bit ocurren solamente en cada flanco negativo del clock. En este caso el ancho de la palabra transmitida es de 8 bits, pero se puede implementar de igual forma para cantidades mayores o menores. Esto es posible debido a que no existe un protocolo estándar para la transmisión SPI.
 
 \begin{figure}[H]
 \centering
@@ -309,8 +316,8 @@ El hecho de contar con una línea de selección de esclavo permite realizar una 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.65\textwidth]{./Figures/multiSlave.png}
-\caption{Transacción SPI.}
+\caption{Conexionado de un maestro con múltiples esclavos.}
 \label{fig:multiSlave}
 \end{figure}
 
-A diferencia de otros protocolos como UART, SPI define solamente una estructura de hardware para la transmisión de información. No define un protocolo para los datos transmitidos. Esto quiere decir que los bits transmitidos no tienen una función determinada ya definida si no que ésta es específica de la aplicación y corre por parte del hardware (o software) realizar la interpretación correcta.
+A diferencia de otros protocolos como UART, SPI define solamente una estructura de hardware para la transmisión de información. No define un protocolo para los datos transmitidos. Esto quiere decir que los bits transmitidos no tienen una función determinada predefinida si no que ésta es específica de la aplicación y corre por parte del hardware (o software) realizar la interpretación correcta.
