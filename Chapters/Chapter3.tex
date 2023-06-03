@@ -43,30 +43,30 @@
 %	Chapter 3
 %----------------------------------------------------------------------------------------
 
-En este capítulo se realiza una explicación detallada del diseño del hardware, como se utilizó cada componente principal y su conexión con el microcontrolador. Asimismo se especifica la estructura general del firmware en el marco de FreeRTOS y las principales rutinas de bajo nivel.
+En este capítulo se realiza una explicación detallada del diseño del hardware, como se utilizó cada componente principal y su conexión con el microcontrolador. Asimismo, se especifica la estructura general del firmware en el marco de FreeRTOS y las principales rutinas de bajo nivel.
 
 \section{Dispositivo implementado}
 
-Es importante aclarar que el dispositivo que se desarrolló e integró como solución a lo planteado en el capítulo 1 no es el producto final destinado a usarse. La placa construída se puede interpretar como un prototipo de desarrollo o una versión de ingeniería ya que tiene dos objetivos: verificar el funcionamiento del hardware diseñado y desarrollar el firmware que se ejecutará en el microcontrolador. 
+Es importante aclarar que el dispositivo que se desarrolló e integró como solución a lo planteado en el capítulo 1 no es el producto final destinado a usarse. La placa construida se puede interpretar como un prototipo de desarrollo o una versión de ingeniería ya que tiene dos objetivos: verificar el funcionamiento del hardware diseñado y desarrollar el firmware que se ejecutará en el microcontrolador. 
 
 La versión armada para este proyecto, además de incluir los mismos componentes que se pretenden usar en el producto final, cuenta con todo el hardware necesario para simular la interfaz electrónica del modelo del amplificador óptico. Esto permite generar todas las señales que se encuentran en el conector, tanto las analógicas como las digitales.
 
 Una vez alcanzados estos objetivos, la siguiente etapa consiste en desarrollar la placa del producto final, con el factor de forma adecuado para integrar y montar todos los componentes en una carcasa transportable. 
 
-En la figura \ref{fig:placa1} y \ref{fig:placa2} se pueden ver dos fotos del PCB ensamblado sin el display ni la placa Nucleo conectados (lado superior y lado inferior respectivamente). Por último, en la figura \ref{fig:placa3} se puede ver la placa con ambas cosas conectadas.
+El PCB fue enviado a fabricar a la empresa china JLC y consta de 4 capas: dos planos internos de referencia conectados a 3.3 V y GND, y dos capas de señal (\textit{Top} y \textit{Bottom}). En la figura \ref{fig:placa1} y \ref{fig:placa2} se pueden ver dos fotos del PCB ensamblado sin el display ni la placa Nucleo conectados (lado superior y lado inferior respectivamente). Por último, en la figura \ref{fig:placa3} se puede ver la placa con ambos módulos conectados.
 
 \begin{figure}[H]
      \centering
      \begin{subfigure}{\textwidth}
          \centering
          \includegraphics[width=.65\textwidth]{./Figures/placa2.jpg}
-         \caption{Lado superior.}
+         \caption{Lado superior del PCB.}
          \label{fig:placa1}
      \end{subfigure}
      \begin{subfigure}{\textwidth}
          \centering
          \includegraphics[width=.65\textwidth]{./Figures/placa3.jpg}
-         \caption{Lado inferior.}
+         \caption{Lado inferior del PCB.}
          \label{fig:placa2}
      \end{subfigure}
      \begin{subfigure}{\textwidth}
@@ -79,23 +79,24 @@ En la figura \ref{fig:placa1} y \ref{fig:placa2} se pueden ver dos fotos del PCB
         \label{fig:three graphs}
 \end{figure}
 
-\subsection{Diagrama del sistema}
+\section{Arquitectura de hardware}
 
+La arquitectura general de la placa fue diseñada para tener como unidad de procesamiento principal al microcontrolador STM32 de la placa Nucleo y a la pantalla LCD como periférico de entrada y salida del usuario.
+
+\subsection{Diagrama del dispositivo}
+
+La figura \ref{fig:estrucInt} muestra un diagrama detallado y completo de todo el hardware de la placa y el conexionado entre sus distintas partes. También incluye los periféricos utilizados en el microcontrolador.
 
 %\begin{figure}[H]
 %\centering
 %\includegraphics[width=0.85\textwidth]{./Figures/.png}
 %\caption{Estructura interna del sistema}
-%\label{fig:estrInt}
+%\label{fig:estrucInt}
 %\end{figure}
-
-\section{Arquitectura de hardware}
-
-La arquitectura general de la placa fue diseñada para tener como unidad de procesamiento principal al microcontrolador STM32 de la placa Nucleo y a la pantalla LCD como periférico de entrada y salida del usuario.
 
 \subsection{Medición de corriente del amplificador}
 
-El principio de funcionamiento del monitor de corriente se basa en un resistor \textit{shunt}, el cual se coloca sobre la alimentación, en serie con la linea sobre la cual se desea conocer el consumo de corriente. Para que este resistor no disipe mucha potencia y disminuya la tensión de la línea, su valor de resistencia es de 10 \si{m\ohm}). Mientras mas chico sea su valor mas despreciables son los efectos negativos que introducirá.
+El principio de funcionamiento del monitor de corriente se basa en un resistor \textit{shunt}, el cual se coloca sobre la alimentación, en serie con la línea sobre la cual se desea conocer el consumo de corriente. Para que este resistor no disipe mucha potencia y disminuya la tensión de la línea, su valor de resistencia es de 10 \si{m\ohm}). Mientras más chico sea su valor mas despreciables son los efectos negativos que introducirá.
 
 Sobre este resistor cae una tensión proporcional a la corriente consumida por el EDFA. Como el valor máximo de corriente consumida por el amplificador se encuentra cerca de los 2.5 A entonces sobre el resistor caerán como máximo 25 mV, lo que frente a los 5 V de la alimentación no representa un valor significativo. Luego de sensarla, el chip amplifica 100 veces ésta tensión diferencial y la conecta a uno de sus pines.
 
@@ -108,7 +109,7 @@ Al ser éste un valor analógico, para poder ser interpretado se lo debe convert
 \label{fig:funcMonitor}
 \end{figure}
 
-Por otro lado, el INA301A3 cuenta con una pin de salida denominado ALERT que se activa cuando la corriente medida alcanza cierto valor, funcionando a modo de alarma. Este nivel se determina conectando un resistor de cierto valor en el pin LIMIT.
+Por otro lado, el INA301A3 cuenta con un pin de salida denominado ALERT que se activa cuando la corriente medida alcanza cierto valor, funcionando a modo de alarma. Este nivel se determina conectando un resistor de cierto valor en el pin LIMIT.
 
 \subsection{Relé de alimentación}
 
@@ -151,7 +152,14 @@ Por otro lado, el controlador del display también tiene señales con funciones 
 \item LED: permite controlar la intensidad de luz de la pantalla (denominada \textit{backlight})
 \end{itemize}
 
-Teniendo en cuenta ésto la conexión entre el módulo del display y el microcontrolador resulta como se ve en la figura \ref{fig:}.
+Teniendo en cuenta ésto la conexión entre el módulo del display y el microcontrolador resulta como se ve en la figura \ref{fig:conexionLCD}.
+
+%\begin{figure}[H]
+%\centering
+%\includegraphics[width=0.5\textwidth]{./Figures/diagFSM.jpg}
+%\caption{Máquina de estados.}
+%\label{fig:conexionLCD}
+%\end{figure}
 
 \subsection{Entradas y salidas digitales}
 
@@ -169,12 +177,72 @@ Para poder simular la activación de las alarmas en la placa se colocaron pulsad
 
 \subsection{Indicadores de potencia óptica}
 
-%Las señales IN\_POW y OUT\_POW son analógicas y 
+%Las señales IN\_POW y OUT\_POW son analógicas y pueden tomar cualquier valor en el rango de X V a X V. Éste valor es proporcional a la potencia óptica medida por los detectores del amplificador, siendo la relación 
+
+Para poder simular éstas señales se utilizaron dos resistores variables (código PTV09A-4020U-B103) que permiten variar de forma manual el valor de tensión entre 0 V y 3.3 V.
 
 \section{Arquitectura de software}
 
-\subsection{Maquina de estados}
+La arquitectura del firmware del proyecto tiene como base a FreeRTOS.
+
+\subsection{Máquina de estados}
+
+En la \ref{fig:diagFSM} se
+
+%\begin{figure}[H]
+%\centering
+%\includegraphics[width=0.5\textwidth]{./Figures/diagFSM.jpg}
+%\caption{Máquina de estados.}
+%\label{fig:diagFSM}
+%\end{figure}
 
 \subsection{Capa de abstracción del amplificador}
 
+Con el objetivo de generar una estructura jerárquica por capas, se decidió crear un \textit{wrapper} que contenga  
 
+\subsection{Driver del ADC}
+
+%\ref{tab:configADC}
+
+%\begin{table}[H]
+%	\centering
+%	\caption{Configuración del ADC.}
+%	\begin{tabular}{l c}
+%		\toprule
+%		\textbf{Característica} & \textbf{Configuración} \\
+%		\midrule
+%		Multímetro			&  UNI-T 	 \\
+%		Fuente 				& XXX	     \\
+%
+%		\bottomrule
+%		\hline
+%	\end{tabular}
+%	\label{tab:configADC}
+%\end{table}
+
+%\begin{figure}[H]
+%\centering
+%\includegraphics[width=0.5\textwidth]{./Figures/rutinaADC.jpg}
+%\caption{Rutina de adquisición de valores analógicos.}
+%\label{fig:rutinaADC}
+%\end{figure}
+
+\subsection{Driver de la pantalla LCD}
+
+%\ref{tab:configSPI}
+
+%\begin{table}[H]
+%	\centering
+%	\caption{Configuración de los SPI del LCD.}
+%	\begin{tabular}{l c}
+%		\toprule
+%		\textbf{Característica} & \textbf{Configuración} \\
+%		\midrule
+%		Multímetro			&  UNI-T 	\\
+%		Fuente 				& XXX	    \\
+%
+%		\bottomrule
+%		\hline
+%	\end{tabular}
+%	\label{tab:configSPI}
+%\end{table}
