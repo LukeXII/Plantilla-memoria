@@ -10,6 +10,29 @@
 
 En este capítulo se explica cómo se llevaron a cabo las pruebas de validación de hardware y software a las que fue sometido el dispositivo, los bancos de ensayos e instrumentos utilizados y los resultados obtenidos.
 
+\section{Instrumental utilizado}
+
+Para poder ejecutar las pruebas de integración de hardware y software se requirió del uso de una variedad de instrumentos y componentes. La tabla \ref{tab:instrumentos} lista los detalles de cada uno de ellos.
+
+\begin{table}[H]
+	\centering
+	\caption{Lista de instrumental utilizado.}
+	\begin{tabular}{p{3cm} c p{6cm}}
+		\toprule
+		\textbf{Item} & \textbf{Modelo} & \textbf{Descripción} \\
+		\midrule
+		Multímetro			& UNI-T UT61A		& Multímetro autorango de alta precisión \\
+		Fuente de tensión	& KM GP-300ATX		& Fuente de computadora de 400W \\
+		Resistencia de potencia variable		& AVT05006E25R00KE	& Resistencia de potencia de alambre bobinado de 25Ohm/50W \\
+		Potenciómetro							& 3590S-1-201L & Potenciómetro de 200Ohm/2W y 10 vueltas para panel \\
+		Conversor USB a UART					& EM7-6043		& Conversor USB a serie TTL CH-340 \\
+		Cables varios							& - 			& Cables dupont y unipolar de 2,5mm2 \\
+		\bottomrule
+		\hline
+	\end{tabular}
+	\label{tab:instrumentos}
+\end{table}
+
 \section{Banco de ensayos}
 
 %\ref{fig:setupEnsayos}
@@ -21,32 +44,9 @@ En este capítulo se explica cómo se llevaron a cabo las pruebas de validación
 %\label{fig:setupEnsayos}
 %\end{figure}
 
-\section{Instrumental utilizado}
-
-Para poder ejecutar las pruebas de integración de hardware y software del trabajo se requirió del uso de una variedad de instrumentos y equipos. La tabla \ref{tab:instrumentos} lista los detalles de cada uno de ellos.
-
-\begin{table}[H]
-	\centering
-	\caption{Lista de instrumental utilizado.}
-	\begin{tabular}{c c l}
-		\toprule
-		\textbf{Instrumento} & \textbf{Modelo} & \textbf{Descripción} \\
-		\midrule
-		Multímetro			&  UNI-T 				& asdasd \\
-		Fuente 				& XXX					& XXXXX \\
-
-		\bottomrule
-		\hline
-	\end{tabular}
-	\label{tab:instrumentos}
-\end{table}
-
 \section{Pruebas de hardware}
 \label{sec:pruebasHW}
 
-% resistencias:
-% alambre sobre tubo de ceramica, 25 ohm 50 W: AVT05006E25R00KE
-% wirewound, 200 ohm 2 W: 3590S-1-201L
 
 \subsection{Pruebas del monitor de corriente}
 
@@ -60,10 +60,13 @@ Para poder ejecutar las pruebas de integración de hardware y software del traba
 
 
 
-\section{Pruebas de software}
-\label{sec:pruebasSW}
+\section{Pruebas de firmware}
+\label{sec:pruebasFW}
 
 
 
 \subsection{Pruebas de la pantalla LCD}
 
+\subsection{Pruebas de la comunicación UART}
+
+\subsection{Pruebas de las alarmas y señales de control}

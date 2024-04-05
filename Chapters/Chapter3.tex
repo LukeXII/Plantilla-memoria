@@ -173,17 +173,23 @@ En la tabla \ref{tab:señalesConector} se detallan las señales de entrada y sal
 \item Suministrar la corriente necesaria a las señales de entrada del amplificador y así evitar que ésta deba ser proporcionada por el microcontrolador
 \end{itemize}
 
-Para poder simular la activación de las alarmas en la placa se colocaron pulsadores con testigo lumínico (código TL1265YQSCLR) en el extremo donde estaría el EDFA, con el propósito de activarlos manualmente durante el testeo del firmware. Para las señales de control se pusieron LEDs que indican su estado (código AA3528LVBS/D).
+Para poder simular la activación de las alarmas en la placa se colocaron pulsadores con testigo lumínico (código TL1265YQSCLR) en el extremo donde estaría el EDFA, con el propósito de activarlos manualmente durante el testeo del firmware.
+
+Para las señales de control se pusieron LEDs que indican el estado de activación de las mismas (código AA3528LVBS/D).
 
 \subsection{Indicadores de potencia óptica}
 
-%Las señales IN\_POW y OUT\_POW son analógicas y pueden tomar cualquier valor en el rango de X V a X V. Éste valor es proporcional a la potencia óptica medida por los detectores del amplificador, siendo la relación 
+Las señales IN\_POW y OUT\_POW son analógicas y pueden tomar cualquier valor en el rango de 0 V a 3.3 V. Éste valor es proporcional a la potencia óptica medida por los detectores de entrada y salida del amplificador, el cual corresponde al rango de -10 dBm a 10 dBm para el de entrada y 5 dBm a 37 dBm para el de salida.
 
 Para poder simular éstas señales se utilizaron dos resistores variables (código PTV09A-4020U-B103) que permiten variar de forma manual el valor de tensión entre 0 V y 3.3 V.
 
-\section{Arquitectura de software}
+\subsection{Interfaz UART}
 
-La arquitectura del firmware del proyecto tiene como base a FreeRTOS.
+
+
+\section{Arquitectura de firmware}
+
+Como se mencionó anteriormente, la arquitectura del firmware del proyecto tiene como base la utilización de FreeRTOS y los recursos que ofrece. Esto permite la implementación de un diseño eficaz y sencillo mediante la división en dos partes bien definidas: la parte de procesamiento de datos (o \textit{backend}) y la parte gráfica que interactúa con el usuario (o \textit{frontend}).
 
 \subsection{Máquina de estados}
 
