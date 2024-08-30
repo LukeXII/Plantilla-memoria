@@ -49,11 +49,11 @@ En este capítulo se realiza una explicación detallada del diseño del hardware
 
 Es importante aclarar que el dispositivo que se desarrolló e integró como solución a lo planteado en el capítulo 1 no es el producto final destinado a usarse. La placa construida se puede interpretar como un prototipo de desarrollo o una versión de ingeniería ya que tiene dos objetivos: verificar el funcionamiento del hardware diseñado y desarrollar el firmware que se ejecutará en el microcontrolador. 
 
-La versión armada para este proyecto, además de incluir los mismos componentes que se pretenden usar en el producto final, cuenta con todo el hardware necesario para simular la interfaz electrónica del modelo del amplificador óptico. Esto permite generar todas las señales que se encuentran en el conector, tanto las analógicas como las digitales.
+La versión armada para este trabajo, además de incluir los mismos componentes que se pretenden usar en el producto final, cuenta con todo el hardware necesario para simular la interfaz electrónica del modelo del amplificador óptico. Esto permite generar todas las señales que se encuentran en el conector, tanto las analógicas como las digitales.
 
 Una vez alcanzados estos objetivos, la siguiente etapa consiste en desarrollar la placa del producto final, con el factor de forma adecuado para integrar y montar todos los componentes en una carcasa transportable. 
 
-El PCB fue enviado a fabricar a la empresa china JLC y consta de 4 capas: dos planos internos de referencia conectados a 3.3 V y GND, y dos capas de señal (\textit{Top} y \textit{Bottom}). En la figura \ref{fig:placa1} y \ref{fig:placa2} se pueden ver dos fotos del PCB ensamblado sin el display ni la placa Nucleo conectados (lado superior y lado inferior respectivamente). Por último, en la figura \ref{fig:placa3} se puede ver la placa con ambos módulos conectados.
+El PCB fue enviado a fabricar a la empresa china JLC y consta de 4 capas: dos planos internos de referencia conectados a 3.3 V y GND y dos capas de señal (\textit{Top} y \textit{Bottom}). En la figura \ref{fig:placa1} y \ref{fig:placa2} se pueden ver dos fotos del PCB ensamblado sin el display ni la placa Nucleo conectados (lado superior y lado inferior respectivamente). Por último, en la figura \ref{fig:placa3} se puede ver la placa con ambos módulos conectados.
 
 \begin{figure}[H]
      \centering
@@ -75,7 +75,7 @@ El PCB fue enviado a fabricar a la empresa china JLC y consta de 4 capas: dos pl
          \caption{Placa ensamblada.}
          \label{fig:placa3}
      \end{subfigure}
-        \caption{Placa fabricada para el proyecto}
+        \caption{Placa fabricada para el trabajo.}
         \label{fig:three graphs}
 \end{figure}
 
@@ -96,9 +96,9 @@ La figura \ref{fig:estrucInt} muestra un diagrama detallado y completo de todo e
 
 \subsection{Medición de corriente del amplificador}
 
-El principio de funcionamiento del monitor de corriente se basa en un resistor \textit{shunt}, el cual se coloca sobre la alimentación, en serie con la línea sobre la cual se desea conocer el consumo de corriente. Para que este resistor no disipe mucha potencia y disminuya la tensión de la línea, su valor de resistencia es de 10 \si{m\ohm}). Mientras más chico sea su valor mas despreciables son los efectos negativos que introducirá.
+El principio de funcionamiento del monitor de corriente se basa en un resistor \textit{shunt}, el cual se coloca sobre la alimentación, en serie con la línea a la que se desea conocer el consumo de corriente. Para que este resistor no disipe mucha potencia y disminuya la tensión de la línea, su valor de resistencia es de 10 \si{m\ohm}. Mientras más chico sea su valor más despreciables son los efectos negativos que introducirá.
 
-Sobre este resistor cae una tensión proporcional a la corriente consumida por el EDFA. Como el valor máximo de corriente consumida por el amplificador se encuentra cerca de los 2.5 A entonces sobre el resistor caerán como máximo 25 mV, lo que frente a los 5 V de la alimentación no representa un valor significativo. Luego de sensarla, el chip amplifica 100 veces ésta tensión diferencial y la conecta a uno de sus pines.
+Sobre este resistor cae una tensión proporcional a la corriente consumida por el EDFA. Como el valor máximo de corriente consumida por el amplificador se encuentra cerca de los 2.5 A, sobre el resistor caerán como máximo 25 mV, lo que frente a los 5 V de la alimentación no representa un valor significativo. Luego de sensarla, el chip amplifica 100 veces ésta tensión diferencial y la conecta a uno de sus pines.
 
 Al ser éste un valor analógico, para poder ser interpretado se lo debe convertir a digital. Para esto se usó el ADC incorporado en el microcontrolador, conectando a uno de sus pines la señal de salida del monitor de corriente. La tensión máxima que alcanzará el pin será de aproximadamente 2.5 V, lo que se encuentra dentro de la tensión de referencia del ADC. Un esquema de esta conexión se puede ver en la figura \ref{fig:funcMonitor}.
 
@@ -109,13 +109,13 @@ Al ser éste un valor analógico, para poder ser interpretado se lo debe convert
 \label{fig:funcMonitor}
 \end{figure}
 
-Por otro lado, el INA301A3 cuenta con un pin de salida denominado ALERT que se activa cuando la corriente medida alcanza cierto valor, funcionando a modo de alarma. Este nivel se determina conectando un resistor de cierto valor en el pin LIMIT.
+Por otro lado, el INA301A3 cuenta con un pin de salida denominado ALERT que se activa cuando la corriente medida alcanza cierto valor, lo que funciona a modo de alarma. Este nivel se determina conectando un resistor de cierto valor en el pin LIMIT.
 
 \subsection{Relé de alimentación}
 
 La línea de 5 V de alimentación del EDFA es controlada mediante la activación de un relé (código APAN3103), lo que significa que la conexión y desconexión es mecánica. Esto se decidió implementarlo así debido a los lineamientos de protecciones necesarios para el hardware de vuelo.
 
-Como el relé necesita de 36.7 mA para activarse, no se puede conectar directamente a un pin de salida del microcontrolador porque no podrá suministrar la corriente necesaria. Por ésta razón la activación se realiza mediante un transistor (código MMBT2222), funcionando como una llave (en modo saturación o corte). De ésta forma la corriente para la activación de la bobina del relé la proveerá directamente la fuente de alimentación de 3.3 V.
+Como el relé necesita de 36.7 mA para activarse, no se puede conectar directamente a un pin de salida del microcontrolador porque no podrá suministrar la corriente necesaria. Por ésta razón la activación se realiza mediante un transistor (código MMBT2222), funcionando como una llave (en modo saturación o corte). De ésta forma, la corriente para la activación de la bobina del relé la proveerá directamente la fuente de alimentación de 3.3 V.
 
 \subsection{Medición de tensión del amplificador}
 
@@ -132,7 +132,7 @@ En la figura \ref{fig:monTension} se puede ver el circuito implementado.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.5\textwidth]{./Figures/mon_tension.png}
-\caption{Circuito del monitor de corriente}
+\caption{Circuito del monitor de corriente.}
 \label{fig:monTension}
 \end{figure}
 
@@ -140,14 +140,14 @@ El capacitor C6 forma un filtro RC para eliminar el ruido de alta frecuencia que
 
 \subsection{Conexión a pantalla LCD}
 
-Como se mencionó en la subsección \ref{sec:pantLCD}, la pantalla LCD tiene dos circuitos integrados con SPI para el control de la pantalla y para el control de la función táctil. Si bien ambas interfaces se podrían haber conectado al mismo periférico SPI del microcontrolador en modo multi-esclavo de la forma en que se muestra en la figura \ref{fig:multiSlave}, se decidió usar uno para cada uno de forma individual. La principal razón de ésto es porque facilitaba la implementación del firmware en gran medida, ya que permitía usar ambos controladores de forma independiente en distintas partes del programa sin riesgo de colisión. De lo contrario, podría suceder que ambos drivers intenten acceder al periférico al mismo tiempo.
+Como se mencionó en la subsección \ref{sec:pantLCD}, la pantalla LCD tiene dos circuitos integrados con SPI: uno para el control de la pantalla y otro para el control de la función táctil. Si bien ambas interfaces se podrían haber conectado al mismo periférico SPI del microcontrolador en modo multi-esclavo de la forma en que se muestra en la figura \ref{fig:multiSlave}, se decidió usar uno para cada uno de forma individual. La principal razón de ésto es porque facilita la implementación del firmware ya que permite usar ambos controladores de forma independiente y a distintas velocidades sin necesidad de reconfiguración.
 
 El controlador de la función táctil tiene, además de las señales del bus SPI, una señal denominada IRQ que se activa cuando se detecta que la pantalla está siendo tocada. Ésta señal sirve para ser usada como interrupción en el programa del microcontrolador.
 
 Por otro lado, el controlador del display también tiene señales con funciones especiales. Éstas son:
 
 \begin{itemize}
-\item RESET: resetea el chip del controlador y por lo tanto toda la configuración del display y la información de cada píxel
+\item RESET: resetea el chip del controlador y, por lo tanto, toda la configuración del display y la información de cada píxel
 \item DC/RS: indica al controlador si la información que se está enviando por el SPI es un dato o un registro, dependiendo del nivel de la señal
 \item LED: permite controlar la intensidad de luz de la pantalla (denominada \textit{backlight})
 \end{itemize}
@@ -168,14 +168,14 @@ En la tabla \ref{tab:señalesConector} se detallan las señales de entrada y sal
 Éstas señales se podrían conectar directamente a pines digitales del microcontrolador ya que son de tipo TTL 3.3 V, pero se decidió poner antes de este un \textit{buffer} de tres estados (código SN74LVC2244A). Los objetivos de ésta decisión son tres:
 
 \begin{itemize}
-\item Generar niveles de tensión mejor definidos. Ésto filtra ruido y rebote en las señales y facilita la detección en ambos extremos (EDFA y microcontrolador)
-\item Proveer a la electrónica interna del EDFA de protección contra descargas electrostáticas (ESD)
-\item Suministrar la corriente necesaria a las señales de entrada del amplificador y así evitar que ésta deba ser proporcionada por el microcontrolador
+\item Generar niveles de tensión mejor definidos. Esto filtra ruido y rebote en las señales y facilita la detección en ambos extremos (EDFA y microcontrolador).
+\item Proveer a la electrónica interna del EDFA de protección contra descargas electrostáticas (ESD).
+\item Suministrar la corriente necesaria a las señales de entrada del amplificador y así evitar que ésta deba ser proporcionada por el microcontrolador.
 \end{itemize}
 
 Para poder simular la activación de las alarmas en la placa se colocaron pulsadores con testigo lumínico (código TL1265YQSCLR) en el extremo donde estaría el EDFA, con el propósito de activarlos manualmente durante el testeo del firmware.
 
-Para las señales de control se pusieron LEDs que indican el estado de activación de las mismas (código AA3528LVBS/D).
+Para las señales de control se utilizaron LEDs que indican el estado de activación de éstas (código AA3528LVBS/D).
 
 \subsection{Indicadores de potencia óptica}
 
@@ -185,15 +185,29 @@ Para poder simular éstas señales se utilizaron dos resistores variables (códi
 
 \subsection{Interfaz UART}
 
-
+Como se puede ver en la figura \ref{fig:estrucInt}, el dispositivo debe contar con dos interfaces UART: una para la comunicación entre el tester y el EDFA y otra para la comunicación entre el tester y la PC. Para esto se requiere hacer uso de dos de los controladores UART internos que posee el microcontrolador.
 
 \section{Arquitectura de firmware}
 
-Como se mencionó anteriormente, la arquitectura del firmware del proyecto tiene como base la utilización de FreeRTOS y los recursos que ofrece. Esto permite la implementación de un diseño eficaz y sencillo mediante la división en dos partes bien definidas: la parte de procesamiento de datos (o \textit{backend}) y la parte gráfica que interactúa con el usuario (o \textit{frontend}).
+Como se mencionó anteriormente, la arquitectura del firmware del trabajo tiene como base la utilización de FreeRTOS y los recursos que ofrece. Esto permite la implementación de un diseño eficaz y sencillo mediante la división en dos partes bien definidas: la parte de procesamiento de datos y control (o backend) y la parte gráfica que interactúa con el usuario (o frontend). Para implementar cada una de ellas se utilizó una tarea o proceso, recurso provisto por el sistema operativo. Estas tareas se pueden asumir que se ejecutan de forma independiente y simultánea pero, pero compartiendo recursos entre ambas (variables).
+
+El proceso del backend tiene como tarea principal ejecutar una máquina de estados y se encarga de controlar el estado general del dispositivo en todo momento. Esto significa que lee los datos de entrada, los procesa y en base a ellos toma decisiones que terminan por afectar las señales de salida y en última instancia a la tarea del display.
+
+Por otro lado, el proceso del frontend esta asociado al display LCD y tiene como objetivo principal interactuar directamente con el usuario. Para ello debe leer la información de salida del backend, presentarla en la pantalla y también detectar cuando (y donde) el usuario presiona sobre ella y enviar estos datos al backend (recursos compartidos). 
+
+
 
 \subsection{Máquina de estados}
 
-En la \ref{fig:diagFSM} se
+La máquina de estados implementada en el firmware representa de forma análoga el estado del amplificador en todo momento. Los estados definidos para este dentro del programa son:
+
+\begin{itemize}
+\item Desconectado: la alimentación se encuentra desconectada
+\item Conectado: energizado
+\item Activo: la salida óptica se encuentra prendida
+\end{itemize}
+
+En la \ref{fig:diagFSM} se puede ver un diagrama de transiciones simplificado de la máquina de estados implementada 
 
 %\begin{figure}[H]
 %\centering
@@ -204,27 +218,36 @@ En la \ref{fig:diagFSM} se
 
 \subsection{Capa de abstracción del amplificador}
 
-Con el objetivo de generar una estructura jerárquica por capas, se decidió crear un \textit{wrapper} que contenga  
+Con el objetivo de generar una estructura jerárquica por capas, se decidió crear un \textit{wrapper} que se ubique por encima de los drivers de bajo nivel de UART, SPI, ADC y GPIO provistos por la HAL. De esta forma se genera un nivel mas de abstracción que provee un conjunto de funciones o servicios para interactuar con el EDFA, funcionando a modo de puente entre éste y la aplicación de usuario (backend).
+
+
 
 \subsection{Driver del ADC}
 
-%\ref{tab:configADC}
+Para la lectura de los valores analógicos se decidió utilizar el driver del ADC mediante DMA. Esto trae la principal ventaja de que solo se necesita realizar la configuración del ADC una sola vez al comienzo del programa y luego el muestreo y la conversión de los valores se realizará automáticamente de forma periódica.
 
-%\begin{table}[H]
-%	\centering
-%	\caption{Configuración del ADC.}
-%	\begin{tabular}{l c}
-%		\toprule
-%		\textbf{Característica} & \textbf{Configuración} \\
-%		\midrule
-%		Multímetro			&  UNI-T 	 \\
-%		Fuente 				& XXX	     \\
-%
-%		\bottomrule
-%		\hline
-%	\end{tabular}
-%	\label{tab:configADC}
-%\end{table}
+En este caso esta implementación es particularmente útil debido a que se evita ocupar al procesador realizando la conversión manualmente y se puede atender a otras tareas. De esta forma, como el movimiento del dato convertido desde el periférico a la memoria se hace de forma automática cuando el programa requiera leer el dato del valor convertido, este ya estará disponible en memoria.
+
+La configuración completa del ADC se muestra en la tabla \ref{tab:configADC}.
+
+% no se si es necesaria la tabla. si terminan siendo pocos parametros mejor sacarla y solo mencionarlos
+
+\begin{table}[H]
+	\centering
+	\caption{Configuración del ADC.}
+	\begin{tabular}{l c}
+		\toprule
+		\textbf{Parámetro} & \textbf{Configuración}  \\
+		\midrule
+		Cantidad de bits		& X bits 	 		 \\
+		Modo de conversión		& Continua ?	     \\
+		Tasa de muestreo		& X Hz				 \\
+		Cantidad de muestras	& X muestras		 \\
+		\bottomrule
+		\hline
+	\end{tabular}
+	\label{tab:configADC}
+\end{table}
 
 %\begin{figure}[H]
 %\centering
@@ -235,20 +258,25 @@ Con el objetivo de generar una estructura jerárquica por capas, se decidió cre
 
 \subsection{Driver de la pantalla LCD}
 
-%\ref{tab:configSPI}
+Como se mencionó en la sección X, cada bus SPI tiene una interfaz dedicada en el microcontrolador funcionando en modo maestro. La tabla \ref{tab:configSPI} muestra un resumen de la configuración de ambas.
 
-%\begin{table}[H]
-%	\centering
-%	\caption{Configuración de los SPI del LCD.}
-%	\begin{tabular}{l c}
-%		\toprule
-%		\textbf{Característica} & \textbf{Configuración} \\
-%		\midrule
-%		Multímetro			&  UNI-T 	\\
-%		Fuente 				& XXX	    \\
-%
-%		\bottomrule
-%		\hline
-%	\end{tabular}
-%	\label{tab:configSPI}
-%\end{table}
+\begin{table}[H]
+	\centering
+	\caption{Configuración de los SPI del LCD.}
+	\begin{tabular}{l c}
+		\toprule
+		\textbf{Característica} & \textbf{Configuración} \\
+		\midrule
+		Velocidad de transmisión		& X MHz 		\\
+		Ancho de palabra 				& X bits	    \\
+
+		\bottomrule
+		\hline
+	\end{tabular}
+	\label{tab:configSPI}
+\end{table}
+
+Debido a la cantidad de píxeles de la pantalla LCD y el tiempo que le toma al programa actualizarla en su totalidad, se decidió actualizarla a una tasa de diez veces por segundo. Aumentar esta velocidad no tendría sentido ya que sería imperceptible la diferencia para el ojo humano. En cuanto a las variables, para poder ser legibles, sus valores se actualizan solamente dos veces por segundo.
+
+\subsection{Driver de UART}
+
