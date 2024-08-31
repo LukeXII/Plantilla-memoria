@@ -46,6 +46,7 @@
 En este capítulo se realiza una explicación detallada del diseño del hardware, como se utilizó cada componente principal y su conexión con el microcontrolador. Asimismo, se especifica la estructura general del firmware en el marco de FreeRTOS y las principales rutinas de bajo nivel.
 
 \section{Dispositivo implementado}
+\label{sec:dispImp}
 
 Es importante aclarar que el dispositivo que se desarrolló e integró como solución a lo planteado en el capítulo 1 no es el producto final destinado a usarse. La placa construida se puede interpretar como un prototipo de desarrollo o una versión de ingeniería ya que tiene dos objetivos: verificar el funcionamiento del hardware diseñado y desarrollar el firmware que se ejecutará en el microcontrolador. 
 
@@ -98,9 +99,9 @@ La figura \ref{fig:estrucInt} muestra un diagrama detallado y completo de todo e
 
 El principio de funcionamiento del monitor de corriente se basa en un resistor \textit{shunt}, el cual se coloca sobre la alimentación, en serie con la línea a la que se desea conocer el consumo de corriente. Para que este resistor no disipe mucha potencia y disminuya la tensión de la línea, su valor de resistencia es de 10 \si{m\ohm}. Mientras más chico sea su valor más despreciables son los efectos negativos que introducirá.
 
-Sobre este resistor cae una tensión proporcional a la corriente consumida por el EDFA. Como el valor máximo de corriente consumida por el amplificador se encuentra cerca de los 2.5 A, sobre el resistor caerán como máximo 25 mV, lo que frente a los 5 V de la alimentación no representa un valor significativo. Luego de sensarla, el chip amplifica 100 veces ésta tensión diferencial y la conecta a uno de sus pines.
+Sobre este resistor cae una tensión proporcional a la corriente consumida por el EDFA. Como el valor máximo de corriente consumida por el amplificador se encuentra cerca de los 2.5 A, sobre el resistor caen como máximo 25 mV, lo que frente a los 5 V de la alimentación no representa un valor significativo. Luego de sensarla, el chip amplifica 100 veces ésta tensión diferencial y la conecta a uno de sus pines de salida.
 
-Al ser éste un valor analógico, para poder ser interpretado se lo debe convertir a digital. Para esto se usó el ADC incorporado en el microcontrolador, conectando a uno de sus pines la señal de salida del monitor de corriente. La tensión máxima que alcanzará el pin será de aproximadamente 2.5 V, lo que se encuentra dentro de la tensión de referencia del ADC. Un esquema de esta conexión se puede ver en la figura \ref{fig:funcMonitor}.
+Al ser éste un valor analógico, para poder ser interpretado se lo debe convertir a digital. Para esto se usa el ADC incorporado en el microcontrolador, conectando a uno de sus pines la señal de salida del monitor de corriente. La tensión máxima que puede alcanzar la señal es de aproximadamente 2.5 V, lo que se encuentra por debajo de la tensión de referencia del ADC. Un esquema de esta conexión se puede ver en la figura \ref{fig:funcMonitor}.
 
 \begin{figure}[H]
 \centering
@@ -115,7 +116,7 @@ Por otro lado, el INA301A3 cuenta con un pin de salida denominado ALERT que se a
 
 La línea de 5 V de alimentación del EDFA es controlada mediante la activación de un relé (código APAN3103), lo que significa que la conexión y desconexión es mecánica. Esto se decidió implementarlo así debido a los lineamientos de protecciones necesarios para el hardware de vuelo.
 
-Como el relé necesita de 36.7 mA para activarse, no se puede conectar directamente a un pin de salida del microcontrolador porque no podrá suministrar la corriente necesaria. Por ésta razón la activación se realiza mediante un transistor (código MMBT2222), funcionando como una llave (en modo saturación o corte). De ésta forma, la corriente para la activación de la bobina del relé la proveerá directamente la fuente de alimentación de 3.3 V.
+Como el relé necesita de 36.7 mA para activarse, no se puede conectar directamente a un pin de salida del microcontrolador ya que no puede suministrar la corriente necesaria. Por ésta razón la activación se realiza mediante un transistor (código MMBT2222), funcionando como una llave (en modo saturación o corte). De ésta forma, la corriente para la activación de la bobina del relé la provee directamente la fuente de alimentación de 3.3 V.
 
 \subsection{Medición de tensión del amplificador}
 
@@ -123,7 +124,7 @@ Hacer una medición de la tensión de la línea es mucho mas sencillo que hacer 
 
 En este caso, como la tensión de alimentación del EDFA es 5 V y la tensión de referencia del ADC del microcontrolador es 3.3 V, se la debe atenuar de forma que esta se encuentre dentro del fondo de escala del ADC.
 
-Considerando que se desea medir una sobretensión de por lo menos 1 V en la alimentación, se optó por atenuar la tensión del EDFA a la mitad, resultando en un fondo de escala de 6.6 V.
+Considerando que se desea medir una sobretensión de por lo menos 1 V en la alimentación, se opta por atenuar la tensión del EDFA a la mitad, resultando en un fondo de escala de 6.6 V.
 
 Esta técnica permite medir tensiones mayores a la de referencia del ADC pero trae como desventaja que se pierde precisión debido al ruido y la tolerancia de los resistores.
 
@@ -139,6 +140,7 @@ En la figura \ref{fig:monTension} se puede ver el circuito implementado.
 El capacitor C6 forma un filtro RC para eliminar el ruido de alta frecuencia que pueda tener la línea.
 
 \subsection{Conexión a pantalla LCD}
+\label{sec:conLCD}
 
 Como se mencionó en la subsección \ref{sec:pantLCD}, la pantalla LCD tiene dos circuitos integrados con SPI: uno para el control de la pantalla y otro para el control de la función táctil. Si bien ambas interfaces se podrían haber conectado al mismo periférico SPI del microcontrolador en modo multi-esclavo de la forma en que se muestra en la figura \ref{fig:multiSlave}, se decidió usar uno para cada uno de forma individual. La principal razón de ésto es porque facilita la implementación del firmware ya que permite usar ambos controladores de forma independiente y a distintas velocidades sin necesidad de reconfiguración.
 
@@ -195,19 +197,35 @@ El proceso del backend tiene como tarea principal ejecutar una máquina de estad
 
 Por otro lado, el proceso del frontend esta asociado al display LCD y tiene como objetivo principal interactuar directamente con el usuario. Para ello debe leer la información de salida del backend, presentarla en la pantalla y también detectar cuando (y donde) el usuario presiona sobre ella y enviar estos datos al backend (recursos compartidos). 
 
-
+%\begin{figure}[H]
+%\centering
+%\includegraphics[width=0.5\textwidth]{./Figures/arqFW.png}
+%\caption{Arquitectura de firmware.}
+%\label{fig:arqFW}
+%\end{figure}
 
 \subsection{Máquina de estados}
 
 La máquina de estados implementada en el firmware representa de forma análoga el estado del amplificador en todo momento. Los estados definidos para este dentro del programa son:
 
 \begin{itemize}
-\item Desconectado: la alimentación se encuentra desconectada
-\item Conectado: energizado
-\item Activo: la salida óptica se encuentra prendida
+\item Desconectado: alimentación del amplificador desconectada (relé desactivado)
+\item Conectado: amplificador energizado (relé activado)
+\item Activo: salida óptica del amplificador encendida
+\item Alimentación fuera de rango: 
+\item Alarma encendida: 
 \end{itemize}
 
-En la \ref{fig:diagFSM} se puede ver un diagrama de transiciones simplificado de la máquina de estados implementada 
+Todas las posibles transiciones entre estos estados son disparadas por eventos que pueden ocurrir en cualquier momento, y ejecutan una acción dependiendo del estado en que se encuentre la máquina. La cantidad de eventos que pueden llegar a la máquina son muchos y por simplicidad solo se mencionan algunos a modo de ejemplo:
+
+\begin{itemize}
+\item Eventos de la alimentación: sobretensión, sobrecorriente, etc.
+\item Eventos de la pantalla táctil: botón de encendido presionado, botón de apagado presionado, etc.
+\item Eventos del amplificador: alarma de potencia de entrada encendida, potencia óptica de salida excedida, etc.
+\item Eventos de la consola: comando de conexión de alimentación recibido, comando de encendido de salida del amplificador recibido, comando inválido, etc.
+\end{itemize}
+
+En la figura \ref{fig:diagFSM} se puede ver un diagrama de transiciones simplificado de la máquina de estados implementada 
 
 %\begin{figure}[H]
 %\centering
@@ -218,9 +236,14 @@ En la \ref{fig:diagFSM} se puede ver un diagrama de transiciones simplificado de
 
 \subsection{Capa de abstracción del amplificador}
 
-Con el objetivo de generar una estructura jerárquica por capas, se decidió crear un \textit{wrapper} que se ubique por encima de los drivers de bajo nivel de UART, SPI, ADC y GPIO provistos por la HAL. De esta forma se genera un nivel mas de abstracción que provee un conjunto de funciones o servicios para interactuar con el EDFA, funcionando a modo de puente entre éste y la aplicación de usuario (backend).
+Con el objetivo de generar una estructura jerárquica por capas, se decidió crear un \textit{wrapper} que se ubique por encima de los drivers de bajo nivel de UART, SPI, ADC y GPIO provistos por la HAL del fabricante (ST). De esta forma se genera un nivel mas de abstracción que provee un conjunto de funciones o servicios para interactuar con el EDFA, funcionando a modo de puente entre éste y la aplicación de usuario (backend).
 
-
+%\begin{figure}[H]
+%\centering
+%\includegraphics[width=0.5\textwidth]{./Figures/diagFSM.jpg}
+%\caption{Máquina de estados.}
+%\label{fig:diagFSM}
+%\end{figure}
 
 \subsection{Driver del ADC}
 
@@ -239,10 +262,10 @@ La configuración completa del ADC se muestra en la tabla \ref{tab:configADC}.
 		\toprule
 		\textbf{Parámetro} & \textbf{Configuración}  \\
 		\midrule
-		Cantidad de bits		& X bits 	 		 \\
-		Modo de conversión		& Continua ?	     \\
-		Tasa de muestreo		& X Hz				 \\
-		Cantidad de muestras	& X muestras		 \\
+		Cantidad de bits		& 12 bits 	 		 \\
+		Modo de conversión		& Continua   \\
+		Tasa de muestreo		& 2.4 Msps				 \\
+		Cantidad de muestras	& 4 \\
 		\bottomrule
 		\hline
 	\end{tabular}
@@ -258,18 +281,19 @@ La configuración completa del ADC se muestra en la tabla \ref{tab:configADC}.
 
 \subsection{Driver de la pantalla LCD}
 
-Como se mencionó en la sección X, cada bus SPI tiene una interfaz dedicada en el microcontrolador funcionando en modo maestro. La tabla \ref{tab:configSPI} muestra un resumen de la configuración de ambas.
+Como se mencionó en la sección \ref{sec:conLCD}, cada bus SPI (LCD y pantalla táctil) tiene una interfaz dedicada en el microcontrolador funcionando este en modo maestro. La tabla \ref{tab:configSPI} muestra un resumen de la configuración de ambos controladores.
 
 \begin{table}[H]
 	\centering
 	\caption{Configuración de los SPI del LCD.}
-	\begin{tabular}{l c}
+	\begin{tabular}{l c c}
 		\toprule
-		\textbf{Característica} & \textbf{Configuración} \\
+		\textbf{Parámetro} & \textbf{LCD} & \textbf{Pantalla táctil} \\
 		\midrule
-		Velocidad de transmisión		& X MHz 		\\
-		Ancho de palabra 				& X bits	    \\
-
+		Velocidad de transmisión	& 8 Mbps & 4 Mbps	\\
+		Ancho de palabra 				& 8 bits & 8 bits	    \\
+		Polaridad							& Baja & Baja \\
+		Dirección							& Bidireccional & Bidireccional \\
 		\bottomrule
 		\hline
 	\end{tabular}
