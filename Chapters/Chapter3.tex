@@ -82,7 +82,7 @@ El PCB fue enviado a fabricar a la empresa china JLC y consta de 4 capas: dos pl
 
 \section{Arquitectura de hardware}
 
-La arquitectura general de la placa fue diseñada para tener como unidad de procesamiento principal al microcontrolador STM32 de la placa Nucleo y a la pantalla LCD como periférico de entrada y salida del usuario.
+La arquitectura general de la placa fue diseñada para tener como unidad de procesamiento principal al microcontrolador STM32 de la placa Nucleo y a la pantalla LCD como periférico de entrada y salida.
 
 \subsection{Diagrama del dispositivo}
 
@@ -154,15 +154,6 @@ Por otro lado, el controlador del display también tiene señales con funciones 
 \item LED: permite controlar la intensidad de luz de la pantalla (denominada \textit{backlight})
 \end{itemize}
 
-Teniendo en cuenta ésto la conexión entre el módulo del display y el microcontrolador resulta como se ve en la figura \ref{fig:conexionLCD}.
-
-%\begin{figure}[H]
-%\centering
-%\includegraphics[width=0.5\textwidth]{./Figures/diagFSM.jpg}
-%\caption{Máquina de estados.}
-%\label{fig:conexionLCD}
-%\end{figure}
-
 \subsection{Entradas y salidas digitales}
 
 En la tabla \ref{tab:señalesConector} se detallan las señales de entrada y salida digitales del puerto del EDFA. Las salidas son señales de alarmas y las de entrada, de control.
@@ -197,6 +188,8 @@ El proceso del backend tiene como tarea principal ejecutar una máquina de estad
 
 Por otro lado, el proceso del frontend esta asociado al display LCD y tiene como objetivo principal interactuar directamente con el usuario. Para ello debe leer la información de salida del backend, presentarla en la pantalla y también detectar cuando (y donde) el usuario presiona sobre ella y enviar estos datos al backend (recursos compartidos). 
 
+En la figura \ref{fig:arqFW} se puede ver un diagrama de como se relacionan ambas tareas entre si y con el hardware.
+
 %\begin{figure}[H]
 %\centering
 %\includegraphics[width=0.5\textwidth]{./Figures/arqFW.png}
@@ -212,8 +205,8 @@ La máquina de estados implementada en el firmware representa de forma análoga 
 \item Desconectado: alimentación del amplificador desconectada (relé desactivado)
 \item Conectado: amplificador energizado (relé activado)
 \item Activo: salida óptica del amplificador encendida
-\item Alimentación fuera de rango: 
-\item Alarma encendida: 
+\item Alimentación fuera de rango: valor de la alimentación del EDFA fuera del rango permitido
+\item Alarma encendida: alarma del EDFA encendida (cualquiera de ellas)
 \end{itemize}
 
 Todas las posibles transiciones entre estos estados son disparadas por eventos que pueden ocurrir en cualquier momento, y ejecutan una acción dependiendo del estado en que se encuentre la máquina. La cantidad de eventos que pueden llegar a la máquina son muchos y por simplicidad solo se mencionan algunos a modo de ejemplo:
@@ -222,38 +215,38 @@ Todas las posibles transiciones entre estos estados son disparadas por eventos q
 \item Eventos de la alimentación: sobretensión, sobrecorriente, etc.
 \item Eventos de la pantalla táctil: botón de encendido presionado, botón de apagado presionado, etc.
 \item Eventos del amplificador: alarma de potencia de entrada encendida, potencia óptica de salida excedida, etc.
-\item Eventos de la consola: comando de conexión de alimentación recibido, comando de encendido de salida del amplificador recibido, comando inválido, etc.
+\item Eventos de la consola de control: comando de conexión de alimentación recibido, comando de encendido de salida del amplificador recibido, comando inválido, etc.
 \end{itemize}
 
-En la figura \ref{fig:diagFSM} se puede ver un diagrama de transiciones simplificado de la máquina de estados implementada 
+En la figura \ref{fig:diagFSM} se puede ver un diagrama de transiciones simplificado de la máquina de estados implementada (estados y eventos).
 
-%\begin{figure}[H]
-%\centering
-%\includegraphics[width=0.5\textwidth]{./Figures/diagFSM.jpg}
-%\caption{Máquina de estados.}
-%\label{fig:diagFSM}
-%\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{./Figures/diagFSM.png}
+\caption{Diagrama simplificado de la máquina de estados.}
+\label{fig:diagFSM}
+\end{figure}
 
 \subsection{Capa de abstracción del amplificador}
 
-Con el objetivo de generar una estructura jerárquica por capas, se decidió crear un \textit{wrapper} que se ubique por encima de los drivers de bajo nivel de UART, SPI, ADC y GPIO provistos por la HAL del fabricante (ST). De esta forma se genera un nivel mas de abstracción que provee un conjunto de funciones o servicios para interactuar con el EDFA, funcionando a modo de puente entre éste y la aplicación de usuario (backend).
+Con el objetivo de generar una estructura jerárquica por capas, se decidió crear un \textit{wrapper} que se ubique por encima de los drivers de la pantalla LCD, de la pantalla táctil, de la UART, de las señales analógicas y de los GPIO provistos por la HAL del fabricante (ST). A su vez, los drivers de la pantalla LCD y la pantalla táctil se implementan con base en el driver de SPI, ya que debe hacer uso de las funciones de bajo nivel para el envío y recepción de datos y comandos. Para el ADC también se creó una pequeña capa superior que permite obtener todos los valores de las señales analógicas en formato de punto flotante.
 
-%\begin{figure}[H]
-%\centering
-%\includegraphics[width=0.5\textwidth]{./Figures/diagFSM.jpg}
-%\caption{Máquina de estados.}
-%\label{fig:diagFSM}
-%\end{figure}
+De esta forma se genera un nivel mas de abstracción que provee un conjunto de funciones o servicios para interactuar con el EDFA, funcionando a modo de puente entre éste y la aplicación de usuario (backend). En la figura \ref{fig:halAmp} se puede ver la estructura de esta capa junto con sus distintos niveles.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{./Figures/halamp.png}
+\caption{Capa de abstracción del EDFA.}
+\label{fig:halAmp}
+\end{figure}
 
 \subsection{Driver del ADC}
 
 Para la lectura de los valores analógicos se decidió utilizar el driver del ADC mediante DMA. Esto trae la principal ventaja de que solo se necesita realizar la configuración del ADC una sola vez al comienzo del programa y luego el muestreo y la conversión de los valores se realizará automáticamente de forma periódica.
 
-En este caso esta implementación es particularmente útil debido a que se evita ocupar al procesador realizando la conversión manualmente y se puede atender a otras tareas. De esta forma, como el movimiento del dato convertido desde el periférico a la memoria se hace de forma automática cuando el programa requiera leer el dato del valor convertido, este ya estará disponible en memoria.
+En este caso esta implementación es particularmente útil debido a que se evita ocupar al procesador realizando la conversión manualmente y se puede atender a otras tareas. De esta forma, como el movimiento del dato convertido desde el periférico a la memoria se hace de forma automática, cuando el programa requiere leer el dato del valor convertido este ya se encuentra disponible en memoria.
 
-La configuración completa del ADC se muestra en la tabla \ref{tab:configADC}.
-
-% no se si es necesaria la tabla. si terminan siendo pocos parametros mejor sacarla y solo mencionarlos
+Para filtrar ruido y posibles valores espurios que tome la señal analógica se aplica un pequeño filtro promediando 10 muestras continuas en cada canal usado. La configuración completa del ADC se muestra en la tabla \ref{tab:configADC}.
 
 \begin{table}[H]
 	\centering
@@ -262,22 +255,19 @@ La configuración completa del ADC se muestra en la tabla \ref{tab:configADC}.
 		\toprule
 		\textbf{Parámetro} & \textbf{Configuración}  \\
 		\midrule
+		Cantidad de canales usados & 4					\\
 		Cantidad de bits		& 12 bits 	 		 \\
 		Modo de conversión		& Continua   \\
 		Tasa de muestreo		& 2.4 Msps				 \\
-		Cantidad de muestras	& 4 \\
+		Cantidad de muestras promediadas	& 10 \\
+		Disparo de conversión	& Por software \\
 		\bottomrule
 		\hline
 	\end{tabular}
 	\label{tab:configADC}
 \end{table}
 
-%\begin{figure}[H]
-%\centering
-%\includegraphics[width=0.5\textwidth]{./Figures/rutinaADC.jpg}
-%\caption{Rutina de adquisición de valores analógicos.}
-%\label{fig:rutinaADC}
-%\end{figure}
+Siendo 12 la cantidad de bits con la que trabaja el ADC y la tensión de referencia del microcontrolador de 3.3 V se tienen 4095 valores de tensión representables, lo que da una resolución de 0.8 mV.
 
 \subsection{Driver de la pantalla LCD}
 
@@ -300,7 +290,35 @@ Como se mencionó en la sección \ref{sec:conLCD}, cada bus SPI (LCD y pantalla 
 	\label{tab:configSPI}
 \end{table}
 
-Debido a la cantidad de píxeles de la pantalla LCD y el tiempo que le toma al programa actualizarla en su totalidad, se decidió actualizarla a una tasa de diez veces por segundo. Aumentar esta velocidad no tendría sentido ya que sería imperceptible la diferencia para el ojo humano. En cuanto a las variables, para poder ser legibles, sus valores se actualizan solamente dos veces por segundo.
+Debido a la cantidad de píxeles de la pantalla LCD y el tiempo que le toma al programa actualizarla en su totalidad, se decidió actualizarla a una tasa de diez veces por segundo. Teniendo en cuenta que en esta aplicación los eventos visibles ocurren a baja velocidad, aumentar la tasa de muestreo no aportaría una mejora significativa. En cuanto a las variables, para poder ser legibles, sus valores se actualizan solamente dos veces por segundo.
 
 \subsection{Driver de UART}
 
+
+
+\subsection{Consola de control}
+
+%habria que mencionar en alguno de las primeras secciones la existencia de la consola de control
+
+La consola de control brinda una pequeña interfaz que funciona como intermediario entre el usuario y el amplificador, permitiéndole consultar y controlar su estado en todo momento. También se utiliza para ingresar valores al dispositivo, tales como los niveles de tensión y corriente máximos admitidos.
+
+La consola corre sobre la tarea del backend y puede inyectar eventos a la máquina de estados. Su funcionamiento es similar al de cualquier consola, usando un esquema de comando y argumento. La 
+
+\begin{table}[H]
+	\centering
+	\caption{Comandos/argumentos de la consola.}
+	\begin{tabular}{l c p{8cm}}
+		\toprule
+		\textbf{Comando} & \textbf{Argumento} & \textbf{Descripción} \\
+		\midrule
+		edfa	& on & Conecta la alimentación del EDFA	\\
+		edfa	& off & Desconecta la alimentación del EDFA	 \\
+		out	& on & Prende la salida óptica del EDFA \\
+		out   & off & Apaga la salida óptica del EDFA \\
+		status & - & Indica el estado general del EDFA y los valores de las variables \\
+		reset & - & Envía la señal de reset al microcontrolador del EDFA \\
+		\bottomrule
+		\hline
+	\end{tabular}
+	\label{tab:tablacmd}
+\end{table}
