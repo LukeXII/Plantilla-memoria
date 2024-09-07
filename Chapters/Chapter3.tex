@@ -85,15 +85,16 @@ El PCB fue enviado a fabricar a la empresa china JLC y consta de 4 capas: dos pl
 La arquitectura general de la placa fue diseñada para tener como unidad de procesamiento principal al microcontrolador STM32 de la placa Nucleo y a la pantalla LCD como periférico de entrada y salida.
 
 \subsection{Diagrama del dispositivo}
+\label{sec:diagDisp}
 
-La figura \ref{fig:estrucInt} muestra un diagrama detallado y completo de todo el hardware de la placa y el conexionado entre sus distintas partes. También incluye los periféricos utilizados en el microcontrolador.
+La figura \ref{fig:estrucInt} muestra un diagrama completo de todo el hardware de la placa fabricada, sus entradas, salidas y el conexionado entre sus distintas partes. También incluye los periféricos utilizados en el microcontrolador y la cantidad de lineas de cada conexión.
 
-%\begin{figure}[H]
-%\centering
-%\includegraphics[width=0.85\textwidth]{./Figures/.png}
-%\caption{Estructura interna del sistema}
-%\label{fig:estrucInt}
-%\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{./Figures/diagDisp.png}
+\caption{Diagrama completo del hardware implementado.}
+\label{fig:estrucInt}
+\end{figure}
 
 \subsection{Medición de corriente del amplificador}
 
@@ -142,7 +143,7 @@ El capacitor C6 forma un filtro RC para eliminar el ruido de alta frecuencia que
 \subsection{Conexión a pantalla LCD}
 \label{sec:conLCD}
 
-Como se mencionó en la subsección \ref{sec:pantLCD}, la pantalla LCD tiene dos circuitos integrados con SPI: uno para el control de la pantalla y otro para el control de la función táctil. Si bien ambas interfaces se podrían haber conectado al mismo periférico SPI del microcontrolador en modo multi-esclavo de la forma en que se muestra en la figura \ref{fig:multiSlave}, se decidió usar uno para cada uno de forma individual. La principal razón de ésto es porque facilita la implementación del firmware ya que permite usar ambos controladores de forma independiente y a distintas velocidades sin necesidad de reconfiguración.
+Como se puede ver en la figura \ref{fig:estrucInt}, la pantalla LCD tiene dos controladores con SPI: uno para el control de la pantalla y otro para el control de la función táctil. Si bien ambas interfaces se podrían haber conectado al mismo periférico SPI del microcontrolador en modo multi-esclavo de la forma en que se muestra en la figura \ref{fig:multiSlave}, se decidió usar uno para cada uno de forma individual. La principal razón de ésto es porque facilita la implementación del firmware ya que permite usar ambos controladores de forma independiente y a distintas velocidades sin necesidad de reconfiguración.
 
 El controlador de la función táctil tiene, además de las señales del bus SPI, una señal denominada IRQ que se activa cuando se detecta que la pantalla está siendo tocada. Ésta señal sirve para ser usada como interrupción en el programa del microcontrolador.
 
@@ -190,12 +191,12 @@ Por otro lado, el proceso del frontend esta asociado al display LCD y tiene como
 
 En la figura \ref{fig:arqFW} se puede ver un diagrama de como se relacionan ambas tareas entre si y con el hardware.
 
-%\begin{figure}[H]
-%\centering
-%\includegraphics[width=0.5\textwidth]{./Figures/arqFW.png}
-%\caption{Arquitectura de firmware.}
-%\label{fig:arqFW}
-%\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{./Figures/arqFW.png}
+\caption{Arquitectura de firmware.}
+\label{fig:arqFW}
+\end{figure}
 
 \subsection{Máquina de estados}
 
@@ -255,10 +256,10 @@ Para filtrar ruido y posibles valores espurios que tome la señal analógica se 
 		\toprule
 		\textbf{Parámetro} & \textbf{Configuración}  \\
 		\midrule
-		Cantidad de canales usados & 4					\\
+		Cantidad de canales usados & 4		\\
 		Cantidad de bits		& 12 bits 	 		 \\
 		Modo de conversión		& Continua   \\
-		Tasa de muestreo		& 2.4 Msps				 \\
+		Tasa de muestreo		& 600 Ksps	 \\
 		Cantidad de muestras promediadas	& 10 \\
 		Disparo de conversión	& Por software \\
 		\bottomrule
@@ -294,7 +295,27 @@ Debido a la cantidad de píxeles de la pantalla LCD y el tiempo que le toma al p
 
 \subsection{Driver de UART}
 
+El controlador de UART para ambas interfaces se configura de modo que genere una interrupción en el programa luego de recibir una cadena de caracteres. Esto funciona de forma que los caracteres se guardan en el buffer de entrada hasta que la linea de datos pasa a estar inactiva.
 
+En la tabla \ref{tab:configUART} se puede ver la configuración de ambas interfaces UART.
+
+\begin{table}[H]
+	\centering
+	\caption{Configuración de la interfaz UART.}
+	\begin{tabular}{l c}
+		\toprule
+		\textbf{Parámetro} & \textbf{Configuración} \\
+		\midrule
+		Velocidad de transmisión	& 115200 baudios \\
+		Ancho de palabra 				& 8 bits \\
+		Bits de stop						& 1 bit \\
+		Paridad							    & Ninguna \\
+		Control de hardware			& Ninguno \\
+		\bottomrule
+		\hline
+	\end{tabular}
+	\label{tab:configUART}
+\end{table}
 
 \subsection{Consola de control}
 
@@ -302,7 +323,7 @@ Debido a la cantidad de píxeles de la pantalla LCD y el tiempo que le toma al p
 
 La consola de control brinda una pequeña interfaz que funciona como intermediario entre el usuario y el amplificador, permitiéndole consultar y controlar su estado en todo momento. También se utiliza para ingresar valores al dispositivo, tales como los niveles de tensión y corriente máximos admitidos.
 
-La consola corre sobre la tarea del backend y puede inyectar eventos a la máquina de estados. Su funcionamiento es similar al de cualquier consola, usando un esquema de comando y argumento. La 
+La consola corre sobre la tarea del backend y puede inyectar eventos a la máquina de estados. Su funcionamiento es similar al de cualquier consola, usando un esquema de comando y argumento. La tabla \ref{tab:tablacmd} lista todos los pares comando/argumento que puede recibir la consola.
 
 \begin{table}[H]
 	\centering
@@ -317,6 +338,11 @@ La consola corre sobre la tarea del backend y puede inyectar eventos a la máqui
 		out   & off & Apaga la salida óptica del EDFA \\
 		status & - & Indica el estado general del EDFA y los valores de las variables \\
 		reset & - & Envía la señal de reset al microcontrolador del EDFA \\
+		ilim	& (valor) & Establece el limite de corriente al valor del argumento \\
+		vul	& (valor) & Establece el limite superior de tensión al valor del argumento \\
+		vll		& (valor) & Establece el limite inferior de tensión al valor del argumento \\
+		oipl	& (valor) & Establece el limite de potencia de entrada al valor del argumento \\
+		oopl & (valor) & Establece el limite de potencia de salida al valor del argumento \\
 		\bottomrule
 		\hline
 	\end{tabular}

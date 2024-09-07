@@ -25,6 +25,8 @@ headsepline, % Uncomment to get a line under the header
 ]{MastersDoctoralThesis} % The class file specifying the document structure
 
 \usepackage{float}
+\usepackage{rotating}
+\usepackage{pdflscape}
 
 %----------------------------------------------------------------------------------------
 %	INFORMACIÓN DE LA MEMORIA
@@ -136,9 +138,13 @@ El sistema fue desarrollado sobre arquitectura ARM utilizando un sistema operati
 % Incluir los apéndices de la memoria como archivos separadas desde la carpeta Appendices
 % Descomentar las líneas a medida que se escriben los apéndices
 
-%\include{Appendices/AppendixA}
+\begin{landscape}
+
+\include{Appendices/AppendixA}
 %\include{Appendices/AppendixB}
 %\include{Appendices/AppendixC}
+
+\end{landscape}
 
 %----------------------------------------------------------------------------------------
 %	BIBLIOGRAPHY

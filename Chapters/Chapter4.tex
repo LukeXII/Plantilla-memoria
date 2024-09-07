@@ -8,7 +8,7 @@
 %	CHAPTER 4
 %----------------------------------------------------------------------------------------
 
-En este capítulo se explica cómo se llevaron a cabo las pruebas de validación de hardware y software a las que fue sometido el dispositivo, los bancos de ensayos e instrumentos utilizados y los resultados obtenidos.
+En este capítulo se explica cómo se llevaron a cabo las pruebas de validación de hardware y software a las que fue sometido el dispositivo, los bancos de ensayos, instrumentos utilizados y los resultados obtenidos.
 
 \section{Instrumental utilizado}
 
@@ -36,11 +36,13 @@ Para poder ejecutar las pruebas de integración de hardware y software se requir
 
 \section{Banco de ensayos}
 
+En la figura \ref{tab:instrumentos} se puede ver una foto de 
+
 %\ref{fig:setupEnsayos}
 
 %\begin{figure}[H]
 %\centering
-%\includegraphics[width=0.75\textwidth]{./Figures/func_monitor.png}
+%\includegraphics[width=0.75\textwidth]{./Figures/setupEnsayos.png}
 %\caption{Esquema del monitor de corriente}
 %\label{fig:setupEnsayos}
 %\end{figure}
@@ -50,7 +52,7 @@ Para poder ejecutar las pruebas de integración de hardware y software se requir
 
 % mencionar aca que hay algunas pruebas de hardware como la del monitor de tension y de las señales analogicas que no tiene sentido probarlas porque son triviales
 
-en este caso, la mayoría de los componentes del hardware no son complejos y su funcionamiento es bastante trivial. Por esta razón, en general solo basta con medir continuidad en la placa o valores de tensión para concluir que el hardware funciona correctamente.
+en este caso, el diseño del dispositivo no es complejo y el funcionamiento de las distintas partes del hardware es trivial. En general, solo basta con medir continuidad o valores de tensión en ciertos puntos para concluir que funcionan correctamente. Los únicos casos para los cuales es necesario realizar una prueba
 
 \subsection{Pruebas del monitor de corriente}
 
@@ -62,6 +64,8 @@ en este caso, la mayoría de los componentes del hardware no son complejos y su 
 
 \section{Pruebas de firmware}
 \label{sec:pruebasFW}
+
+
 
 \subsection{Pruebas del monitor de tensión}
 
@@ -80,7 +84,7 @@ en este caso, la mayoría de los componentes del hardware no son complejos y su 
 \subsection{Pruebas de las alarmas y señales de control}
 % mostrar directamente que se prenden en la pantalla tactil ???
 
-\section{Pruebas Integrales}
+\section{Pruebas de integración}
 \label{sec:pruebasInt}
 
-Las pruebas integrales tienen como objetivo probar la interacción del hardware y el firmware entre sí, es decir, el funcionamiento del sistema como una unidad.
+Las pruebas de integración tienen como objetivo probar la interacción del hardware y el firmware entre sí, es decir, el funcionamiento del sistema como una unidad.
