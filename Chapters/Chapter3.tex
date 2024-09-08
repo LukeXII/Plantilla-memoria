@@ -54,7 +54,7 @@ La versión armada para este trabajo, además de incluir los mismos componentes 
 
 Una vez alcanzados estos objetivos, la siguiente etapa consiste en desarrollar la placa del producto final, con el factor de forma adecuado para integrar y montar todos los componentes en una carcasa transportable. 
 
-El PCB fue enviado a fabricar a la empresa china JLC y consta de 4 capas: dos planos internos de referencia conectados a 3.3 V y GND y dos capas de señal (\textit{Top} y \textit{Bottom}). En la figura \ref{fig:placa1} y \ref{fig:placa2} se pueden ver dos fotos del PCB ensamblado sin el display ni la placa Nucleo conectados (lado superior y lado inferior respectivamente). Por último, en la figura \ref{fig:placa3} se puede ver la placa con ambos módulos conectados.
+El PCB fue enviado a fabricar a la empresa china JLC y consta de 4 capas: dos planos internos de referencia conectados a 3,3 V y GND y dos capas de señal (\textit{Top} y \textit{Bottom}). En la figura \ref{fig:placa1} y \ref{fig:placa2} se pueden ver dos fotos del PCB ensamblado sin el display ni la placa Nucleo conectados (lado superior y lado inferior respectivamente). Por último, en la figura \ref{fig:placa3} se puede ver la placa con ambos módulos conectados.
 
 \begin{figure}[H]
      \centering
@@ -100,14 +100,14 @@ La figura \ref{fig:estrucInt} muestra un diagrama completo de todo el hardware d
 
 El principio de funcionamiento del monitor de corriente se basa en un resistor \textit{shunt}, el cual se coloca sobre la alimentación, en serie con la línea a la que se desea conocer el consumo de corriente. Para que este resistor no disipe mucha potencia y disminuya la tensión de la línea, su valor de resistencia es de 10 \si{m\ohm}. Mientras más chico sea su valor más despreciables son los efectos negativos que introducirá.
 
-Sobre este resistor cae una tensión proporcional a la corriente consumida por el EDFA. Como el valor máximo de corriente consumida por el amplificador se encuentra cerca de los 2.5 A, sobre el resistor caen como máximo 25 mV, lo que frente a los 5 V de la alimentación no representa un valor significativo. Luego de sensarla, el chip amplifica 100 veces ésta tensión diferencial y la conecta a uno de sus pines de salida.
+Sobre este resistor cae una tensión proporcional a la corriente consumida por el EDFA. Como el valor máximo de corriente consumida por el amplificador se encuentra cerca de los 2,5 A, sobre el resistor caen como máximo 25 mV, lo que frente a los 5 V de la alimentación no representa un valor significativo. Luego de sensarla, el chip amplifica 100 veces esta tensión diferencial y la conecta a uno de sus pines de salida.
 
-Al ser éste un valor analógico, para poder ser interpretado se lo debe convertir a digital. Para esto se usa el ADC incorporado en el microcontrolador, conectando a uno de sus pines la señal de salida del monitor de corriente. La tensión máxima que puede alcanzar la señal es de aproximadamente 2.5 V, lo que se encuentra por debajo de la tensión de referencia del ADC. Un esquema de esta conexión se puede ver en la figura \ref{fig:funcMonitor}.
+Al ser éste un valor analógico, para poder ser interpretado se lo debe convertir a digital. Para esto se usa el ADC incorporado en el microcontrolador, conectando a uno de sus pines la señal de salida del monitor de corriente. La tensión máxima que puede alcanzar la señal es de aproximadamente 2,5 V, lo que se encuentra por debajo de la tensión de referencia del ADC. Un esquema de esta conexión se puede ver en la figura \ref{fig:funcMonitor}.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.75\textwidth]{./Figures/func_monitor.png}
-\caption{Esquema del monitor de corriente}
+\caption{Esquema del monitor de corriente.}
 \label{fig:funcMonitor}
 \end{figure}
 
@@ -117,15 +117,15 @@ Por otro lado, el INA301A3 cuenta con un pin de salida denominado ALERT que se a
 
 La línea de 5 V de alimentación del EDFA es controlada mediante la activación de un relé (código APAN3103), lo que significa que la conexión y desconexión es mecánica. Esto se decidió implementarlo así debido a los lineamientos de protecciones necesarios para el hardware de vuelo.
 
-Como el relé necesita de 36.7 mA para activarse, no se puede conectar directamente a un pin de salida del microcontrolador ya que no puede suministrar la corriente necesaria. Por ésta razón la activación se realiza mediante un transistor (código MMBT2222), funcionando como una llave (en modo saturación o corte). De ésta forma, la corriente para la activación de la bobina del relé la provee directamente la fuente de alimentación de 3.3 V.
+Como el relé necesita de 36,7 mA para activarse, no se puede conectar directamente a un pin de salida del microcontrolador ya que no puede suministrar la corriente necesaria. Por ésta razón la activación se realiza mediante un transistor (código MMBT2222), funcionando como una llave (en modo saturación o corte). De ésta forma, la corriente para la activación de la bobina del relé la provee directamente la fuente de alimentación de 3,3 V.
 
 \subsection{Medición de tensión del amplificador}
 
 Hacer una medición de la tensión de la línea es mucho mas sencillo que hacer una medición de la corriente, ya que esta se puede conectar directamente a un ADC si previamente se la atenúa o amplifica (dependiendo del caso).
 
-En este caso, como la tensión de alimentación del EDFA es 5 V y la tensión de referencia del ADC del microcontrolador es 3.3 V, se la debe atenuar de forma que esta se encuentre dentro del fondo de escala del ADC.
+En este caso, como la tensión de alimentación del EDFA es 5 V y la tensión de referencia del ADC del microcontrolador es 3,3 V, se la debe atenuar de forma que esta se encuentre dentro del fondo de escala del ADC.
 
-Considerando que se desea medir una sobretensión de por lo menos 1 V en la alimentación, se opta por atenuar la tensión del EDFA a la mitad, resultando en un fondo de escala de 6.6 V.
+Considerando que se desea medir una sobretensión de por lo menos 1 V en la alimentación, se opta por atenuar la tensión del EDFA a la mitad, resultando en un fondo de escala de 6,6 V.
 
 Esta técnica permite medir tensiones mayores a la de referencia del ADC pero trae como desventaja que se pierde precisión debido al ruido y la tolerancia de los resistores.
 
@@ -143,23 +143,23 @@ El capacitor C6 forma un filtro RC para eliminar el ruido de alta frecuencia que
 \subsection{Conexión a pantalla LCD}
 \label{sec:conLCD}
 
-Como se puede ver en la figura \ref{fig:estrucInt}, la pantalla LCD tiene dos controladores con SPI: uno para el control de la pantalla y otro para el control de la función táctil. Si bien ambas interfaces se podrían haber conectado al mismo periférico SPI del microcontrolador en modo multi-esclavo de la forma en que se muestra en la figura \ref{fig:multiSlave}, se decidió usar uno para cada uno de forma individual. La principal razón de ésto es porque facilita la implementación del firmware ya que permite usar ambos controladores de forma independiente y a distintas velocidades sin necesidad de reconfiguración.
+Como se puede ver en la figura \ref{fig:estrucInt}, la pantalla LCD tiene dos controladores con SPI: uno para el control de la pantalla y otro para el control de la función táctil. Si bien ambas interfaces se podrían haber conectado al mismo periférico SPI del microcontrolador en modo multi-esclavo de la forma en que se muestra en la figura \ref{fig:multiSlave}, se decidió usar uno para cada uno de forma individual. La principal razón de esto es porque facilita la implementación del firmware ya que permite usar ambos controladores de forma independiente y a distintas velocidades sin necesidad de reconfiguración.
 
-El controlador de la función táctil tiene, además de las señales del bus SPI, una señal denominada IRQ que se activa cuando se detecta que la pantalla está siendo tocada. Ésta señal sirve para ser usada como interrupción en el programa del microcontrolador.
+El controlador de la función táctil tiene, además de las señales del bus SPI, una señal denominada IRQ que se activa cuando se detecta que la pantalla está siendo tocada. Esta señal sirve para ser usada como interrupción en el programa del microcontrolador.
 
-Por otro lado, el controlador del display también tiene señales con funciones especiales. Éstas son:
+Por otro lado, el controlador del display también tiene señales con funciones especiales. Estas son:
 
 \begin{itemize}
-\item RESET: resetea el chip del controlador y, por lo tanto, toda la configuración del display y la información de cada píxel
-\item DC/RS: indica al controlador si la información que se está enviando por el SPI es un dato o un registro, dependiendo del nivel de la señal
-\item LED: permite controlar la intensidad de luz de la pantalla (denominada \textit{backlight})
+\item RESET: resetea el chip del controlador y, por lo tanto, toda la configuración del display y la información de cada píxel.
+\item DC/RS: indica al controlador si la información que se está enviando por el SPI es un dato o un registro, dependiendo del nivel de la señal.
+\item LED: permite controlar la intensidad de luz de la pantalla (denominada \textit{backlight}).
 \end{itemize}
 
 \subsection{Entradas y salidas digitales}
 
 En la tabla \ref{tab:señalesConector} se detallan las señales de entrada y salida digitales del puerto del EDFA. Las salidas son señales de alarmas y las de entrada, de control.
 
-Éstas señales se podrían conectar directamente a pines digitales del microcontrolador ya que son de tipo TTL 3.3 V, pero se decidió poner antes de este un \textit{buffer} de tres estados (código SN74LVC2244A). Los objetivos de ésta decisión son tres:
+Estas señales se podrían conectar directamente a pines digitales del microcontrolador ya que son de tipo TTL 3,3 V, pero se decidió poner antes de este un \textit{buffer} de tres estados (código SN74LVC2244A). Los objetivos de ésta decisión son tres:
 
 \begin{itemize}
 \item Generar niveles de tensión mejor definidos. Esto filtra ruido y rebote en las señales y facilita la detección en ambos extremos (EDFA y microcontrolador).
@@ -173,9 +173,9 @@ Para las señales de control se utilizaron LEDs que indican el estado de activac
 
 \subsection{Indicadores de potencia óptica}
 
-Las señales IN\_POW y OUT\_POW son analógicas y pueden tomar cualquier valor en el rango de 0 V a 3.3 V. Éste valor es proporcional a la potencia óptica medida por los detectores de entrada y salida del amplificador, el cual corresponde al rango de -10 dBm a 10 dBm para el de entrada y 5 dBm a 37 dBm para el de salida.
+Las señales IN\_POW y OUT\_POW son analógicas y pueden tomar cualquier valor en el rango de 0 V a 3,3 V. Éste valor es proporcional a la potencia óptica medida por los detectores de entrada y salida del amplificador, el cual corresponde al rango de -10 dBm a 10 dBm para el de entrada y 5 dBm a 37 dBm para el de salida.
 
-Para poder simular éstas señales se utilizaron dos resistores variables (código PTV09A-4020U-B103) que permiten variar de forma manual el valor de tensión entre 0 V y 3.3 V.
+Para poder simular estas señales se utilizaron dos resistores variables (código PTV09A-4020U-B103) que permiten variar de forma manual el valor de tensión entre 0 V y 3,3 V.
 
 \subsection{Interfaz UART}
 
@@ -203,11 +203,11 @@ En la figura \ref{fig:arqFW} se puede ver un diagrama de como se relacionan amba
 La máquina de estados implementada en el firmware representa de forma análoga el estado del amplificador en todo momento. Los estados definidos para este dentro del programa son:
 
 \begin{itemize}
-\item Desconectado: alimentación del amplificador desconectada (relé desactivado)
-\item Conectado: amplificador energizado (relé activado)
-\item Activo: salida óptica del amplificador encendida
-\item Alimentación fuera de rango: valor de la alimentación del EDFA fuera del rango permitido
-\item Alarma encendida: alarma del EDFA encendida (cualquiera de ellas)
+\item Desconectado: alimentación del amplificador desconectada (relé desactivado).
+\item Conectado: amplificador energizado (relé activado).
+\item Activo: salida óptica del amplificador encendida.
+\item Alimentación fuera de rango: valor de la alimentación del EDFA fuera del rango permitido.
+\item Alarma encendida: alarma del EDFA encendida (cualquiera de ellas).
 \end{itemize}
 
 Todas las posibles transiciones entre estos estados son disparadas por eventos que pueden ocurrir en cualquier momento, y ejecutan una acción dependiendo del estado en que se encuentre la máquina. La cantidad de eventos que pueden llegar a la máquina son muchos y por simplicidad solo se mencionan algunos a modo de ejemplo:
@@ -232,7 +232,7 @@ En la figura \ref{fig:diagFSM} se puede ver un diagrama de transiciones simplifi
 
 Con el objetivo de generar una estructura jerárquica por capas, se decidió crear un \textit{wrapper} que se ubique por encima de los drivers de la pantalla LCD, de la pantalla táctil, de la UART, de las señales analógicas y de los GPIO provistos por la HAL del fabricante (ST). A su vez, los drivers de la pantalla LCD y la pantalla táctil se implementan con base en el driver de SPI, ya que debe hacer uso de las funciones de bajo nivel para el envío y recepción de datos y comandos. Para el ADC también se creó una pequeña capa superior que permite obtener todos los valores de las señales analógicas en formato de punto flotante.
 
-De esta forma se genera un nivel mas de abstracción que provee un conjunto de funciones o servicios para interactuar con el EDFA, funcionando a modo de puente entre éste y la aplicación de usuario (backend). En la figura \ref{fig:halAmp} se puede ver la estructura de esta capa junto con sus distintos niveles.
+De esta forma se genera un nivel más de abstracción que provee un conjunto de funciones o servicios para interactuar con el EDFA, funcionando a modo de puente entre este y la aplicación de usuario (backend). En la figura \ref{fig:halAmp} se puede ver la estructura de esta capa junto con sus distintos niveles.
 
 \begin{figure}[H]
 \centering
@@ -268,7 +268,7 @@ Para filtrar ruido y posibles valores espurios que tome la señal analógica se 
 	\label{tab:configADC}
 \end{table}
 
-Siendo 12 la cantidad de bits con la que trabaja el ADC y la tensión de referencia del microcontrolador de 3.3 V se tienen 4095 valores de tensión representables, lo que da una resolución de 0.8 mV.
+Siendo 12 la cantidad de bits con la que trabaja el ADC y la tensión de referencia del microcontrolador de 3,3 V se tienen 4095 valores de tensión representables, lo que da una resolución de 0,8 mV.
 
 \subsection{Driver de la pantalla LCD}
 
@@ -332,17 +332,17 @@ La consola corre sobre la tarea del backend y puede inyectar eventos a la máqui
 		\toprule
 		\textbf{Comando} & \textbf{Argumento} & \textbf{Descripción} \\
 		\midrule
-		edfa	& on & Conecta la alimentación del EDFA	\\
-		edfa	& off & Desconecta la alimentación del EDFA	 \\
-		out	& on & Prende la salida óptica del EDFA \\
-		out   & off & Apaga la salida óptica del EDFA \\
-		status & - & Indica el estado general del EDFA y los valores de las variables \\
-		reset & - & Envía la señal de reset al microcontrolador del EDFA \\
-		ilim	& (valor) & Establece el limite de corriente al valor del argumento \\
-		vul	& (valor) & Establece el limite superior de tensión al valor del argumento \\
-		vll		& (valor) & Establece el limite inferior de tensión al valor del argumento \\
-		oipl	& (valor) & Establece el limite de potencia de entrada al valor del argumento \\
-		oopl & (valor) & Establece el limite de potencia de salida al valor del argumento \\
+		edfa	& on & Conecta la alimentación del EDFA.	\\
+		edfa	& off & Desconecta la alimentación del EDFA. \\
+		out	& on & Prende la salida óptica del EDFA. \\
+		out   & off & Apaga la salida óptica del EDFA. \\
+		status & - & Indica el estado general del EDFA y los valores de las variables. \\
+		reset & - & Envía la señal de reset al microcontrolador del EDFA. \\
+		ilim	& (valor) & Establece el limite de corriente al valor del argumento. \\
+		vul	& (valor) & Establece el limite superior de tensión al valor del argumento. \\
+		vll		& (valor) & Establece el limite inferior de tensión al valor del argumento. \\
+		oipl	& (valor) & Establece el limite de potencia de entrada al valor del argumento. \\
+		oopl & (valor) & Establece el limite de potencia de salida al valor del argumento. \\
 		\bottomrule
 		\hline
 	\end{tabular}

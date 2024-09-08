@@ -61,9 +61,9 @@ Los amplificadores de fibra dopados con erbio son los amplificadores ópticos m�
 Inventado en 1987, el EDFA es generalmente usado para compensar las pérdidas mencionadas en una línea de transmisión óptica. Éste puede ser colocado en tres partes: 
 
 \begin{itemize}
-\item Inmediatamente después del transmisor, para aumentar la potencia inyectada en la línea
-\item En el medio del camino óptico, para compensar las pérdidas por la distancia recorrida
-\item Antes del receptor, para favorecer la detección de la señal
+\item Inmediatamente después del transmisor, para aumentar la potencia inyectada en la línea.
+\item En el medio del camino óptico, para compensar las pérdidas por la distancia recorrida.
+\item Antes del receptor, para favorecer la detección de la señal.
 \end{itemize}
 
 La figura \ref{fig:EDFAinterno} muestra la configuración interna más común de un EDFA. Su componente principal es la fibra dopada con erbio (EDF por sus siglas en inglés), que generalmente es monomodo\protect\footnotemark . 
@@ -99,20 +99,20 @@ Como se mencionó en la sección \ref{sec:contexto}, para poder controlarlo, el 
 		\toprule
 		\textbf{Nombre de la señal}	& \textbf{Dirección}	& \textbf{Tipo} & \textbf{Función} \\
 		\midrule
-		5V 					& Entrada	& Potencia			& Entrada de alimentación del EDFA \\		
-		PGND				& Salida	& Potencia  		& Retorno de alimentación (potencia) \\
-		GND					& Salida	& Tierra digital  	& Retorno de alimentación (digital) \\
-		IN\_POW				& Salida	& Analógica 		& Indica el nivel de potencia óptica de entrada \\
-		OUT\_POW			& Salida	& Analógica 		& Indica el nivel de potencia óptica de salida \\
-		CASE\_TEMP\_ALARM	& Salida	& Digital 			& Alarma de temperatura de la carcasa del EDFA \\
-		PUMP\_BIAS\_ALARM	& Salida	& Digital 			& Alarma de la bomba de polarización \\
-		OUT\_POW\_ALARM		& Salida	& Digital 			& Alarma de nivel de potencia de salida \\
-		IN\_POW\_ALARM		& Salida	& Digital 			& Alarma de nivel de potencia de entrada \\
-		EN/DIS				& Entrada	& Digital 			& Habilitación del amplificador \\
-		RESET\_uC			& Entrada	& Digital 			& Reset del microcontrolador del EDFA \\
-		OUT\_POW\_MUTE		& Entrada	& Digital 			& Habilitación de la salida óptica \\
-		UART\_TX			& Salida	& Digital 			& Transmisor del UART interno del EDFA \\
-		UART\_RX			& Entrada	& Digital 			& Receptor del UART interno del EDFA \\
+		5 V 					& Entrada	& Potencia			& Entrada de alimentación del EDFA. \\		
+		PGND				& Salida	& Potencia  		& Retorno de alimentación (potencia). \\
+		GND					& Salida	& Tierra digital  	& Retorno de alimentación (digital). \\
+		IN\_POW				& Salida	& Analógica 		& Indica el nivel de potencia óptica de entrada. \\
+		OUT\_POW			& Salida	& Analógica 		& Indica el nivel de potencia óptica de salida. \\
+		CASE\_TEMP\_ALARM	& Salida	& Digital 			& Alarma de temperatura de la carcasa del EDFA. \\
+		PUMP\_BIAS\_ALARM	& Salida	& Digital 			& Alarma de la bomba de polarización. \\
+		OUT\_POW\_ALARM		& Salida	& Digital 			& Alarma de nivel de potencia de salida. \\
+		IN\_POW\_ALARM		& Salida	& Digital 			& Alarma de nivel de potencia de entrada. \\
+		EN/DIS				& Entrada	& Digital 			& Habilitación del amplificador. \\
+		RESET\_uC			& Entrada	& Digital 			& Reset del microcontrolador del EDFA. \\
+		OUT\_POW\_MUTE		& Entrada	& Digital 			& Habilitación de la salida óptica. \\
+		UART\_TX			& Salida	& Digital 			& Transmisor del UART interno del EDFA. \\
+		UART\_RX			& Entrada	& Digital 			& Receptor del UART interno del EDFA. \\
 		\bottomrule
 		\hline
 	\end{tabular}
@@ -121,11 +121,11 @@ Como se mencionó en la sección \ref{sec:contexto}, para poder controlarlo, el 
 
 A continuación, se provee una breve explicación de cada grupo de señales:
 \begin{itemize}
-\item Alimentación: tiene separada la tierra en digital, para la lógica y la comunicación, y la de potencia para la amplificación de la señal óptica
-\item Señales analógicas: indican el nivel de potencia óptica de entrada y salida del EDFA
-\item Alarmas: Mediante un estado en alto indican si ocurrió alguno de los eventos que requieren la atención del usuario
-\item Señales de control: Controlan el funcionamiento de ciertos componentes del amplificador
-\item Comunicación UART: Permite el envío de comandos al EDFA y la consulta de valores de parámetros internos como temperaturas, potencias, ganancias, etc.
+\item Alimentación: tiene separada la tierra en digital, para la lógica y la comunicación, y la de potencia para la amplificación de la señal óptica.
+\item Señales analógicas: indican el nivel de potencia óptica de entrada y salida del EDFA.
+\item Alarmas: mediante un estado en alto indican si ocurrió alguno de los eventos que requieren la atención del usuario.
+\item Señales de control: controlan el funcionamiento de ciertos componentes del amplificador.
+\item Comunicación UART: permite el envío de comandos al EDFA y la consulta de valores de parámetros internos como temperaturas, potencias, ganancias, etc.
 \end{itemize}
 
 \section{Componentes del sistema}
@@ -139,19 +139,19 @@ El modelo de microcontrolador utilizado es el STM32F429, del fabricante ST y con
 La principal razón por la que se decidió utilizar este modelo es porque es el que se encuentra integrado en la placa de desarrollo Nucleo-144, utilizada durante la cursada de la Especialización. Algunas de sus características más relevantes para esta aplicación son \citep{STM32F429}:
 
 \begin{itemize}
-\item Núcleo CPU Arm® Cortex®-M4 de 32 bits con unidad de punto flotante, frecuencia hasta 180 MHz, unidad de protección de memoria e instrucciones DSP
-\item Memoria Flash de hasta 2 MB
+\item Núcleo CPU Arm® Cortex®-M4 de 32 bits con unidad de punto flotante, frecuencia hasta 180 MHz, unidad de protección de memoria e instrucciones DSP.
+\item Memoria Flash de hasta 2 MB.
 \item Interfaces de comunicación:
 	\begin{itemize}
-	\item 3 interfaces I2C
-	\item 4 UART/USART (hasta 11.25 Mbit/s)
-	\item 6 interfaces SPI (hasta 45 Mbit/s)
+	\item 3 interfaces I2C.
+	\item 4 UART/USART (hasta 11,25 Mbit/s).
+	\item 6 interfaces SPI (hasta 45 Mbit/s).
 	\end{itemize}
-\item Hasta 168 puertos de entrada/salida con interrupción
-\item 3 conversores ADC de 12 bit de resolución y 2.4 MSPS. Hasta 24 canales
-\item DMA de propósito general con FIFO y soporte de ráfaga
-\item Interfaces SWD y JTAG para depuración
-\item Hasta 12 \textit{timers} de 16 bits con IC/OC y PWM
+\item Hasta 168 puertos de entrada/salida con interrupción.
+\item 3 conversores ADC de 12 bit de resolución y 2,4 MSPS. Hasta 24 canales.
+\item DMA de propósito general con FIFO y soporte de ráfaga.
+\item Interfaces SWD y JTAG para depuración.
+\item Hasta 12 \textit{timers} de 16 bits con IC/OC y PWM.
 \end{itemize}
 
 La alta velocidad de reloj, la gran capacidad de memoria Flash y la gran cantidad de periféricos disponibles hacen a este modelo ideal para la ejecución de un RTOS.
@@ -163,13 +163,13 @@ La principal ventaja de utilizar la placa de desarrollo Nucleo-144 es que esta y
 El circuito integrado elegido para efectuar la medición de corriente de alimentación del amplificador mientras este se encuentra en funcionamiento es el INA301A3. Sus principales características son:
 
 \begin{itemize}
-\item Alto rango de tensión de modo común (0 V a 36 V)
-\item Salida analógica y a comparador
-\item Máxima tensión de \textit{offset} de salida: 35 uV
-\item Máximo error de ganancia: 0.1%
-\item Ganancia del amplificador: 100 V/V
-\item Nivel de alerta programable mediante un resistor
-\item Tiempo total de respuesta de la alerta: 1 us
+\item Alto rango de tensión de modo común (0 V a 36 V).
+\item Salida analógica y a comparador.
+\item Máxima tensión de \textit{offset} de salida: 35 uV.
+\item Máximo error de ganancia: 0,1\%.
+\item Ganancia del amplificador: 100 V/V.
+\item Nivel de alerta programable mediante un resistor.
+\item Tiempo total de respuesta de la alerta: 1 us.
 \end{itemize}
 
 Este chip provee en uno de sus pines una tensión analógica proporcional a la corriente que se está midiendo. Asimismo, cuenta con una salida digital que se activa cuando la corriente medida alcanza cierto nivel establecido mediante un resistor (pin ALERT) \citep{INA301}.
@@ -196,12 +196,12 @@ En la tabla \ref{tab:caractLCD} se listan las características de la pantalla.
 		\textbf{Característica}	& \textbf{Valor} \\
 		\midrule
 		Color				& 65K colores RGB \\
-		Tamaño				& 2.8 pulgadas (7.11 cm) \\
+		Tamaño				& 2,8 pulgadas (7,11 cm) \\
 		Tipo de pantalla	& TFT \\
 		Resolución			& 320x240 pixeles \\
-		Área activa			& 43.2x57.6 mm \\
-		Tensión de alimentación		& 3.3 V - 5 V \\
-		Nivel lógico de I/O			& 3.3 V (TTL) \\		
+		Área activa			& 43,2x57,6 mm \\
+		Tensión de alimentación		& 3,3 V - 5 V \\
+		Nivel lógico de I/O			& 3,3 V (TTL) \\		
 		\bottomrule
 		\hline
 	\end{tabular}
@@ -233,7 +233,7 @@ En la figura \ref{fig:capas} se puede ver la estructura de capas del firmware co
 \label{fig:capas}
 \end{figure}
 
-Uno de las ventajas principales de usar FreeRTOS es la posibilidad de ejecutar varias tareas o \textit{tasks} en forma simultánea tal como lo hace un sistema operativo cualquiera. Un \textit{scheduler} gestiona la ejecución de cada una de forma individual y con su propio contexto (\textit{stack} y variables). Esto permite estructurar la aplicación separándola en tareas independientes pero sincronizadas \citep{WEBSITE:FREERTOS}.
+Una de las ventajas principales de usar FreeRTOS es la posibilidad de ejecutar varias tareas o \textit{tasks} en forma simultánea tal como lo hace un sistema operativo cualquiera. Un \textit{scheduler} gestiona la ejecución de cada una de forma individual y con su propio contexto (\textit{stack} y variables). Esto permite estructurar la aplicación separándola en tareas independientes pero sincronizadas \citep{WEBSITE:FREERTOS}.
 
 \subsection{Capa de abstracción de hardware (HAL)}
 
@@ -241,7 +241,7 @@ Una \textit{hardware abstraction layer} o HAL es un conjunto de rutinas de softw
 
 La principal ventaja de esta capa es que oculta la arquitectura del hardware del \textit{kernel} del sistema operativo. Así, el código del \textit{kernel} no tiene que ser cambiado o reescrito para que pueda correr sobre sistemas con distinto hardware y las aplicaciones de software se vuelven independientes de la plataforma (portabilidad) \citep{WEBSITE:HAL}.
 
-La HAL de la serie de microcontroladores STM32 se denomina STM32Cube y tiene como objetivo asegurar la máxima portabilidad entre dispositivos de la misma familia y proveer APIs (\textit{Application Programming Interface}) multi-instancia para todos los periféricos (UART, SPI, temporizadores, ADC, etc.). Éstas APIs están listas para usar y facilitan la implementación de la aplicación de usuario. Por ejemplo, los periféricos de comunicación cuentan con APIs para inicializarlos y configurarlos, gestionar la transferencia de datos en modo \textit{polling}, manejar las interrupciones, el DMA (\textit{Direct Memory Access}) y los errores de comunicación \citep{WEBSITE:STM32CUBE}.
+La HAL de la serie de microcontroladores STM32 se denomina STM32Cube y tiene como objetivo asegurar la máxima portabilidad entre dispositivos de la misma familia y proveer APIs (\textit{Application Programming Interface}) multi-instancia para todos los periféricos (UART, SPI, temporizadores, ADC, etc.). Estas APIs están listas para usar y facilitan la implementación de la aplicación de usuario. Por ejemplo, los periféricos de comunicación cuentan con APIs para inicializarlos y configurarlos, gestionar la transferencia de datos en modo \textit{polling}, manejar las interrupciones, el DMA (\textit{Direct Memory Access}) y los errores de comunicación \citep{WEBSITE:STM32CUBE}.
 
 \section{Periféricos utilizados}
 
