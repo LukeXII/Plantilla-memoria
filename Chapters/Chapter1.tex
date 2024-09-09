@@ -24,9 +24,9 @@ En este capítulo se explican las causas que dan origen al dispositivo desarroll
 \section{Contexto y motivación}
 \label{sec:contexto}
 
-La creciente demanda de mayores velocidades de transmisión de información en el ámbito aeroespacial, combinada con las limitaciones de la radiofrecuencia, favorecen el surgimiento de nuevas empresas enfocadas en el desarrollo de nuevas tecnologías capaces de superar estas barreras. Tal es el caso de la empresa Skyloom Global, que propone la creación de una red de satélites de órbita baja (LEO) utilizando enlaces ópticos de alta velocidad.
+La creciente demanda de mayores velocidades de transmisión de información en el ámbito aeroespacial, combinada con las limitaciones de la radiofrecuencia, favorecen el surgimiento de nuevas empresas enfocadas en el desarrollo de nuevas tecnologías capaces de superar estas barreras. Tal es el caso de la empresa Skyloom Global, que propone la creación de una red de satélites de órbita baja (LEO) \citep{WEBSITE:LEO} utilizando enlaces ópticos de alta velocidad.
 
-El funcionamiento general de esta idea se basa en un satélite geoestacionario (órbita GEO) al cual los satélites en LEO transmiten la información (denominado \textit{uplink}) para luego descargar esta a una estación en Tierra (denominado \textit{downlink}). De esta forma se obtiene una alta disponibilidad de los datos ya que el satélite en GEO siempre tiene visión de la Tierra. Un diagrama de esta propuesta se muestra en la figura \ref{fig:propSky}.
+El funcionamiento general de esta idea se basa en un satélite geoestacionario (órbita GEO) \citep{WEBSITE:GEO} al cual los satélites en LEO transmiten la información (denominado \textit{uplink}) para luego descargar esta a una estación en Tierra (denominado \textit{downlink}). De esta forma se obtiene una alta disponibilidad de los datos ya que el satélite en GEO siempre tiene visión de la Tierra. Un diagrama de esta propuesta se muestra en la figura \ref{fig:propSky}.
 
 \begin{figure}[H]
 \centering
@@ -41,7 +41,7 @@ El enlace óptico, que permite la transmisión y recepción de datos a una veloc
 
 En líneas generales los láseres de esta longitud de onda que se encuentran en el mercado no cuentan con la potencia óptica necesaria para que en el receptor se la detecte. Esto se debe principalmente a que la distancia de espacio libre estimada entre dos satélites en LEO es de unos 4000 km \citep{WEBSITE_SKY}.
 
-Para solucionar el problema antes mencionado se introduce a la salida del láser un amplificador dopado con erbio o EDFA (de las siglas \textit{Erbuim Doped Fiber Amplifier}). La función de este dispositivo es aumentar la potencia del láser varias veces de forma que se alcance un nivel adecuado para la transmisión.
+Para solucionar el problema antes mencionado se introduce a la salida del láser un amplificador dopado con erbio o EDFA (de las siglas \textit{Erbuim Doped Fiber Amplifier}) \citep{WEBSITE:EDFA2}. La función de este dispositivo es aumentar la potencia del láser varias veces de forma que se alcance un nivel adecuado para la transmisión.
 
 El modelo de amplificador utilizado por la empresa cuenta con un conector que provee una interfaz electrónica para poder controlar su funcionamiento. Esta interfaz cuenta con distintas señales y buses de comunicación que se explican con mayor detalle en la sección \ref{sec:intAmp}.
 
