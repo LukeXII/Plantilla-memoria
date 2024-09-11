@@ -9,6 +9,7 @@
 Este capítulo lista los requerimientos y en base a ellos presenta y describe los componentes internos del sistema desarrollado, junto con las tecnologías y recursos de software utilizados para su implementación. Asimismo se realiza una descripción simplificada del funcionamiento de un EDFA.
 
 \section{Requerimientos}
+\label{sec:reqs}
 
 Los requerimientos fueron determinados en conjunto con la empresa en base a las funcionalidades y prestaciones con las que debe contar el sistema. Como la lista es muy extensa, se listan a continuación solamente algunos de los principales:
 
@@ -66,15 +67,11 @@ Inventado en 1987, el EDFA es generalmente usado para compensar las pérdidas me
 \item Antes del receptor, para favorecer la detección de la señal.
 \end{itemize}
 
-La figura \ref{fig:EDFAinterno} muestra la configuración interna más común de un EDFA. Su componente principal es la fibra dopada con erbio (EDF por sus siglas en inglés), que generalmente es monomodo\protect\footnotemark . 
-
-\footnotetext{Tipo de fibra óptica en la que solo se propaga un modo de luz, paralela al eje de la fibra. Tienen un tamaño entre 8.3 y 10 micrones, permiten alcanzar distancias de hasta 400 km y tasas de transmisión de hasta 10 Gbps \citep{WEBSITE:FIBRA}.}
+La figura \ref{fig:EDFAinterno} muestra la configuración interna más común de un EDFA. Su componente principal es la fibra dopada con erbio (EDF por sus siglas en inglés), que generalmente es monomodo \citep{WEBSITE:FIBRA}. 
 
 La luz ingresa al amplificador mediante el puerto de entrada y luego mediante un divisor se redirige un porcentaje de la señal (generalmente entre un 1\% y 2\%) a un detector para realizar una medición de la potencia óptica. Luego, pasa por un aislador óptico que permite la transmisión de luz en un solo sentido y así evita una realimentación debida a reflexiones en etapas posteriores.
 
-La bomba de 980 nm es un diodo láser que genera una señal que se combina con la señal entrante (ahora a la salida del aislador) y pasan por la fibra dopada con erbio. En esta instancia es donde se genera la amplificación de la señal propiamente dicha, mediante un efecto denominado emisión estimulada\protect\footnotemark .
-
-\footnotetext{Proceso por el cual un fotón incidente de una determinada frecuencia interactúa con un electrón excitado, causando que éste caiga a un nivel de energía menor. La energía liberada se transfiere al campo electromagnético, creando un nuevo fotón con la misma frecuencia, polarización y dirección de movimiento que el fotón incidente \citep{WEBSITE:EMISSION}.}
+La bomba de 980 nm es un diodo láser que genera una señal que se combina con la señal entrante (ahora a la salida del aislador) y pasan por la fibra dopada con erbio. En esta instancia es donde se genera la amplificación de la señal propiamente dicha, mediante un efecto denominado emisión estimulada \citep{WEBSITE:EDFA2}\citep{WEBSITE:EMISSION}.
 
 \begin{figure}[H]
 \centering
@@ -85,7 +82,7 @@ La bomba de 980 nm es un diodo láser que genera una señal que se combina con l
 
 Una vez amplificada, la señal pasa nuevamente por otro aislador que se encarga principalmente de filtrar la luz de 980 nm, evitando que se introduzca en el camino óptico. Luego, la señal pasa por un filtro compensador de ganancia (GFF por sus siglas en inglés) cuyo objetivo es hacer constante la ganancia del amplificador en todo el ancho de banda de trabajo (bandas C y L del espectro). Finalmente, antes de que la luz salga del amplificador, se realiza nuevamente una medición de la potencia óptica al igual que en la entrada.
 
-Tanto la bomba de 980 nm como ambos detectores de potencia se encuentran conectados a una unidad de control. Ésta generalmente cuenta con un microcontrolador o chip dedicado que se encarga de regular la potencia que entrega la bomba en base a los valores medidos por los detectores, creando un lazo de control automático de ganancia \citep{WEBSITE:EDFA1}\citep{WEBSITE:EDFA2}.
+Tanto la bomba de 980 nm como ambos detectores de potencia se encuentran conectados a una unidad de control. Ésta generalmente cuenta con un microcontrolador o chip dedicado que se encarga de regular la potencia que entrega la bomba en base a los valores medidos por los detectores, creando un lazo de control automático de ganancia \citep{WEBSITE:EDFA2}\citep{WEBSITE:EDFA1}.
 
 \section{Interfaz del amplificador óptico}
 \label{sec:intAmp}
