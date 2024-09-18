@@ -21,7 +21,7 @@ En este capítulo se explican las causas que dan origen al dispositivo desarroll
 
 
 %----------------------------------------------------------------------------------------
-\section{Contexto y motivación}
+\section{Contexto de la empresa}
 \label{sec:contexto}
 
 La creciente demanda de mayores velocidades de transmisión de información en el ámbito aeroespacial, combinada con las limitaciones de la radiofrecuencia, favorecen el surgimiento de nuevas empresas enfocadas en el desarrollo de nuevas tecnologías capaces de superar estas barreras. Tal es el caso de la empresa Skyloom Global, que propone la creación de una red de satélites de órbita baja (LEO) \citep{WEBSITE:LEO} utilizando enlaces ópticos de alta velocidad.
@@ -45,7 +45,7 @@ Para solucionar el problema antes mencionado se introduce a la salida del láser
 
 El modelo de amplificador utilizado por la empresa cuenta con un conector que provee una interfaz electrónica para poder controlar su funcionamiento. Esta interfaz cuenta con distintas señales y buses de comunicación que se explican con mayor detalle en la sección \ref{sec:intAmp}.
 
-Este amplificador formará parte de la terminal de comunicaciones y estará sometido a intensivas pruebas de funcionamiento y rendimiento durante la etapa de investigación y desarrollo. Para esto es indispensable contar con una herramienta que brinde a los ingenieros a cargo de estas la posibilidad de utilizar el amplificador de forma aislada, es decir, sin tener que usar hardware de vuelo\footnote{El término \textit{de vuelo} se refiere a todo hardware que formará parte de la terminal} adicional.
+Este amplificador formará parte de la terminal de comunicaciones y estará sometido a intensivas pruebas de funcionamiento y rendimiento durante la etapa de investigación y desarrollo. Para esto es indispensable contar con una herramienta que brinde a los ingenieros a cargo de estas la posibilidad de utilizar el amplificador de forma aislada, es decir, sin tener que usar hardware perteneciente al producto final.
 
 En la figura \ref{fig:bloquesProy} se puede ver un esquema de uso del dispositivo junto con las conexiones con el hardware externo.
 
@@ -62,17 +62,23 @@ La interfaz con el EDFA permite controlarlo y consultar diversos parámetros de 
 
 %----------------------------------------------------------------------------------------
 
-\section{Producto existente}
+\section{Estado del arte}
 
 Actualmente el fabricante del amplificador posee a la venta una placa electrónica capaz de conectarse a un EDFA y proveer ciertas funcionalidades similares. La empresa ha hecho uso de ella en el pasado pero luego pasó a descartarla debido a tres problemas mayores:
 
 \begin{itemize}
 \item No permite el uso de todas las señales presentes en el conector del amplificador.
-\item Tiene una alta tasa de fallas.
+\item Tiene una tasa de fallas muy alta, en particular la interfaz UART.
 \item Su costo es muy elevado en relación a sus prestaciones.
+\item El tiempo de entrega del producto es de varias semanas.
 \end{itemize}
 
-Lo expuesto anteriormente es uno de los principales motivos que dieron origen a la necesidad de contar con el sistema propuesto en este trabajo.
+
+\section{Motivación}
+
+Las desventajas expuestas en la sección anterior son los principales motivos que dieron origen a la necesidad de contar con el sistema propuesto en este trabajo. Esto le permite a la empresa no depender del fabricante para la entrega de estos testers y por lo tanto reducir costos y tiempos.
+
+Por otro lado, el dispositivo diseñado en este trabajo no solo cuenta con las mismas funcionalidades que el del fabricante si no que ademas posee las que este no tiene y otras características adicionales que lo hacen mas fácil de usar y menos propenso a fallas.
 
 %----------------------------------------------------------------------------------------
 

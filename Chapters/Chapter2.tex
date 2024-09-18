@@ -39,8 +39,8 @@ Los requerimientos fueron determinados en conjunto con la empresa en base a las 
 
 \item Requisitos de rendimiento
 	\begin{enumerate}
-	\item La apertura del relé de alimentación del dispositivo EDFA 		bajo prueba deberá efectuarse en un tiempo menor a 50 ms luego de 		detectarse una sobrecorriente o una caída de la tensión de 				alimentación.
-	\item El apagado de la salida óptica del dispositivo EDFA bajo 			prueba deberá efectuarse en un tiempo menor a 100 ms luego de 			detectarse la activación de una alarma.
+	\item \label{item:req1} La apertura del relé de alimentación del dispositivo EDFA 		bajo prueba deberá efectuarse en un tiempo menor a 50 ms luego de 		detectarse una sobrecorriente o una caída de la tensión de 				alimentación.
+	\item \label{item:req2} El apagado de la salida óptica del dispositivo EDFA bajo 			prueba deberá efectuarse en un tiempo menor a 100 ms luego de 			detectarse la activación de una alarma.
 	\end{enumerate}
 	
 \end{enumerate}
@@ -55,9 +55,11 @@ Los amplificadores de fibra dopados con erbio son los amplificadores ópticos m�
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.85\textwidth]{./Figures/espectro.png}
-\caption{Pérdidas en la fibra.}
+\caption{Pérdidas en la fibra\protect\footnotemark.}
 \label{fig:espectro}
 \end{figure}
+
+\footnotetext{Imagen tomada de \citep{WEBSITE:BANDAS}}
 
 Inventado en 1987, el EDFA es generalmente usado para compensar las pérdidas mencionadas en una línea de transmisión óptica. Éste puede ser colocado en tres partes: 
 
@@ -69,18 +71,20 @@ Inventado en 1987, el EDFA es generalmente usado para compensar las pérdidas me
 
 La figura \ref{fig:EDFAinterno} muestra la configuración interna más común de un EDFA. Su componente principal es la fibra dopada con erbio (EDF por sus siglas en inglés), que generalmente es monomodo \citep{WEBSITE:FIBRA}. 
 
-La luz ingresa al amplificador mediante el puerto de entrada y luego mediante un divisor se redirige un porcentaje de la señal (generalmente entre un 1\% y 2\%) a un detector para realizar una medición de la potencia óptica. Luego, pasa por un aislador óptico que permite la transmisión de luz en un solo sentido y así evita una realimentación debida a reflexiones en etapas posteriores.
+La luz ingresa al amplificador mediante el puerto de entrada y luego mediante un divisor se redirige un porcentaje de la señal (generalmente entre un 1\% y 2\% \citep{WEBSITE:EDFA2}) a un detector para realizar una medición de la potencia óptica. Luego, pasa por un aislador óptico que permite la transmisión de luz en un solo sentido y así evita una realimentación debida a reflexiones en etapas posteriores.
 
 La bomba de 980 nm es un diodo láser que genera una señal que se combina con la señal entrante (ahora a la salida del aislador) y pasan por la fibra dopada con erbio. En esta instancia es donde se genera la amplificación de la señal propiamente dicha, mediante un efecto denominado emisión estimulada \citep{WEBSITE:EDFA2}\citep{WEBSITE:EMISSION}.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.85\textwidth]{./Figures/EDFAinterno.png}
-\caption{Configuración interna de un EDFA.}
+\caption{Configuración interna de un EDFA\protect\footnotemark.}
 \label{fig:EDFAinterno}
 \end{figure}
 
-Una vez amplificada, la señal pasa nuevamente por otro aislador que se encarga principalmente de filtrar la luz de 980 nm, evitando que se introduzca en el camino óptico. Luego, la señal pasa por un filtro compensador de ganancia (GFF por sus siglas en inglés) cuyo objetivo es hacer constante la ganancia del amplificador en todo el ancho de banda de trabajo (bandas C y L del espectro). Finalmente, antes de que la luz salga del amplificador, se realiza nuevamente una medición de la potencia óptica al igual que en la entrada.
+\footnotetext{Imagen tomada de \citep{WEBSITE:EDFA2}}
+
+Una vez amplificada, la señal pasa nuevamente por otro aislador que se encarga principalmente de filtrar la luz de 980 nm, evitando que se introduzca en el camino óptico. Luego, la señal pasa por un filtro aplanador de ganancia (GFF por sus siglas en inglés) cuyo objetivo es hacer constante la ganancia del amplificador en todo el ancho de banda de trabajo \citep{WEBSITE:EDFA3} (bandas C y L del espectro). Finalmente, antes de que la luz salga del amplificador, se realiza nuevamente una medición de la potencia óptica al igual que en la entrada.
 
 Tanto la bomba de 980 nm como ambos detectores de potencia se encuentran conectados a una unidad de control. Ésta generalmente cuenta con un microcontrolador o chip dedicado que se encarga de regular la potencia que entrega la bomba en base a los valores medidos por los detectores, creando un lazo de control automático de ganancia \citep{WEBSITE:EDFA2}\citep{WEBSITE:EDFA1}.
 
@@ -179,9 +183,11 @@ El modelo del módulo de la pantalla LCD utilizada en el trabajo es MSP2807, que
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.7\textwidth]{./Figures/pant_LCD.png}
-\caption{Pantalla LCD táctil MSP2807.}
+\caption{Pantalla LCD táctil MSP2807\protect\footnotemark.}
 \label{fig:pantLCD}
 \end{figure}
+
+\footnotetext{Imagen tomada de \citep{MSP2807}}
 
 En la tabla \ref{tab:caractLCD} se listan las características de la pantalla.
 
