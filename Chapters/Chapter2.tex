@@ -135,50 +135,20 @@ Los componentes de hardware que forman parte del sistema presentado en la secci�
 
 \subsection{Microcontrolador}
 
-El modelo de microcontrolador utilizado es el STM32F429, del fabricante ST y con arquitectura de procesador ARM Cortex-M.
+El modelo de microcontrolador utilizado es el STM32F429 \citep{STM32F429}, del fabricante ST y con arquitectura de procesador ARM Cortex-M. La principal razón por la que se decidió utilizar este modelo es porque es el que se encuentra integrado en la placa de desarrollo NUCLEO-144, utilizada durante la cursada de la Especialización.
 
-La principal razón por la que se decidió utilizar este modelo es porque es el que se encuentra integrado en la placa de desarrollo Nucleo-144, utilizada durante la cursada de la Especialización. Algunas de sus características más relevantes para esta aplicación son \citep{STM32F429}:
-
-\begin{itemize}
-\item Núcleo CPU Arm® Cortex®-M4 de 32 bits con unidad de punto flotante, frecuencia hasta 180 MHz, unidad de protección de memoria e instrucciones DSP.
-\item Memoria Flash de hasta 2 MB.
-\item Interfaces de comunicación:
-	\begin{itemize}
-	\item 3 interfaces I2C.
-	\item 4 UART/USART (hasta 11,25 Mbit/s).
-	\item 6 interfaces SPI (hasta 45 Mbit/s).
-	\end{itemize}
-\item Hasta 168 puertos de entrada/salida con interrupción.
-\item 3 conversores ADC de 12 bit de resolución y 2,4 MSPS. Hasta 24 canales.
-\item DMA de propósito general con FIFO y soporte de ráfaga.
-\item Interfaces SWD y JTAG para depuración.
-\item Hasta 12 \textit{timers} de 16 bits con IC/OC y PWM.
-\end{itemize}
-
-La alta velocidad de reloj, la gran capacidad de memoria Flash y la gran cantidad de periféricos disponibles hacen a este modelo ideal para la ejecución de un RTOS.
-
-La principal ventaja de utilizar la placa de desarrollo Nucleo-144 es que esta ya trae incorporada la interfaz de programación y depuración ST-LINK/V2 \citep{NUCLEO144}.
+La placa de desarrollo Nucleo-144 es ideal para ejecutar un RTOS debido a su alta velocidad de reloj, gran capacidad de memoria Flash y variedad de periféricos, además de contar con la ventaja de tener integrada la interfaz de programación y depuración ST-LINK/V2 \citep{NUCLEO144}.
 
 \subsection{Monitor de corriente}
 
-El circuito integrado elegido para efectuar la medición de corriente de alimentación del amplificador mientras este se encuentra en funcionamiento es el INA301A3. Sus principales características son:
-
-\begin{itemize}
-\item Alto rango de tensión de modo común (0 V a 36 V).
-\item Salida analógica y a comparador.
-\item Máxima tensión de \textit{offset} de salida: 35 uV.
-\item Máximo error de ganancia: 0,1\%.
-\item Ganancia del amplificador: 100 V/V.
-\item Nivel de alerta programable mediante un resistor.
-\item Tiempo total de respuesta de la alerta: 1 us.
-\end{itemize}
+El circuito integrado elegido para efectuar la medición de corriente de alimentación del amplificador mientras este se encuentra en funcionamiento es el INA301A3 \citep{INA301}.
 
 Este chip provee en uno de sus pines una tensión analógica proporcional a la corriente que se está midiendo. Asimismo, cuenta con una salida digital que se activa cuando la corriente medida alcanza cierto nivel establecido mediante un resistor (pin ALERT) \citep{INA301}.
 
 \subsection{Pantalla táctil LCD}
 \label{sec:pantLCD}
 
-El modelo del módulo de la pantalla LCD utilizada en el trabajo es MSP2807, que es una solución integrada, es decir, cuenta con toda la electrónica necesaria para poder hacer uso de la pantalla en su totalidad. Para esto cuenta con dos circuitos integrados: el controlador del display de la pantalla (lo que permite dibujar en ella) y el controlador de la función táctil (lo que permite detectar cuando se la toca). En la figura \ref{fig:pantLCD} se puede ver una imagen de la pantalla.
+El modelo del módulo de la pantalla LCD utilizada en el trabajo es MSP2807 \citep{MSP2807}, que es una solución integrada, es decir, cuenta con toda la electrónica necesaria para poder hacer uso de la pantalla en su totalidad. Para esto cuenta con dos circuitos integrados: el controlador del display de la pantalla (lo que permite dibujar en ella) y el controlador de la función táctil (lo que permite detectar cuando se la toca). En la figura \ref{fig:pantLCD} se puede ver una imagen de la pantalla.
 
 \begin{figure}[H]
 \centering
@@ -189,31 +159,7 @@ El modelo del módulo de la pantalla LCD utilizada en el trabajo es MSP2807, que
 
 \footnotetext{Imagen tomada de \citep{MSP2807}}
 
-En la tabla \ref{tab:caractLCD} se listan las características de la pantalla.
-
-\begin{table}[H]
-	\centering
-	\caption{Características de la pantalla LCD.}
-	\begin{tabular}{l c}
-		\toprule
-		\textbf{Característica}	& \textbf{Valor} \\
-		\midrule
-		Color				& 65K colores RGB \\
-		Tamaño				& 2,8 pulgadas (7,11 cm) \\
-		Tipo de pantalla	& TFT \\
-		Resolución			& 320x240 pixeles \\
-		Área activa			& 43,2x57,6 mm \\
-		Tensión de alimentación		& 3,3 V - 5 V \\
-		Nivel lógico de I/O			& 3,3 V (TTL) \\		
-		\bottomrule
-		\hline
-	\end{tabular}
-	\label{tab:caractLCD}
-\end{table}
-
-El controlador del display tiene una interfaz SPI para el envío de los datos y además una señal denominada DC/RS para indicar si lo que está enviando el maestro es un dato o un registro interno del chip. También consta de una señal de reset para borrar todo el contenido del display.
-
-El controlador de la función táctil también tiene un bus SPI y una señal adicional de interrupción denominada T\_IRQ que indica cuando el display está siendo tocado \citep{MSP2807}.
+El controlador del display utiliza una interfaz SPI para la recepción de datos y cuenta con una señal DC/RS para distinguir entre datos y registros internos. El controlador táctil también opera mediante SPI y dispone de una señal de interrupción T\_IRQ que indica cuando el display es tocado \citep{MSP2807}.
 
 \section{Recursos de software}
 
