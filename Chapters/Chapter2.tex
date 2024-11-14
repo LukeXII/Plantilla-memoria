@@ -167,22 +167,9 @@ Para el firmware del microcontrolador se usaron distintas herramientas que permi
 
 \subsection{Sistema operativo de tiempo real FreeRTOS}
 
-FreeRTOS es un sistema operativo de tiempo real o RTOS (de \textit{Real Time Operating System}) para microcontroladores o pequeños microprocesadores, diseñado para ocupar poco espacio, ser confiable y fácil de usar. Está escrito en C para que sea fácil de mantener y trasladar a nuevos dispositivos.
+FreeRTOS es un sistema operativo de tiempo real (RTOS) diseñado para microcontroladores y microprocesadores pequeños. Se caracteriza por ser liviano, confiable y fácil de usar. Ofrece recursos como tareas, semáforos, \textit{mutexes}, colas y gestores de memoria dinámica \citep{WEBSITE:1}, lo que simplifica la creación y gestión de aplicaciones sobre el sistema operativo.
 
-FreeRTOS provee recursos que facilitan la ejecución de aplicaciones sobre el sistema operativo como tareas, semáforos, \textit{mutexes}, temporizadores por software, colas y gestores de memoria dinámica \citep{WEBSITE:1}.
-
-Si se separa el firmware en capas desde la más baja (hardware) hasta la más alta (aplicación de usuario) el lugar que ocupa FreeRTOS se ubica por arriba de los drivers provistos por el fabricante, brindando una capa de abstracción de mayor nivel. De esta forma, el sistema operativo actúa como puente entre las capas más bajas y las más altas, gestionando los recursos de hardware de forma automática y brindando servicios a la capa de aplicación.
-
-En la figura \ref{fig:capas} se puede ver la estructura de capas del firmware con FreeRTOS incluida.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.65\textwidth]{./Figures/capas.png}
-\caption{Estructura de capas con FreeRTOS.}
-\label{fig:capas}
-\end{figure}
-
-Una de las ventajas principales de usar FreeRTOS es la posibilidad de ejecutar varias tareas o \textit{tasks} en forma simultánea tal como lo hace un sistema operativo cualquiera. Un \textit{scheduler} gestiona la ejecución de cada una de forma individual y con su propio contexto (\textit{stack} y variables). Esto permite estructurar la aplicación separándola en tareas independientes pero sincronizadas \citep{WEBSITE:FREERTOS}.
+FreeRTOS se sitúa en una capa intermedia del firmware, por encima de los drivers del fabricante y debajo de la aplicación de usuario, brindando una capa de abstracción que automatiza la gestión de los recursos de hardware. Su principal ventaja es la capacidad de ejecutar múltiples tareas o procesos de manera simultánea. Esto permite estructurar aplicaciones en tareas independientes y sincronizadas \citep{WEBSITE:FREERTOS}.
 
 \subsection{Capa de abstracción de hardware (HAL)}
 
@@ -194,79 +181,19 @@ La HAL de la serie de microcontroladores STM32 se denomina STM32Cube y tiene com
 
 \section{Periféricos utilizados}
 
-A excepción del monitor de corriente, el resto de los periféricos utilizados ya se encuentran integrados en el chip del microcontrolador, por lo que no hubo que agregar ningún hardware adicional y para poder utilizarlos solo hizo falta leer las hojas de datos. De todas formas, en esta sección se provee una breve descripción de cada uno.
+A excepción del monitor de corriente, el resto de los periféricos utilizados ya se encuentran integrados en el chip del microcontrolador, por lo que no hubo necesidad de agregar ningún hardware adicional.
 
 \subsection{Conversor analógico-digital (ADC)}
 
-Un conversor analógico-digital o ADC (de \textit{Analog-to-Digital Converter}) es un dispositivo que convierte una señal eléctrica analógica proveniente, por ejemplo, de un sensor a una señal digital. La principal ventaja de esta conversión es que su valor puede ser almacenado en un sistema digital, por lo que estará representada por un número binario.
+Un conversor analógico-digital o ADC es un dispositivo que convierte una señal eléctrica analógica proveniente, por ejemplo, de un sensor a una señal digital. De esta forma su valor puede ser almacenado en un sistema digital, por lo que estará representada por un número binario \citep{WEBSITE:2}.
 
-La señal pasa de ser continua en el tiempo y continua en amplitud a discreta en el tiempo y discreta en amplitud. Esto quiere decir que la señal analógica podría tomar cualquier valor en cualquier instante. En cambio, cuando es convertida la señal se encuentra cuantizada, es decir, podrá tomar solamente determinados valores que dependen de la cantidad de bits del ADC y del fondo de escala (resolución).
+\subsection{Universal Asynchronous Receiver Transmit ter (UART)}
 
-Esto hace que no se puedan representar todos los valores que se miden y que cada muestra tomada estará truncada al valor más cercano representable. Este error introducido en la medición se denomina error de cuantización. A modo de ejemplo, en la figura \ref{fig:muestreoADC} se muestra una conversión analógica-digital de una señal senoidal con un ADC de 3 bits. La señal de entrada (en rojo) es muestreada a intervalos constantes y la señal resultante (en azul) está cuantizada.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.65\textwidth]{./Figures/muestreo.png}
-\caption{Conversión de una señal con un ADC de 3 bits.}
-\label{fig:muestreoADC}
-\end{figure}
-
-De la figura \ref{fig:muestreoADC} se ve que mientras más bits de resolución tenga el ADC, se pueden tomar valores más cercanos al medido y por lo tanto tener una mejor representación de la señal.
-
-Esto impacta directamente en el parámetro de relación señal-ruido que, junto con el ancho de banda (velocidad de muestreo), es uno de los parámetros con los que se caracteriza el rendimiento de un ADC \citep{WEBSITE:2}.
-
-\subsection{Universal Asynchronous Receiver Transmitter (UART)}
-
-Un UART es un dispositivo utilizado para establecer una comunicación serie asíncrona, con formato de datos y velocidad de transmisión configurables. Consta solo de dos señales que conectan dos dispositivos de forma bidireccional: una para la transmisión y otra para la recepción, comúnmente llamadas TX y RX respectivamente.
-
-La forma de transmisión de datos del protocolo tiene una estructura fija. Por cada dato que se transmite (cuyo ancho puede variar entre 5 y 9 bits), se transmiten además bits adicionales de comienzo y fin de trama (\textit{Start} y \textit{Stop}) y, opcionalmente, los de paridad para la detección de errores. En la figura \ref{fig:transUART} se puede ver la composición de una trama completa.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\textwidth]{./Figures/UART_frame.png}
-\caption{Trama de transmisión UART.}
-\label{fig:transUART}
-\end{figure}
-
-Los bits de \textit{Start} y \textit{Stop} son para indicarle al receptor cuando debe comenzar y cuando parar de tomar los datos transmitidos. También sirve para realizar una sincronización de los relojes del transmisor y del receptor. Como el protocolo es asíncrono, es decir, no transmite el reloj en ninguna de sus líneas, los relojes internos de ambos deben estar en fase.
-
-El estado \textit{Idle} de la línea es el estado inactivo, es decir, el estado de reposo cuando no se encuentra transmitiendo \citep{WEBSITE:3}.
+Un UART es un dispositivo utilizado para establecer una comunicación serie asíncrona, con formato de datos y velocidad de transmisión configurables. Consta solo de dos señales que conectan dos dispositivos de forma bidireccional: una para la transmisión y otra para la recepción, comúnmente llamadas TX y RX respectivamente \citep{WEBSITE:3}.
 
 \subsection{Serial Peripheral Interface (SPI)}
 
 SPI es una especificación de interfaz de comunicación serie sincrónica para distancias cortas. Es comúnmente utilizada para enviar datos entre un sistema embebido y pequeños periféricos como sensores y memorias SD.
 
-Los dispositivos SPI se comunican en modo \textit{full duplex} (ambos sentidos simultáneos) mediante una arquitectura maestro-esclavo con líneas separadas para los datos y el clock. Generalmente constan de 4 líneas:
+Los dispositivos SPI se comunican en modo \textit{full duplex} (ambos sentidos simultáneos) y cuentan con una señal de clock, dato entrante, dato saliente y de selección de esclavo, que conecta o desconecta la operación del dispositivo con el que uno desea comunicarse. De esta forma, este estándar permite multiplexar las líneas de clock y soportar arquitecturas multi-esclavo \citep{WEBSITE:SPI}.
 
-\begin{itemize}
-\item SCLK: reloj o clock (generado por el maestro)
-\item MOSI: \textit{Master Out Slave In}. Salida de datos de maestro a esclavo
-\item MISO: \textit{Master In Slave Out}. Salida de datos de esclavo a maestro
-\item CS/SS: \textit{Chip Select}. Salida de maestro para indicar al esclavo que se están enviando o recibiendo datos
-\end{itemize}
-
-Para comenzar la comunicación el maestro primero configura el clock, utilizando una frecuencia soportada por el dispositivo esclavo, generalmente entre 100 kHz y 10 MHz. Luego selecciona el esclavo poniendo un nivel bajo en la línea CS. En este momento, a veces, se requiere un tiempo mínimo de espera antes de enviar ciclos de clock, por ejemplo para una conversión analógico-digital.
-
-Durante cada ciclo de clock ocurre una transmisión \textit{full duplex}. El maestro envía un bit por la línea MOSI y el esclavo la lee, mientras que el esclavo envía otro bit por la línea MISO y el maestro la lee. Ésta secuencia se mantiene incluso cuando se está enviando un dato en una sola dirección.
-
-En la figura \ref{fig:transSPI} se pueden ver las señales durante una transacción de maestro a esclavo y de esclavo a maestro. Se observa que la señal CS se mantiene en nivel bajo durante todo el tiempo en que la transmisión está activa. Además, las transiciones de las señales MOSI y MISO para cada bit ocurren solamente en cada flanco negativo del clock. En este caso el ancho de la palabra transmitida es de 8 bits, pero se puede implementar de igual forma para cantidades mayores o menores. Esto es posible debido a que no existe un protocolo estándar para la transmisión SPI.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.85\textwidth]{./Figures/SPItrans.png}
-\caption{Transacción SPI.}
-\label{fig:transSPI}
-\end{figure}
-
-En el caso de la figura \ref{fig:transSPI} el nivel del clock cuando la interfaz se encuentra inactiva (\textit{Idle}) es alto y el flanco en que cambia el bit transmitido es descendente pero, al igual que la velocidad de transmisión, estos parámetros pueden ser configurados con distintos valores por el maestro antes de realizar cada transacción.
-
-El hecho de contar con una línea de selección de esclavo permite realizar una conexión de un maestro con múltiples esclavos simplemente agregando una línea CS por cada esclavo y reutilizando las demás, como se observa en la figura \ref{fig:multiSlave}. De esta forma, si un esclavo recibe ciclos de clock y datos pero no está habilitado mediante la señal CS, los descartará \citep{WEBSITE:SPI}.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.65\textwidth]{./Figures/multiSlave.png}
-\caption{Conexionado de un maestro con múltiples esclavos.}
-\label{fig:multiSlave}
-\end{figure}
-
-A diferencia de otros protocolos como UART, SPI define solamente una estructura de hardware para la transmisión de información. No define un protocolo para los datos transmitidos. Esto quiere decir que los bits transmitidos no tienen una función determinada predefinida si no que ésta es específica de la aplicación y corre por parte del hardware (o software) realizar la interpretación correcta.
