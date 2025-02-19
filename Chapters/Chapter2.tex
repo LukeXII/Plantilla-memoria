@@ -6,7 +6,7 @@
 %	Chapter 2
 %----------------------------------------------------------------------------------------
 
-Este capítulo lista los requerimientos y en base a ellos presenta y describe los componentes internos del sistema desarrollado, junto con las tecnologías y recursos de software utilizados para su implementación. Asimismo se realiza una descripción simplificada del funcionamiento de un EDFA.
+Este capítulo lista los requerimientos y en base a ellos presenta y describe los componentes internos del sistema desarrollado, junto con las tecnologías y recursos de software utilizados para su implementación. Asimismo, se realiza una descripción simplificada del funcionamiento de un EDFA.
 
 \section{Requerimientos}
 \label{sec:reqs}
@@ -50,7 +50,7 @@ La lista completa de requerimientos se puede ver en \citep{DOC_REQ}.
 \section{Funcionamiento de un amplificador óptico}
 \label{sec:funcAmp}
 
-Los amplificadores de fibra dopados con erbio son los amplificadores ópticos más importantes en el contexto de comunicaciones ópticas de larga distancia. Son utilizados en la banda L y C del espectro (aproximadamente entre 1550 nm y 1650 nm), región en la que las pérdidas en la fibra óptica son menores. Esto se puede ver en la figura \ref{fig:espectro}, que muestra las pérdidas en función de la longitud de onda de la luz utilizada.
+Los amplificadores de fibra dopados con erbio son los amplificadores ópticos más importantes en el contexto de comunicaciones ópticas de larga distancia. Son utilizados en la banda L y C del espectro (aproximadamente entre 1530 nm y 1625 nm \citep{WEBSITE:BANDAS}), región en la que las pérdidas en la fibra óptica son menores. Esto se puede ver en la figura \ref{fig:espectro}, que muestra las pérdidas en función de la longitud de onda de la luz utilizada.
 
 \begin{figure}[H]
 \centering
@@ -61,7 +61,7 @@ Los amplificadores de fibra dopados con erbio son los amplificadores ópticos m�
 
 \footnotetext{Imagen tomada de \citep{WEBSITE:BANDAS}}
 
-Inventado en 1987, el EDFA es generalmente usado para compensar las pérdidas mencionadas en una línea de transmisión óptica. Éste puede ser colocado en tres partes: 
+Inventado en 1987 \citep{WEBSITE:EDFA1}, el EDFA es generalmente usado para compensar las pérdidas mencionadas en una línea de transmisión óptica. Este puede ser colocado en tres partes: 
 
 \begin{itemize}
 \item Inmediatamente después del transmisor, para aumentar la potencia inyectada en la línea.
@@ -73,7 +73,7 @@ La figura \ref{fig:EDFAinterno} muestra la configuración interna más común de
 
 La luz ingresa al amplificador mediante el puerto de entrada y luego mediante un divisor se redirige un porcentaje de la señal (generalmente entre un 1\% y 2\% \citep{WEBSITE:EDFA2}) a un detector para realizar una medición de la potencia óptica. Luego, pasa por un aislador óptico que permite la transmisión de luz en un solo sentido y así evita una realimentación debida a reflexiones en etapas posteriores.
 
-La bomba de 980 nm es un diodo láser que genera una señal que se combina con la señal entrante (ahora a la salida del aislador) y pasan por la fibra dopada con erbio. En esta instancia es donde se genera la amplificación de la señal propiamente dicha, mediante un efecto denominado emisión estimulada \citep{WEBSITE:EDFA2}\citep{WEBSITE:EMISSION}.
+La bomba de 980 nm es un diodo láser que genera una señal lumínica en esa longitud de onda. Esta luego se mezcla con la señal de luz entrante (a la salida del aislador) y atraviesan la fibra dopada con erbio. En esta instancia es donde se genera la amplificación de la señal propiamente dicha, mediante un efecto denominado emisión estimulada \citep{WEBSITE:EDFA2}\citep{WEBSITE:EMISSION}.
 
 \begin{figure}[H]
 \centering
@@ -86,7 +86,7 @@ La bomba de 980 nm es un diodo láser que genera una señal que se combina con l
 
 Una vez amplificada, la señal pasa nuevamente por otro aislador que se encarga principalmente de filtrar la luz de 980 nm, evitando que se introduzca en el camino óptico. Luego, la señal pasa por un filtro aplanador de ganancia (GFF por sus siglas en inglés) cuyo objetivo es hacer constante la ganancia del amplificador en todo el ancho de banda de trabajo \citep{WEBSITE:EDFA3} (bandas C y L del espectro). Finalmente, antes de que la luz salga del amplificador, se realiza nuevamente una medición de la potencia óptica al igual que en la entrada.
 
-Tanto la bomba de 980 nm como ambos detectores de potencia se encuentran conectados a una unidad de control. Ésta generalmente cuenta con un microcontrolador o chip dedicado que se encarga de regular la potencia que entrega la bomba en base a los valores medidos por los detectores, creando un lazo de control automático de ganancia \citep{WEBSITE:EDFA2}\citep{WEBSITE:EDFA1}.
+Tanto la bomba de 980 nm como ambos detectores de potencia se encuentran conectados a una unidad de control. Esta generalmente cuenta con un microcontrolador o chip dedicado que se encarga de regular la potencia que entrega la bomba en base a los valores medidos por los detectores, creando un lazo de control automático de ganancia \citep{WEBSITE:EDFA2}\citep{WEBSITE:EDFA1}.
 
 \section{Interfaz del amplificador óptico}
 \label{sec:intAmp}
@@ -131,17 +131,17 @@ A continuación, se provee una breve explicación de cada grupo de señales:
 
 \section{Componentes del sistema}
 
-Los componentes de hardware que forman parte del sistema presentado en la sección \ref{sec:contexto} fueron seleccionados con el objetivo de cumplir con los requisitos y a su vez utilizar la menor cantidad posible. Así se logra mantener al sistema simple, con poca probabilidad de fallas, fácil de usar y probar. A continuación se presentan los principales componentes y sus características.
+Los componentes de hardware que conforman el sistema descrito en la sección \ref{sec:contexto} fueron seleccionados con el objetivo de cumplir con los requisitos, optimizando al mismo tiempo la cantidad de elementos utilizados. Así se logra mantener al sistema simple, con poca probabilidad de fallas, fácil de usar y probar. A continuación se presentan los principales componentes y sus características.
 
 \subsection{Microcontrolador}
 
-El modelo de microcontrolador utilizado es el STM32F429 \citep{STM32F429}, del fabricante ST y con arquitectura de procesador ARM Cortex-M. La principal razón por la que se decidió utilizar este modelo es porque es el que se encuentra integrado en la placa de desarrollo NUCLEO-144, utilizada durante la cursada de la Especialización.
+El modelo de microcontrolador utilizado es el STM32F429 \citep{STM32F429}, del fabricante ST y con arquitectura de procesador ARM Cortex-M. La principal razón por la que se decidió utilizar este modelo es porque es el que se encuentra integrado en la placa de desarrollo NUCLEO-144, utilizada durante la cursada de la especialización.
 
-La placa de desarrollo Nucleo-144 es ideal para ejecutar un RTOS debido a su alta velocidad de reloj, gran capacidad de memoria Flash y variedad de periféricos, además de contar con la ventaja de tener integrada la interfaz de programación y depuración ST-LINK/V2 \citep{NUCLEO144}.
+La placa de desarrollo NUCLEO-144 es ideal para ejecutar un RTOS debido a su alta velocidad de reloj, gran capacidad de memoria flash y variedad de periféricos, además de contar con la ventaja de tener integrada la interfaz de programación y depuración ST-LINK/V2 \citep{NUCLEO144}.
 
 \subsection{Monitor de corriente}
 
-El circuito integrado elegido para efectuar la medición de corriente de alimentación del amplificador mientras este se encuentra en funcionamiento es el INA301A3 \citep{INA301}.
+El circuito integrado seleccionado para medir la corriente de alimentación del amplificador mientras está en funcionamiento es el INA301A3 \citep{INA301}.
 
 Este chip provee en uno de sus pines una tensión analógica proporcional a la corriente que se está midiendo. Asimismo, cuenta con una salida digital que se activa cuando la corriente medida alcanza cierto nivel establecido mediante un resistor (pin ALERT) \citep{INA301}.
 
@@ -173,7 +173,7 @@ FreeRTOS se sitúa en una capa intermedia del firmware, por encima de los driver
 
 \subsection{Capa de abstracción de hardware (HAL)}
 
-Una \textit{hardware abstraction layer} o HAL es un conjunto de rutinas de software que brinda acceso a recursos de hardware a programas de aplicación. Se ubica inmediatamente por arriba del hardware y por debajo del sistema operativo que se ejecuta, como se puede ver en la figura \ref{fig:capas}.
+Una \textit{hardware abstraction layer} o HAL es un conjunto de rutinas de software que brinda acceso a recursos de hardware a programas de aplicación. Se ubica inmediatamente por arriba del hardware y por debajo del sistema operativo que se ejecuta.
 
 La principal ventaja de esta capa es que oculta la arquitectura del hardware del \textit{kernel} del sistema operativo. Así, el código del \textit{kernel} no tiene que ser cambiado o reescrito para que pueda correr sobre sistemas con distinto hardware y las aplicaciones de software se vuelven independientes de la plataforma (portabilidad) \citep{WEBSITE:HAL}.
 
@@ -187,7 +187,7 @@ A excepción del monitor de corriente, el resto de los periféricos utilizados y
 
 Un conversor analógico-digital o ADC es un dispositivo que convierte una señal eléctrica analógica proveniente, por ejemplo, de un sensor a una señal digital. De esta forma su valor puede ser almacenado en un sistema digital, por lo que estará representada por un número binario \citep{WEBSITE:2}.
 
-\subsection{Universal Asynchronous Receiver Transmit ter (UART)}
+\subsection{Universal Asynchronous Receiver Transmitter (UART)}
 
 Un UART es un dispositivo utilizado para establecer una comunicación serie asíncrona, con formato de datos y velocidad de transmisión configurables. Consta solo de dos señales que conectan dos dispositivos de forma bidireccional: una para la transmisión y otra para la recepción, comúnmente llamadas TX y RX respectivamente \citep{WEBSITE:3}.
 

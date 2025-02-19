@@ -26,7 +26,7 @@ En este capítulo se explican las causas que dan origen al dispositivo desarroll
 
 La creciente demanda de mayores velocidades de transmisión de información en el ámbito aeroespacial, combinada con las limitaciones de la radiofrecuencia, favorecen el surgimiento de nuevas empresas enfocadas en el desarrollo de nuevas tecnologías capaces de superar estas barreras. Tal es el caso de la empresa Skyloom Global, que propone la creación de una red de satélites de órbita baja (LEO) \citep{WEBSITE:LEO} utilizando enlaces ópticos de alta velocidad.
 
-El funcionamiento general de esta idea se basa en un satélite geoestacionario (órbita GEO) \citep{WEBSITE:GEO} al cual los satélites en LEO transmiten la información (denominado \textit{uplink}) para luego descargar esta a una estación en Tierra (denominado \textit{downlink}). De esta forma se obtiene una alta disponibilidad de los datos ya que el satélite en GEO siempre tiene visión de la Tierra. Un diagrama de esta propuesta se muestra en la figura \ref{fig:propSky}.
+El funcionamiento general de esta idea se basa en un satélite geoestacionario (órbita GEO) \citep{WEBSITE:GEO} al que los satélites en LEO transmiten la información (denominado \textit{uplink}) para luego descargar esta a una estación en Tierra (denominado \textit{downlink}). De esta forma se obtiene una alta disponibilidad de los datos ya que el satélite en GEO siempre tiene visión de la Tierra. Un diagrama de esta propuesta se muestra en la figura \ref{fig:propSky}.
 
 \begin{figure}[H]
 \centering
@@ -39,13 +39,13 @@ El funcionamiento general de esta idea se basa en un satélite geoestacionario (
 
 El enlace óptico, que permite la transmisión y recepción de datos a una velocidad de 1 Gbps (1 \textit{Gigabit} por segundo) entre satélites, se establece mediante una terminal de comunicaciones óptica, que es el principal producto actualmente en desarrollo por la empresa. Estas terminales cuentan con un láser que trabaja sobre una longitud de onda de 1550 nm (banda C del espectro). Dicho láser es el encargado de transmitir la información propiamente dicha mediante pulsos de luz (no visible).
 
-En líneas generales los láseres de esta longitud de onda que se encuentran en el mercado no cuentan con la potencia óptica necesaria para que en el receptor se la detecte. Esto se debe principalmente a que la distancia de espacio libre estimada entre dos satélites en LEO es de unos 4000 km \citep{WEBSITE_SKY}.
+En líneas generales los láseres de esta longitud de onda que se encuentran en el mercado no cuentan con la potencia óptica necesaria para que sean detectados por el receptor. Esto se debe principalmente a que la distancia de espacio libre estimada entre dos satélites en LEO es de unos 4000 km \citep{WEBSITE_SKY}.
 
-Para solucionar el problema antes mencionado se introduce a la salida del láser un amplificador dopado con erbio o EDFA (de las siglas \textit{Erbuim Doped Fiber Amplifier}) \citep{WEBSITE:EDFA2}. La función de este dispositivo es aumentar la potencia del láser varias veces de forma que se alcance un nivel adecuado para la transmisión.
+Para solucionar el problema antes mencionado se introduce a la salida del láser un amplificador dopado con erbio o EDFA (de las siglas \textit{Erbuim Doped Fiber Amplifier}) \citep{WEBSITE:EDFA2}. La función de este dispositivo es aumentar la potencia del láser varias veces, de forma que se alcance un nivel adecuado para la transmisión.
 
 El modelo de amplificador utilizado por la empresa cuenta con un conector que provee una interfaz electrónica para poder controlar su funcionamiento. Esta interfaz cuenta con distintas señales y buses de comunicación que se explican con mayor detalle en la sección \ref{sec:intAmp}.
 
-Este amplificador formará parte de la terminal de comunicaciones y estará sometido a intensivas pruebas de funcionamiento y rendimiento durante la etapa de investigación y desarrollo. Para esto es indispensable contar con una herramienta que brinde a los ingenieros a cargo de estas la posibilidad de utilizar el amplificador de forma aislada, es decir, sin tener que usar hardware perteneciente al producto final.
+Este amplificador formará parte de la terminal de comunicaciones y estará sometido a intensivas pruebas de funcionamiento y rendimiento durante la etapa de investigación y desarrollo. Para ello, es indispensable contar con una herramienta que permita a los ingenieros a cargo utilizar el amplificador de forma aislada, es decir, sin depender del hardware del producto final.
 
 En la figura \ref{fig:bloquesProy} se puede ver un esquema de uso del dispositivo junto con las conexiones con el hardware externo.
 
@@ -64,21 +64,34 @@ La interfaz con el EDFA permite controlarlo y consultar diversos parámetros de 
 
 \section{Estado del arte}
 
-Actualmente el fabricante del amplificador posee a la venta una placa electrónica capaz de conectarse a un EDFA y proveer ciertas funcionalidades similares. La empresa ha hecho uso de ella en el pasado pero luego pasó a descartarla debido a tres problemas mayores:
+Si bien hoy en día los EDFA son ampliamente utilizados en varias aplicaciones de optoelectrónica, en la actualidad no existe un estándar para la interfaz eléctrica que poseen estos amplificadores. Esto lleva a que cada fabricante defina una propia para sus productos y que el usuario tenga que adaptar su hardware para poder usarlos.
 
-\begin{itemize}
-\item No permite el uso de todas las señales presentes en el conector del amplificador.
-\item Tiene una tasa de fallas muy alta, en particular la interfaz UART.
-\item Su costo es muy elevado en relación a sus prestaciones.
-\item El tiempo de entrega del producto es de varias semanas.
-\end{itemize}
+Para el caso en que se necesite contar con un tester o una placa de depuración para hacer uso o pruebas sobre el dispositivo, el usuario debe adquirir una del mismo fabricante del amplificador por esta misma razón. Actualmente, la empresa hace uso de una de estas placas, la cual se puede ver en la figura \ref{fig:placaDebug}.
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.60\textwidth]{./Figures/placaDebug.jpg}
+\caption{Placa de depuración.}
+\label{fig:placaDebug}
+\end{figure}
+
+Esta placa, denominada EDFA IFC (Interface Card), cuenta con la electrónica necesaria para proveer al usuario algunas funcionalidades básicas que le permiten hacer uso del amplificador. Contiene una interfaz USB-UART para usarse junto con una computadora, LEDs para las señales de alarmas y conectores para la alimentación del EDFA.
 
 \section{Motivación}
 
-Las desventajas expuestas en la sección anterior son los principales motivos que dieron origen a la necesidad de contar con el sistema propuesto en este trabajo. Esto le permite a la empresa no depender del fabricante para la entrega de estos testers y por lo tanto reducir costos y tiempos.
+La empresa ya lleva algún tiempo haciendo uso de la placa mecionada en la sección anterior y recientemente ha tomado la decisión de dejar de usarla y diseñar una propia debido a los motivos que se listan a continuación:
 
-Por otro lado, el tester desarrollado en este trabajo no solo posee las mismas funcionalidades que el ofrecido por el fabricante, sino que también incorpora otras que este no posee, junto con características adicionales que lo hacen más fácil de usar y menos propenso a fallas.
+\begin{itemize}
+\item No permite el uso de todas las señales presentes en la interfaz del amplificador.
+\item Tiene una tasa de fallas muy alta, en particular la interfaz UART.
+\item Su costo es muy elevado en relación a sus prestaciones.
+\item El tiempo de entrega del producto es de varias semanas.
+\item No posee las protecciones eléctricas necesarias para proteger el amplificador.
+\end{itemize}
+
+Las desventajas aqui expuestas son los principales motivos que dieron origen a la necesidad de contar con el sistema propuesto en este trabajo. Esto le permite a la empresa no depender del fabricante para la entrega de estos testers y por lo tanto reducir costos y tiempos.
+
+Por otro lado, el tester desarrollado en este trabajo no solo posee las mismas funcionalidades que el ofrecido por el fabricante sino que también incorpora otras características adicionales que lo hacen más fácil de usar, menos propenso a fallas y más seguro.
 
 %----------------------------------------------------------------------------------------
 
