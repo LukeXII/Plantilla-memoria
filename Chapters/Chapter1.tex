@@ -24,7 +24,7 @@ En este capítulo se explican las causas que dan origen al dispositivo desarroll
 \section{Contexto de la empresa}
 \label{sec:contexto}
 
-La creciente demanda de mayores velocidades de transmisión de información en el ámbito aeroespacial, combinada con las limitaciones de la radiofrecuencia, favorecen el surgimiento de nuevas empresas enfocadas en el desarrollo de nuevas tecnologías capaces de superar estas barreras. Tal es el caso de la empresa Skyloom Global, que propone la creación de una red de satélites de órbita baja (LEO) \citep{WEBSITE:LEO} utilizando enlaces ópticos de alta velocidad.
+La creciente demanda de mayores velocidades de transmisión de información en el ámbito aeroespacial, combinada con las limitaciones de la radiofrecuencia, favorecen el surgimiento de nuevas empresas enfocadas en el desarrollo de nuevas tecnologías capaces de superar estas barreras. Tal es el caso de la empresa Skyloom Global, que propone la creación de una red de satélites de órbita baja (LEO, del inglés, Low Earth Orbit) \citep{WEBSITE:LEO} utilizando enlaces ópticos de alta velocidad.
 
 El funcionamiento general de esta idea se basa en un satélite geoestacionario (órbita GEO) \citep{WEBSITE:GEO} al que los satélites en LEO transmiten la información (denominado \textit{uplink}) para luego descargar esta a una estación en Tierra (denominado \textit{downlink}). De esta forma se obtiene una alta disponibilidad de los datos ya que el satélite en GEO siempre tiene visión de la Tierra. Un diagrama de esta propuesta se muestra en la figura \ref{fig:propSky}.
 
@@ -39,15 +39,15 @@ El funcionamiento general de esta idea se basa en un satélite geoestacionario (
 
 El enlace óptico, que permite la transmisión y recepción de datos a una velocidad de 1 Gbps (1 \textit{Gigabit} por segundo) entre satélites, se establece mediante una terminal de comunicaciones óptica, que es el principal producto actualmente en desarrollo por la empresa. Estas terminales cuentan con un láser que trabaja sobre una longitud de onda de 1550 nm (banda C del espectro). Dicho láser es el encargado de transmitir la información propiamente dicha mediante pulsos de luz (no visible).
 
-En líneas generales los láseres de esta longitud de onda que se encuentran en el mercado no cuentan con la potencia óptica necesaria para que sean detectados por el receptor. Esto se debe principalmente a que la distancia de espacio libre estimada entre dos satélites en LEO es de unos 4000 km \citep{WEBSITE_SKY}.
+En líneas generales, los láseres de esta longitud de onda que se encuentran en el mercado no cuentan con la potencia óptica necesaria para que sean detectados por el receptor. Esto se debe principalmente a que la distancia de espacio libre estimada entre dos satélites en LEO es de unos 4000 km \citep{WEBSITE_SKY}.
 
-Para solucionar el problema antes mencionado se introduce a la salida del láser un amplificador dopado con erbio o EDFA (de las siglas \textit{Erbuim Doped Fiber Amplifier}) \citep{WEBSITE:EDFA2}. La función de este dispositivo es aumentar la potencia del láser varias veces, de forma que se alcance un nivel adecuado para la transmisión.
+Para solucionar el problema antes mencionado, se introduce a la salida del láser un amplificador dopado con erbio o EDFA (del inglés, \textit{Erbuim Doped Fiber Amplifier}) \citep{WEBSITE:EDFA2}. La función de este dispositivo es aumentar la potencia del láser varias veces, de forma que se alcance un nivel adecuado para la transmisión.
 
 El modelo de amplificador utilizado por la empresa cuenta con un conector que provee una interfaz electrónica para poder controlar su funcionamiento. Esta interfaz cuenta con distintas señales y buses de comunicación que se explican con mayor detalle en la sección \ref{sec:intAmp}.
 
-Este amplificador formará parte de la terminal de comunicaciones y estará sometido a intensivas pruebas de funcionamiento y rendimiento durante la etapa de investigación y desarrollo. Para ello, es indispensable contar con una herramienta que permita a los ingenieros a cargo utilizar el amplificador de forma aislada, es decir, sin depender del hardware del producto final.
+Este amplificador formará parte de la terminal de comunicaciones y estará sometido a intensivas pruebas de funcionamiento y rendimiento durante la etapa de investigación y desarrollo. Para esto, es indispensable contar con una herramienta que permita a los ingenieros a cargo utilizar el amplificador de forma aislada, es decir, sin depender del hardware del producto final.
 
-En la figura \ref{fig:bloquesProy} se puede ver un esquema de uso del dispositivo junto con las conexiones con el hardware externo.
+En la figura \ref{fig:bloquesProy} se puede ver un esquema de uso del dispositivo y sus conexiones con el hardware externo.
 
 \begin{figure}[H]
 \centering
@@ -89,7 +89,7 @@ La empresa ya lleva algún tiempo haciendo uso de la placa mecionada en la secci
 \item No posee las protecciones eléctricas necesarias para proteger el amplificador.
 \end{itemize}
 
-Las desventajas aqui expuestas son los principales motivos que dieron origen a la necesidad de contar con el sistema propuesto en este trabajo. Esto le permite a la empresa no depender del fabricante para la entrega de estos testers y por lo tanto reducir costos y tiempos.
+Las desventajas aquí expuestas son los principales motivos que dieron origen a la necesidad de contar con el sistema propuesto en este trabajo. Esto le permite a la empresa no depender del fabricante para la entrega de estos testers y por lo tanto reducir costos y tiempos.
 
 Por otro lado, el tester desarrollado en este trabajo no solo posee las mismas funcionalidades que el ofrecido por el fabricante sino que también incorpora otras características adicionales que lo hacen más fácil de usar, menos propenso a fallas y más seguro.
 

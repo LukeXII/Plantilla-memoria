@@ -152,7 +152,7 @@ Como se mencionó anteriormente, la arquitectura del firmware del trabajo tiene 
 
 El proceso del backend tiene como tarea principal ejecutar una máquina de estados y se encarga de controlar el estado general del dispositivo en todo momento. Esto significa que lee los datos de entrada, los procesa y en base a ellos toma decisiones que terminan por afectar las señales de salida y en última instancia a la tarea del display.
 
-Por otro lado, el proceso del frontend esta asociado al display LCD y tiene como objetivo principal interactuar directamente con el usuario. Para ello debe leer la información de salida del backend, presentarla en la pantalla y también detectar cuándo (y dónde) el usuario presiona sobre ella y enviar estos datos al backend (recursos compartidos). 
+Por otro lado, el proceso del frontend esta asociado al display LCD y tiene como objetivo principal la interacción directa con el usuario. Para ello, debe leer la información de salida del backend, presentarla en la pantalla y, a su vez, detectar cuándo y dónde el usuario presiona sobre ella y enviar estos datos al backend mediante recursos compartidos. 
 
 En la figura \ref{fig:arqFW} se puede ver un diagrama de cómo se relacionan ambas tareas entre sí y con el hardware.
 
@@ -176,7 +176,7 @@ La máquina de estados implementada administra el funcionamiento del amplificado
 \item Alarma encendida: alarma del EDFA encendida (cualquiera de ellas).
 \end{itemize}
 
-Todas las posibles transiciones entre estos estados son disparadas por eventos que pueden ocurrir en cualquier momento, y ejecutan una acción dependiendo del estado en que se encuentre la máquina. La cantidad de eventos que pueden llegar a la máquina son muchos y por simplicidad solo se mencionan algunos a modo de ejemplo:
+Todas las posibles transiciones entre estos estados son disparadas por eventos que pueden ocurrir en cualquier momento, y ejecutan una acción según el estado en que se encuentre la máquina. La cantidad de eventos que pueden llegar a la máquina es elevada, por lo que, por simplicidad solo se mencionan algunos a modo de ejemplo:
 
 \begin{itemize}
 \item Eventos de la alimentación: baja tensión, sobretensión y sobrecorriente.
@@ -185,7 +185,7 @@ Todas las posibles transiciones entre estos estados son disparadas por eventos q
 \item Eventos de la consola de control: comando de conexión de alimentación recibido, comando de encendido de salida del amplificador recibido, comando inválido, etc.
 \end{itemize}
 
-En la figura \ref{fig:diagFSM} se puede ver un diagrama de transiciones simplificado de la máquina de estados implementada (estados y eventos).
+En la figura \ref{fig:diagFSM} se puede ver un diagrama simplificado de transiciones de la máquina de estados implementada, que incluye sus estados y eventos asociados.
 
 \begin{figure}[H]
 \centering
@@ -234,7 +234,7 @@ Para filtrar ruido y posibles valores espurios que tome la señal analógica se 
 		Cantidad de canales usados & 4		\\
 		Cantidad de bits		& 12 bits 	 		 \\
 		Modo de conversión		& Continua   \\
-		Tasa de muestreo		& 600 Ksps	 \\
+		Tasa de muestreo		& 600 ksps	 \\
 		Cantidad de muestras promediadas	& 10 \\
 		Disparo de conversión	& Por software \\
 		\bottomrule
@@ -327,13 +327,13 @@ La consola corre sobre la tarea del backend y puede inyectar eventos a la máqui
 \section{Dispositivo implementado}
 \label{sec:dispImp}
 
-Es importante aclarar que el dispositivo que se desarrolló e integró como solución a lo planteado en el capítulo 1 no es el producto final destinado a usarse. La placa construida se puede interpretar como un prototipo de desarrollo o una versión de ingeniería ya que tiene dos objetivos: verificar el funcionamiento del hardware diseñado y desarrollar el firmware que se ejecutará en el microcontrolador. 
+Es importante aclarar que el dispositivo que se desarrolló e integró como solución a lo planteado en el capítulo 1 no es el producto final destinado a ser utilizado. La placa construida se puede interpretar como un prototipo de desarrollo o una versión de ingeniería, ya que cumple con dos objetivos principales: verificar el funcionamiento del hardware diseñado y desarrollar el firmware que se ejecutará en el microcontrolador. 
 
 La versión armada para este trabajo, además de incluir los mismos componentes que se pretenden usar en el producto final, cuenta con todo el hardware necesario para simular la interfaz electrónica del modelo del amplificador óptico. Esto permite generar todas las señales que se encuentran en el conector, tanto las analógicas como las digitales.
 
 Una vez alcanzados estos objetivos, la siguiente etapa consiste en desarrollar la placa del producto final, con el factor de forma adecuado para integrar y montar todos los componentes en una carcasa transportable. 
 
-El PCB fue enviado a fabricar a la empresa china JLCPCB y consta de 4 capas: dos planos internos de referencia conectados a 3,3 V y GND y dos capas de señal (\textit{Top} y \textit{Bottom}). En la figura \ref{fig:placa1} y \ref{fig:placa2} se pueden ver dos fotos del PCB ensamblado sin el display ni la placa NUCLEO-144 conectados (lado superior y lado inferior respectivamente). Por último, en la figura \ref{fig:placa3} se puede ver la placa con ambos módulos conectados.
+El PCB fue enviado a fabricar a la empresa china JLCPCB y consta de 4 capas: dos planos internos de referencia conectados a 3,3 V y GND y dos capas de señal (\textit{Top} y \textit{Bottom}). En la figura \ref{fig:placa1} y \ref{fig:placa2} se pueden ver dos fotos del PCB ensamblado sin el display ni la placa NUCLEO conectados (lado superior y lado inferior respectivamente). Por último, en la figura \ref{fig:placa3} se puede ver la placa con ambos módulos conectados.
 
 \begin{figure}[H]
      \centering

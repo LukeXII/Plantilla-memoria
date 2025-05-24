@@ -135,7 +135,7 @@ Los componentes de hardware que conforman el sistema descrito en la sección \re
 
 \subsection{Microcontrolador}
 
-El modelo de microcontrolador utilizado es el STM32F429 \citep{STM32F429}, del fabricante ST y con arquitectura de procesador ARM Cortex-M. La principal razón por la que se decidió utilizar este modelo es porque es el que se encuentra integrado en la placa de desarrollo NUCLEO-144, utilizada durante la cursada de la especialización.
+El modelo de microcontrolador utilizado es el STM32F429 \citep{STM32F429}, del fabricante ST y con arquitectura de procesador Arm Cortex-M. La principal razón por la que se decidió utilizar este modelo es porque es el que se encuentra integrado en la placa de desarrollo NUCLEO-144, utilizada durante la cursada de la especialización.
 
 La placa de desarrollo NUCLEO-144 es ideal para ejecutar un RTOS debido a su alta velocidad de reloj, gran capacidad de memoria flash y variedad de periféricos, además de contar con la ventaja de tener integrada la interfaz de programación y depuración ST-LINK/V2 \citep{NUCLEO144}.
 
@@ -159,7 +159,7 @@ El modelo del módulo de la pantalla LCD utilizada en el trabajo es MSP2807 \cit
 
 \footnotetext{Imagen tomada de \citep{MSP2807}}
 
-El controlador del display utiliza una interfaz SPI para la recepción de datos y cuenta con una señal DC/RS para distinguir entre datos y registros internos. El controlador táctil también opera mediante SPI y dispone de una señal de interrupción T\_IRQ que indica cuando el display es tocado \citep{MSP2807}.
+El controlador del display utiliza una interfaz SPI para la recepción de datos y cuenta con una señal DC/RS para distinguir entre datos y registros internos. El controlador táctil también opera mediante SPI y dispone de una señal de interrupción T\_IRQ que indica cuando se ha producido una interacción en la pantalla \citep{MSP2807}.
 
 \section{Recursos de software}
 

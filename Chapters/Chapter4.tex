@@ -26,7 +26,7 @@ Para poder ejecutar las pruebas de integración de hardware y software se requir
 		Resistencia de potencia variable		& AVT05006E25R00KE	& Resistencia de potencia de alambre bobinado de 25 Ohm / 50 W. \\
 		Potenciómetro							& 3590S-1-201L & Potenciómetro de 200 Ohm / 2 W y 10 vueltas para panel. \\
 		Conversor USB a UART					& EM7-6043		& Conversor USB a serie TTL CH-340. \\
-		Cables varios							& - 			& Cables dupont y unipolar de 2,5 mm2. \\
+		Cables varios							& - 			& Cables dupont y unipolar de 2,5 mm\textsuperscript{2}. \\
 		PC										& -				& Computadora de escritorio con software PuTTY (cliente de terminal). \\
 		\bottomrule
 		\hline
@@ -149,7 +149,7 @@ En la figura \ref{fig:funcNorm} se puede ver el estado de la pantalla LCD durant
 
 \subsection{Detección de alarmas}
 
-Cuando alguna de las alarmas se activa mientras la salida óptica del amplificador está prendida, esta se debe apagar inmediatamente mediante la señal de control OUT\_POW\_MUTE. De lo contrario, esto podría dañar el EDFA.
+Cuando alguna de las alarmas se activa mientras la salida óptica del amplificador permanece encendida, esta se debe apagar inmediatamente mediante la señal de control OUT\_POW\_MUTE, ya que de no hacerlo, esto podría dañar el EDFA.
 
 En la figura \ref{fig:detecAlarm2} se puede ver la conmutación de la señal de control OUT\_POW\_MUTE (canal D1 en rojo) cuando la señal de alarma CASE\_TEMP\_ALARM se activa (canal D0 en blanco). Ambas señales son activas en nivel alto.
 
@@ -160,7 +160,7 @@ En la figura \ref{fig:detecAlarm2} se puede ver la conmutación de la señal de 
 \label{fig:detecAlarm2}
 \end{figure}
 
-En la figura anterior se puede observar que el tiempo de retardo que existe entre la detección de la alarma del EDFA y el apagado de la salida óptica es de aproximadamente 33 ms, lo cual cumple con el requerimiento 4.2 especificado en la sección \ref{sec:reqs}.
+En la figura anterior se puede observar que el tiempo de retardo que existe entre la detección de la alarma del EDFA y el apagado de la salida óptica es de aproximadamente 33 ms, valor que cumple con el requerimiento 4.2 especificado en la sección \ref{sec:reqs}.
 
 En la figura \ref{fig:detecAlarm} se puede ver el estado de la pantalla LCD luego de la detección de la alarma. El amplificador permanece alimentado pero su salida apagada.
 
@@ -184,7 +184,7 @@ En la figura \ref{fig:detecOC} se puede ver la conmutación de la señal que con
 \label{fig:detecOC}
 \end{figure}
 
-Se puede observar que el tiempo de retardo que existe entre la detección de la sobrecorriente y la desconexión del relé es menor a 1 us, lo cual cumple holgadamente con el requerimiento 4.1 especificado en la sección \ref{sec:reqs}.
+Se puede observar que el tiempo de retardo que existe entre la detección de la sobrecorriente y la desconexión del relé es menor a 1~\textmu s, valor que cumple holgadamente con el requerimiento 4.1 especificado en la sección \ref{sec:reqs}.
 
 \section{Comparación del prototipo con producto existente}
 
