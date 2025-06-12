@@ -26,7 +26,9 @@ En este capítulo se explican las causas que dan origen al dispositivo desarroll
 
 La creciente demanda de mayores velocidades de transmisión de información en el ámbito aeroespacial, combinada con las limitaciones de la radiofrecuencia, favorecen el surgimiento de nuevas empresas enfocadas en el desarrollo de nuevas tecnologías capaces de superar estas barreras. Tal es el caso de la empresa Skyloom Global, que propone la creación de una red de satélites de órbita baja (LEO, del inglés, Low Earth Orbit) \citep{WEBSITE:LEO} utilizando enlaces ópticos de alta velocidad.
 
-El funcionamiento general de esta idea se basa en un satélite geoestacionario (órbita GEO) \citep{WEBSITE:GEO} al que los satélites en LEO transmiten la información (denominado \textit{uplink}) para luego descargar esta a una estación en Tierra (denominado \textit{downlink}). De esta forma se obtiene una alta disponibilidad de los datos ya que el satélite en GEO siempre tiene visión de la Tierra. Un diagrama de esta propuesta se muestra en la figura \ref{fig:propSky}.
+Esta red se basa en un satélite geoestacionario (órbita GEO) \citep{WEBSITE:GEO} al que los satélites en LEO transmiten la información (denominado \textit{uplink}) para luego descargar esta a una estación terrena (denominado \textit{downlink}). Como los satélites en LEO completan unas 11 vueltas sobre su órbita por día, no tienen una visión constante de la estación terrena, sino que solo están en contacto con ella durante determinadas ventanas de tiempo. Por lo tanto, si se quisiera descargar datos, esto solo sería posible durante esas ventanas, lo que genera un retraso considerable entre el momento en que el satélite obtiene la información y el momento en que se descarga a Tierra. 
+
+El satélite en GEO, en cambio, al tener el mismo período orbital que la Tierra, mantiene una visión continua de la estación terrena. De esta forma, al realizar el traspaso de información, se pueden obtener los datos con alta disponibilidad y mínimo retraso. Un diagrama de esta propuesta se muestra en la figura \ref{fig:propSky}.
 
 \begin{figure}[H]
 \centering

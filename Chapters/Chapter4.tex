@@ -173,7 +173,7 @@ En la figura \ref{fig:detecAlarm} se puede ver el estado de la pantalla LCD lueg
 
 \subsection{Detección de sobrecorriente}
 
-Al igual que para el caso de la detección de alarmas, la detección de una sobrecorriente también debe procesarse rápidamente. En este caso, se asoció la señal de alarma del monitor de corriente a una interrupción en el programa, permitiendo medir el tiempo de retardo entre el momento en que se activa dicha señal y el instante en que se desactiva la señal del relé de alimentación.
+Al igual que para el caso de la detección de alarmas, la detección de una sobrecorriente también debe procesarse rápidamente. En este caso, se asoció la señal de alarma del monitor de corriente a una interrupción en el programa, y se midió el retardo entre el momento en que se activa dicha señal y la desactivación de la señal que controla el relé de alimentación.
 
 En la figura \ref{fig:detecOC} se puede ver la conmutación de la señal que controla la activación del relé (canal D1 en rojo) luego de que la señal de alarma del monitor de corriente se activa (canal D0 en blanco). En este caso la alarma es activa en nivel bajo.
 
